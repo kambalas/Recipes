@@ -18,6 +18,8 @@ using IO.Swagger.Security;
 using Microsoft.AspNetCore.Authorization;
 using IO.Swagger.Models;
 using RecipesAPI.Filters;
+using RecipesAPI.Services.Interfaces;
+using PoS.Application.Services;
 
 namespace IO.Swagger.Controllers
 {
@@ -27,6 +29,16 @@ namespace IO.Swagger.Controllers
     [ApiController]
     public class RecipesApiController : ControllerBase
     {
+        private readonly IRecipeService _recipeService;
+
+        public RecipesApiController (IRecipeService recipeService)
+        {
+            _recipeService = recipeService;
+        }
+
+
+
+
         /// <summary>
         /// Delete a recipe by ID
         /// </summary>
@@ -124,17 +136,22 @@ namespace IO.Swagger.Controllers
         //[Authorize(AuthenticationSchemes = BearerAuthenticationHandler.SchemeName)]
         [SwaggerOperation("RecipesGet")]
         [SwaggerResponse(statusCode: 200, type: typeof(List<Recipe>), description: "A list of recipes")]
-        public virtual IActionResult RecipesGet([FromQuery] RecipeFilter filter)
+        public async Task<IActionResult> RecipesGet([FromQuery] RecipeFilter filter)
         {
+            if(ModelState.IsValid)
+            {
+                return Ok(new RecipeFilter);
+            }
+            return Ok(await _recipeService.GetRecipesAsync(filter));
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(List<Recipe>));
-            string exampleJson = null;
+/*            string exampleJson = null;
             exampleJson = "[ {\n  \"level\" : \"easy\",\n  \"description\" : \"description\",\n  \"created_at\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"userId\" : 6,\n  \"steps\" : [ {\n    \"phase\" : \"prep\",\n    \"step_number\" : 2,\n    \"description\" : \"description\",\n    \"id\" : 5\n  }, {\n    \"phase\" : \"prep\",\n    \"step_number\" : 2,\n    \"description\" : \"description\",\n    \"id\" : 5\n  } ],\n  \"version\" : 2,\n  \"duration\" : 9,\n  \"servings\" : 7,\n  \"updated_at\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"name\" : \"name\",\n  \"ingredients\" : [ {\n    \"amount\" : 5,\n    \"name\" : \"name\",\n    \"id\" : 1,\n    \"measurement\" : \"kg\"\n  }, {\n    \"amount\" : 5,\n    \"name\" : \"name\",\n    \"id\" : 1,\n    \"measurement\" : \"kg\"\n  } ],\n  \"id\" : 0,\n  \"energy\" : 3\n}, {\n  \"level\" : \"easy\",\n  \"description\" : \"description\",\n  \"created_at\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"userId\" : 6,\n  \"steps\" : [ {\n    \"phase\" : \"prep\",\n    \"step_number\" : 2,\n    \"description\" : \"description\",\n    \"id\" : 5\n  }, {\n    \"phase\" : \"prep\",\n    \"step_number\" : 2,\n    \"description\" : \"description\",\n    \"id\" : 5\n  } ],\n  \"version\" : 2,\n  \"duration\" : 9,\n  \"servings\" : 7,\n  \"updated_at\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"name\" : \"name\",\n  \"ingredients\" : [ {\n    \"amount\" : 5,\n    \"name\" : \"name\",\n    \"id\" : 1,\n    \"measurement\" : \"kg\"\n  }, {\n    \"amount\" : 5,\n    \"name\" : \"name\",\n    \"id\" : 1,\n    \"measurement\" : \"kg\"\n  } ],\n  \"id\" : 0,\n  \"energy\" : 3\n} ]";
 
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<List<Recipe>>(exampleJson)
             : default(List<Recipe>);            //TODO: Change the data returned
-            return new ObjectResult(example);
+            return new ObjectResult(example);*/
         }
     }
 }
