@@ -121,7 +121,7 @@ namespace IO.Swagger.Controllers
         /// <response code="200">A list of recipes</response>
         [HttpGet]
         [Route("/v1/recipes")]
-        [Authorize(AuthenticationSchemes = BearerAuthenticationHandler.SchemeName)]
+        //[Authorize(AuthenticationSchemes = BearerAuthenticationHandler.SchemeName)]
         [SwaggerOperation("RecipesGet")]
         [SwaggerResponse(statusCode: 200, type: typeof(List<Recipe>), description: "A list of recipes")]
         public virtual IActionResult RecipesGet([FromQuery] RecipeFilter filter)
