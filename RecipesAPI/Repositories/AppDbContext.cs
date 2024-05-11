@@ -20,6 +20,8 @@ namespace RecipesAPI.Repositories
                 .UsingEntity<RecipeIngredient>();
         }
 
+        public DbContext Instance => this;
+
         public DbSet<Ingredient> Ingredients { get; set; }
 
         public DbSet<Recipe> Recipes { get; set; }

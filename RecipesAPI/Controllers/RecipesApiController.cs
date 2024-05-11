@@ -17,6 +17,7 @@ using System.ComponentModel.DataAnnotations;
 using IO.Swagger.Security;
 using Microsoft.AspNetCore.Authorization;
 using IO.Swagger.Models;
+using RecipesAPI.Filters;
 
 namespace IO.Swagger.Controllers
 {
@@ -116,16 +117,14 @@ namespace IO.Swagger.Controllers
         /// <summary>
         /// List recipes
         /// </summary>
-        /// <param name="offset"></param>
-        /// <param name="limit"></param>
-        /// <param name="search"></param>
+        /// <param name="filter">Filter criteria for recipes</param>
         /// <response code="200">A list of recipes</response>
         [HttpGet]
         [Route("/v1/recipes")]
         [Authorize(AuthenticationSchemes = BearerAuthenticationHandler.SchemeName)]
         [SwaggerOperation("RecipesGet")]
         [SwaggerResponse(statusCode: 200, type: typeof(List<Recipe>), description: "A list of recipes")]
-        public virtual IActionResult RecipesGet([FromQuery] long? offset, [FromQuery] long? limit, [FromQuery] string search)
+        public virtual IActionResult RecipesGet([FromQuery] RecipeFilter filter)
         {
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(List<Recipe>));
