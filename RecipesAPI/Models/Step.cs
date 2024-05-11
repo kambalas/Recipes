@@ -1,7 +1,10 @@
-﻿namespace RecipesAPI.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace RecipesAPI.Models
 {
     public class Step
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
         public long Version { get; set; }

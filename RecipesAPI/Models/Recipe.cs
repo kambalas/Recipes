@@ -1,10 +1,12 @@
-﻿using System.Runtime.Serialization;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 using System.Xml.Linq;
 
 namespace RecipesAPI.Models
 {
     public class Recipe
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
         public long Version { get; set; }
