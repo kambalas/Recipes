@@ -34,6 +34,13 @@ namespace IO.Swagger.Models
         public long? Id { get; set; }
 
         /// <summary>
+        /// Gets or Sets UserId
+        /// </summary>
+
+        [DataMember(Name="userId")]
+        public long? UserId { get; set; }
+
+        /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [Required]
@@ -55,7 +62,7 @@ namespace IO.Swagger.Models
         [Required]
 
         [DataMember(Name="ingredients")]
-        public List<string> Ingredients { get; set; }
+        public List<Ingredient> Ingredients { get; set; }
 
         /// <summary>
         /// Gets or Sets Steps
@@ -63,7 +70,7 @@ namespace IO.Swagger.Models
         [Required]
 
         [DataMember(Name="steps")]
-        public List<string> Steps { get; set; }
+        public List<Step> Steps { get; set; }
 
         /// <summary>
         /// Gets or Sets CreatedAt
@@ -80,6 +87,63 @@ namespace IO.Swagger.Models
         public DateTime? UpdatedAt { get; set; }
 
         /// <summary>
+        /// Gets or Sets Servings
+        /// </summary>
+
+        [DataMember(Name="servings")]
+        public long? Servings { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Duration
+        /// </summary>
+
+        [DataMember(Name="duration")]
+        public long? Duration { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Energy
+        /// </summary>
+
+        [DataMember(Name="energy")]
+        public long? Energy { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Level
+        /// </summary>
+        [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public enum LevelEnum
+        {
+            /// <summary>
+            /// Enum EasyEnum for easy
+            /// </summary>
+            [EnumMember(Value = "easy")]
+            EasyEnum = 0,
+            /// <summary>
+            /// Enum MediumEnum for medium
+            /// </summary>
+            [EnumMember(Value = "medium")]
+            MediumEnum = 1,
+            /// <summary>
+            /// Enum HardEnum for hard
+            /// </summary>
+            [EnumMember(Value = "hard")]
+            HardEnum = 2        }
+
+        /// <summary>
+        /// Gets or Sets Level
+        /// </summary>
+
+        [DataMember(Name="level")]
+        public LevelEnum? Level { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Version
+        /// </summary>
+
+        [DataMember(Name="version")]
+        public long? Version { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -88,12 +152,18 @@ namespace IO.Swagger.Models
             var sb = new StringBuilder();
             sb.Append("class Recipe {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  UserId: ").Append(UserId).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Description: ").Append(Description).Append("\n");
             sb.Append("  Ingredients: ").Append(Ingredients).Append("\n");
             sb.Append("  Steps: ").Append(Steps).Append("\n");
             sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
             sb.Append("  UpdatedAt: ").Append(UpdatedAt).Append("\n");
+            sb.Append("  Servings: ").Append(Servings).Append("\n");
+            sb.Append("  Duration: ").Append(Duration).Append("\n");
+            sb.Append("  Energy: ").Append(Energy).Append("\n");
+            sb.Append("  Level: ").Append(Level).Append("\n");
+            sb.Append("  Version: ").Append(Version).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -136,6 +206,11 @@ namespace IO.Swagger.Models
                     Id.Equals(other.Id)
                 ) && 
                 (
+                    UserId == other.UserId ||
+                    UserId != null &&
+                    UserId.Equals(other.UserId)
+                ) && 
+                (
                     Name == other.Name ||
                     Name != null &&
                     Name.Equals(other.Name)
@@ -164,6 +239,31 @@ namespace IO.Swagger.Models
                     UpdatedAt == other.UpdatedAt ||
                     UpdatedAt != null &&
                     UpdatedAt.Equals(other.UpdatedAt)
+                ) && 
+                (
+                    Servings == other.Servings ||
+                    Servings != null &&
+                    Servings.Equals(other.Servings)
+                ) && 
+                (
+                    Duration == other.Duration ||
+                    Duration != null &&
+                    Duration.Equals(other.Duration)
+                ) && 
+                (
+                    Energy == other.Energy ||
+                    Energy != null &&
+                    Energy.Equals(other.Energy)
+                ) && 
+                (
+                    Level == other.Level ||
+                    Level != null &&
+                    Level.Equals(other.Level)
+                ) && 
+                (
+                    Version == other.Version ||
+                    Version != null &&
+                    Version.Equals(other.Version)
                 );
         }
 
@@ -179,6 +279,8 @@ namespace IO.Swagger.Models
                 // Suitable nullity checks etc, of course :)
                     if (Id != null)
                     hashCode = hashCode * 59 + Id.GetHashCode();
+                    if (UserId != null)
+                    hashCode = hashCode * 59 + UserId.GetHashCode();
                     if (Name != null)
                     hashCode = hashCode * 59 + Name.GetHashCode();
                     if (Description != null)
@@ -191,6 +293,16 @@ namespace IO.Swagger.Models
                     hashCode = hashCode * 59 + CreatedAt.GetHashCode();
                     if (UpdatedAt != null)
                     hashCode = hashCode * 59 + UpdatedAt.GetHashCode();
+                    if (Servings != null)
+                    hashCode = hashCode * 59 + Servings.GetHashCode();
+                    if (Duration != null)
+                    hashCode = hashCode * 59 + Duration.GetHashCode();
+                    if (Energy != null)
+                    hashCode = hashCode * 59 + Energy.GetHashCode();
+                    if (Level != null)
+                    hashCode = hashCode * 59 + Level.GetHashCode();
+                    if (Version != null)
+                    hashCode = hashCode * 59 + Version.GetHashCode();
                 return hashCode;
             }
         }
