@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Components.Web.Virtualization;
+using Microsoft.EntityFrameworkCore;
 using PoS.Core.Exceptions;
 using RecipesAPI.Repositories;
 using RecipesAPI.Repositories.Interfaces;
@@ -19,7 +20,7 @@ namespace PoS.Infrastructure.Repositories
             DbSet = context.Instance.Set<TEntity>();
         }
 
-        public async Task<TEntity> InsertAsync(TEntity entity)
+        public virtual async Task<TEntity> InsertAsync(TEntity entity)
         {
             DbSet.Add(entity);
             await Context.Instance.SaveChangesAsync();
@@ -27,11 +28,11 @@ namespace PoS.Infrastructure.Repositories
             return entity;
         }
 
-        public async Task<IEnumerable<TEntity>> GetAsync(
-            Expression<Func<TEntity, bool>>? filter = null,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-            int? itemsToSkip = null,
-            int? itemsToTake = null
+        public virtual async Task<IEnumerable<TEntity>> GetAsync(
+        Expression<Func<TEntity, bool>>? filter = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+        int? itemsToSkip = null,
+        int? itemsToTake = null
         )
         {
             IQueryable<TEntity> query = DbSet;
@@ -59,7 +60,8 @@ namespace PoS.Infrastructure.Repositories
             return await query.ToListAsync();
         }
 
-        public async Task<TEntity?> GetFirstAsync(
+
+        public virtual async Task<TEntity?> GetFirstAsync(
             Expression<Func<TEntity, bool>>? filter = null
         )
         {
@@ -84,17 +86,17 @@ namespace PoS.Infrastructure.Repositories
             return entity;
         }
 
-        public async Task<TEntity?> GetByIdAsync(object id)
+        public virtual async Task<TEntity?> GetByIdAsync(object id)
         {
             return await DbSet.FindAsync(id);
         }
 
-        public async Task<bool> Exists(Expression<Func<TEntity, bool>> filter)
+        public virtual async Task<bool> Exists(Expression<Func<TEntity, bool>> filter)
         {
             return await DbSet.AnyAsync(filter);
         }
 
-        public async Task<bool> DeleteAsync(object id)
+        public virtual async Task<bool> DeleteAsync(object id)
         {
             var entity = await DbSet.FindAsync(id);
 
@@ -109,13 +111,13 @@ namespace PoS.Infrastructure.Repositories
             return true;
         }
 
-        public async Task DeleteAsync(TEntity entity)
+        public virtual async Task DeleteAsync(TEntity entity)
         {
             DbSet.Remove(entity);
             await Context.Instance.SaveChangesAsync();
         }
 
-        public async Task<TEntity> UpdateAsync(TEntity entity)
+        public virtual async Task<TEntity> UpdateAsync(TEntity entity)
         {
             PropertyInfo idProp = entity.GetType().GetProperty("Id") ?? throw new ApiException("Internal error. Code 99", System.Net.HttpStatusCode.InternalServerError);
 
@@ -124,11 +126,10 @@ namespace PoS.Infrastructure.Repositories
             Context.Instance.Entry(currentState).CurrentValues.SetValues(entity);
 
             await Context.Instance.SaveChangesAsync();
-
             return currentState;
         }
 
-        public int Count(Expression<Func<TEntity, bool>>? filter = null)
+        public virtual int Count(Expression<Func<TEntity, bool>>? filter = null)
         {
             if (filter != null)
             {

@@ -1,4 +1,5 @@
 ﻿using IO.Swagger.Models;
+using RecipesAPI.Models;
 
 namespace RecipesAPI.Repositories.Interfaces
 {

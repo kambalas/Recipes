@@ -24,7 +24,7 @@ namespace IO.Swagger.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class Recipe : IEquatable<Recipe>
+    public partial class RecipeDTO : IEquatable<RecipeDTO>
     { 
         /// <summary>
         /// Gets or Sets Id
@@ -186,7 +186,7 @@ namespace IO.Swagger.Models
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((Recipe)obj);
+            return obj.GetType() == GetType() && Equals((RecipeDTO)obj);
         }
 
         /// <summary>
@@ -194,7 +194,7 @@ namespace IO.Swagger.Models
         /// </summary>
         /// <param name="other">Instance of Recipe to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Recipe other)
+        public bool Equals(RecipeDTO other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -310,12 +310,12 @@ namespace IO.Swagger.Models
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(Recipe left, Recipe right)
+        public static bool operator ==(RecipeDTO left, RecipeDTO right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(Recipe left, Recipe right)
+        public static bool operator !=(RecipeDTO left, RecipeDTO right)
         {
             return !Equals(left, right);
         }

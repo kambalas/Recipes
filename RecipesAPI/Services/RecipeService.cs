@@ -10,7 +10,6 @@ namespace PoS.Application.Services
     {
         private readonly IRecipeRepository _recipeRepository;
 
-
         public RecipeService(IRecipeRepository recipeRepository)
         {
             _recipeRepository = recipeRepository;
@@ -31,9 +30,10 @@ namespace PoS.Application.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<Recipe>> GetRecipesAsync(RecipeFilter filter)
+        public async Task<IEnumerable<Recipe>> GetRecipesAsync(RecipeFilter filter)
         {
-            throw new NotImplementedException();
+            var recipes = await _recipeRepository.GetAsync();
+            return recipes;
         }
 
         public Task<Recipe> UpdateRecipeByIdAsync(Recipe body, long id)

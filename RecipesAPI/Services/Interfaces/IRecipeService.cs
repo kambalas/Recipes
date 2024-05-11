@@ -9,6 +9,6 @@ namespace RecipesAPI.Services.Interfaces
         Task<Recipe> GetRecipeByIdAsync(long id);
         Task<Recipe> UpdateRecipeByIdAsync(Recipe body, long id);
         Task<Recipe> CreateRecipeAsync(Recipe body);
-        Task<List<Recipe>> GetRecipesAsync(RecipeFilter filter);
+        Task<IEnumerable<Recipe>> GetRecipesAsync(RecipeFilter filter);
     }
 }
