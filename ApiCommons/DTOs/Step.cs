@@ -31,7 +31,7 @@ namespace IO.Swagger.Models
         /// </summary>
 
         [DataMember(Name="id")]
-        public int? Id { get; set; }
+        public long? Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Description
@@ -39,7 +39,7 @@ namespace IO.Swagger.Models
         [Required]
 
         [DataMember(Name="description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         /// <summary>
         /// Gets or Sets Phase

@@ -15,9 +15,9 @@ namespace PoS.Application.Services
             _recipeRepository = recipeRepository;
         }
 
-        public Task<Recipe> CreateRecipeAsync(Recipe body)
+        public async Task<Recipe> CreateRecipeAsync(Recipe recipe)
         {
-            throw new NotImplementedException();
+            return await _recipeRepository.InsertAsync(recipe);
         }
 
         public Task DeleteRecipeByIdAsync(long id)
@@ -25,9 +25,10 @@ namespace PoS.Application.Services
             throw new NotImplementedException();
         }
 
-        public Task<Recipe> GetRecipeByIdAsync(long id)
+        public async Task<Recipe> GetRecipeByIdAsync(long id)
         {
-            throw new NotImplementedException();
+            var recipe = await _recipeRepository.GetByIdAsync(id);
+            return recipe;
         }
 
         public async Task<IEnumerable<Recipe>> GetRecipesAsync(RecipeFilter filter)

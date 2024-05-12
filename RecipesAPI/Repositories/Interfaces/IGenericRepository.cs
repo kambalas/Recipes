@@ -17,7 +17,7 @@ namespace RecipesAPI.Repositories.Interfaces
             Expression<Func<TEntity, bool>>? filter = null
         );
 
-        public Task<TEntity?> GetByIdAsync(object id);
+        public Task<TEntity> GetByIdAsync(object id);
 
         public Task<bool> Exists(Expression<Func<TEntity, bool>> filter);
 
