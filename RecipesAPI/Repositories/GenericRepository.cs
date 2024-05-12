@@ -86,9 +86,12 @@ namespace PoS.Infrastructure.Repositories
             return entity;
         }
 
-        public virtual async Task<TEntity?> GetByIdAsync(object id)
+        public virtual async Task<TEntity> GetByIdAsync(object id)
         {
-            return await DbSet.FindAsync(id);
+            var entity = await DbSet.FindAsync(id);
+            if (entity == null)
+                throw new NotImplementedException();
+            else return entity;
         }
 
         public virtual async Task<bool> Exists(Expression<Func<TEntity, bool>> filter)

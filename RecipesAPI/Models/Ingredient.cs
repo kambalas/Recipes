@@ -1,13 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RecipesAPI.Models
 {
     public class Ingredient
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }
+        [Required]
+        public long? Id { get; set; }
 
-        public long Version { get; set; }
+        [Required]
+        public long? Version { get; set; }
 
         public string Name { get; set; }
 
