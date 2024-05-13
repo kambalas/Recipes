@@ -20,17 +20,17 @@ public class RecipeService : ApiService<RecipeDTO>, IRecipeService
     
     public async Task<RecipeDTO> GetRecipes()
     {
-        string fullEndpoint = $"https://localhost:7087/v1/recipes";
-        _logger.LogInformation("Fetching recipes from {Endpoint}", fullEndpoint);
+        string _endpoint = "recipes";
+        _logger.LogInformation("Fetching recipes from {Endpoint}", _endpoint);
 
         try
         {
             // Use GetFromJsonAsync to deserialize the JSON response directly into a RecipeDTO
-            var recipe = await _httpClient.GetFromJsonAsync<RecipeDTO>(fullEndpoint);
+            var recipe = await _httpClient.GetFromJsonAsync<RecipeDTO>(_endpoint);
 
             if (recipe == null)
             {
-                _logger.LogInformation("No recipe was found at the endpoint: {Endpoint}", fullEndpoint);
+                _logger.LogInformation("No recipe was found at the endpoint: {Endpoint}", _endpoint);
                 return new RecipeDTO();
             }
             return recipe;
@@ -38,14 +38,14 @@ public class RecipeService : ApiService<RecipeDTO>, IRecipeService
         catch (HttpRequestException httpEx)
         {
             // Log HTTP-specific exceptions, e.g., connectivity issues or HTTP response exceptions
-            _logger.LogError(httpEx, "HTTP error occurred while fetching recipes from {Endpoint}", fullEndpoint);
-            throw new ApplicationException($"HTTP error occurred while fetching recipes from {fullEndpoint}", httpEx);
+            _logger.LogError(httpEx, "HTTP error occurred while fetching recipes from {Endpoint}", _endpoint);
+            throw new ApplicationException($"HTTP error occurred while fetching recipes from {_endpoint}", httpEx);
         }
         catch (Exception ex)
         {
             // Log unexpected exceptions
-            _logger.LogError(ex, "An unexpected error occurred while fetching recipes from {Endpoint}", fullEndpoint);
-            throw new ApplicationException($"An unexpected error occurred while fetching recipes from {fullEndpoint}", ex);
+            _logger.LogError(ex, "An unexpected error occurred while fetching recipes from {Endpoint}", _endpoint);
+            throw new ApplicationException($"An unexpected error occurred while fetching recipes from {_endpoint}", ex);
         }
     }
     

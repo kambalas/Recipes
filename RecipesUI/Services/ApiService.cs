@@ -10,7 +10,6 @@ namespace RecipesUI.Services
     public class ApiService<T> : IApiService<T>
     {
         protected readonly HttpClient _httpClient;
-        protected readonly string _endpoint;
         protected readonly ILogger<ApiService<T>> _logger;
 
         public ApiService(IConfiguration configuration, ILogger<ApiService<T>> logger)
@@ -20,10 +19,7 @@ namespace RecipesUI.Services
                 BaseAddress = new Uri(configuration["ApiBaseUrl"])
             };
             _logger = logger;
-            _endpoint = typeof(T).Name.ToLower();
         }
-        
-
         
         
     }
