@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PoS.Application.Filters;
 using RecipesAPI.Filters;
 using RecipesAPI.Models;
+using RecipesAPI.Repositories;
 using RecipesAPI.Repositories.Interfaces;
 using RecipesAPI.Services.Interfaces;
 using System.Linq;
@@ -71,7 +72,6 @@ namespace PoS.Application.Services
             {
                 ;// filter.OrderBy value is not recognized
             }
-
             var recipes = await _recipeRepository.GetAsync(
                 recipeFilter,
                 orderByRecipe,
