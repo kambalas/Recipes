@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using RecipesUI.Data;
+using RecipesUI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+
+builder.Services.AddScoped(typeof(IApiService<>), typeof(ApiService<>));
+builder.Services.AddScoped<IRecipeService, RecipeService>();
+
+
+builder.Services.AddLogging();
 
 var app = builder.Build();
 
