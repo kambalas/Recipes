@@ -25,6 +25,10 @@ public class RecipeService : ApiService<RecipeDTO>, IRecipeService
 
         try
         {
+            // Capture the full request URL for logging purposes
+            string requestUrl = $"{_httpClient.BaseAddress}{_endpoint}";
+            _logger.LogInformation("Request URL: {RequestUrl}", requestUrl);
+
             // Use GetFromJsonAsync to deserialize the JSON response directly into a RecipeDTO
             var recipe = await _httpClient.GetFromJsonAsync<RecipeDTO>(_endpoint);
 
@@ -48,6 +52,7 @@ public class RecipeService : ApiService<RecipeDTO>, IRecipeService
             throw new ApplicationException($"An unexpected error occurred while fetching recipes from {_endpoint}", ex);
         }
     }
+
     
 
 }
