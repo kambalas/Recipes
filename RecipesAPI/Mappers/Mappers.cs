@@ -120,7 +120,7 @@ namespace RecipesAPI.Mappers
         {
             return new StepDTO
             {
-                Id = step.Id,
+                Id = (int?)step.Id,
                 Description = step.Description,
                 Phase = ToPhaseDTO(step.Phase),
                 StepNumber = step.Index,

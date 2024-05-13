@@ -21,6 +21,7 @@ using RecipesAPI.Filters;
 using RecipesAPI.Services.Interfaces;
 using PoS.Application.Services;
 using RecipesAPI.Mappers;
+using RecipesAPI.Models;
 
 namespace IO.Swagger.Controllers
 {
@@ -124,8 +125,9 @@ namespace IO.Swagger.Controllers
         [SwaggerResponse(statusCode: 200, type: typeof(List<RecipeDTO>), description: "A list of recipes")]
         public async Task<IActionResult> RecipesGet([FromQuery] RecipeFilter filter)
         {
-            var lol = await _recipeService.GetRecipesAsync(filter);
-            return Ok(new RecipeDTO());
+            var recipes = await _recipeService.GetRecipesAsync(filter);
+            var recipeDTOs = recipes.Select(recipe => _mappers.ToRecipeDTO(recipe));
+            return Ok(recipeDTOs);
         }
     }
 }
