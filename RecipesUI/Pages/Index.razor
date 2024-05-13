@@ -1,4 +1,9 @@
 ﻿@page "/"
+@using RecipesUI.Services
+@using IO.Swagger.Models
+@inject IRecipeService RecipeService;
+
+
 
 <PageTitle>Index</PageTitle>
 
@@ -7,3 +12,19 @@
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+@if (Recipes != null)
+{
+    <ul>
+        @Recipes
+    </ul>
+}
+
+@code {
+    private RecipeDTO Recipes;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Recipes = await RecipeService.GetRecipes();
+    }
+}
