@@ -62,7 +62,7 @@ namespace IO.Swagger.Models
         [Required]
 
         [DataMember(Name="ingredients")]
-        public List<Ingredient> Ingredients { get; set; }
+        public List<Ingredient>? Ingredients { get; set; }
 
         /// <summary>
         /// Gets or Sets Steps
@@ -70,7 +70,7 @@ namespace IO.Swagger.Models
         [Required]
 
         [DataMember(Name="steps")]
-        public List<Step> Steps { get; set; }
+        public List<Step>? Steps { get; set; }
 
         /// <summary>
         /// Gets or Sets CreatedAt

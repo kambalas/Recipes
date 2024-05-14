@@ -52,37 +52,37 @@ namespace IO.Swagger.Models
             /// Enum KgEnum for kg
             /// </summary>
             [EnumMember(Value = "kg")]
-            KgEnum = 0,
+            Kg = 0,
             /// <summary>
             /// Enum GEnum for g
             /// </summary>
             [EnumMember(Value = "g")]
-            GEnum = 1,
+            G = 1,
             /// <summary>
             /// Enum LEnum for l
             /// </summary>
             [EnumMember(Value = "l")]
-            LEnum = 2,
+            L = 2,
             /// <summary>
             /// Enum MlEnum for ml
             /// </summary>
             [EnumMember(Value = "ml")]
-            MlEnum = 3,
+            Ml = 3,
             /// <summary>
             /// Enum TspEnum for tsp
             /// </summary>
             [EnumMember(Value = "tsp")]
-            TspEnum = 4,
+            Tsp = 4,
             /// <summary>
             /// Enum TbspEnum for tbsp
             /// </summary>
             [EnumMember(Value = "tbsp")]
-            TbspEnum = 5,
+            Tbsp = 5,
             /// <summary>
             /// Enum PieceEnum for piece
             /// </summary>
             [EnumMember(Value = "piece")]
-            PieceEnum = 6        }
+            Piece = 6        }
 
         /// <summary>
         /// Gets or Sets Measurement

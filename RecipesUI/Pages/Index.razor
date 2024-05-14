@@ -16,12 +16,51 @@ Welcome to your new app.
 @if (Recipes != null)
 {
     <ul>
-        @Recipes
+        @foreach (var recipe in Recipes)
+        {
+            <li>
+                <strong>@recipe.Name</strong><br />
+                <em>@recipe.Description</em><br />
+                <span>Ingredients:</span>
+                <ul>
+                    @if (recipe.Ingredients != null)
+                    {
+                        @foreach (var ingredient in recipe.Ingredients)
+                        {
+                            <li>@ingredient.Name: @ingredient.Amount @ingredient.Measurement.Value</li>
+                        }
+                    }
+                    else
+                    {
+                        <li>No ingredients available</li>
+                    }
+                </ul>
+                <span>Steps:</span>
+                <ol>
+                    @if (recipe.Steps != null)
+                    {
+                        @foreach (var step in recipe.Steps)
+                        {
+                            <li>@step.Description</li>
+                        }
+                    }
+                    else
+                    {
+                        <li>No steps available</li>
+                    }
+                </ol>
+            </li>
+        }
     </ul>
 }
+else
+{
+    <p>Loading...</p>
+}
+
 
 @code {
-    private RecipeDTO Recipes;
+    private List<RecipeDTO> Recipes;
 
     protected override async Task OnInitializedAsync()
     {
