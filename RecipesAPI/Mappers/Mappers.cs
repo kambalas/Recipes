@@ -107,7 +107,7 @@ namespace RecipesAPI.Mappers
                 Id = ingredient.Id,
                 Name = ingredient.Name,
                 Measurement = ToMeasurementDTO(ingredient.MeasurementType),
-                Amount = 0
+                Amount = ingredient.Version
             };
             return ingredientDTO;
         }
