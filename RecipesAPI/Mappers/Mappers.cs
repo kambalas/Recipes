@@ -14,26 +14,22 @@ namespace RecipesAPI.Mappers
     {
         public Recipe ToRecipe(RecipeDTO recipeDTO)
         {
-            /*return new Recipe()
+            return new Recipe()
             {
-                Id = recipeDTO.Id is null ? 0L : (long)recipeDTO.Id,
-                Version = recipeDTO.Version is null ? 0L : (long)recipeDTO.Version,
-                Name = recipeDTO.Name,
+                Id = recipeDTO.Id ?? 0L,
+                Version = recipeDTO.Version ?? 0L,
+                Name = recipeDTO.Name ?? "default",
                 CreatedAt = recipeDTO.CreatedAt is null ? DateTime.UtcNow : (DateTime)recipeDTO.CreatedAt,
                 UpdatedAt = recipeDTO.UpdatedAt is null ? DateTime.UtcNow : (DateTime)recipeDTO.UpdatedAt,
                 Ingredients = recipeDTO.Ingredients.Select(ingrDTO => ToIngredient(ingrDTO)).ToList(),
                 Description = recipeDTO.Description,
-                PreparationTimeInSeconds = 0, // TODO: FIX THIS
-                CookingTimeInSeconds = recipeDTO.Duration, // TODO: FIX THIS
+                PreparationTimeInSeconds = 0,
+                CookingTimeInSeconds = recipeDTO.Duration, 
                 Servings = recipeDTO.Servings,
                 EnergyInKCal = recipeDTO.Energy,
                 Level = recipeDTO.Id is null ? null : ToLevel((LevelEnum)recipeDTO.Level!),
                 Steps = recipeDTO.Steps.Select(stepDto => ToStep(stepDto)).ToList(),
-            };*/
-
-            // Started doing create,
-            // but did not finish, feel free to use,
-            // this might not be correct though
+            };
             
             throw new NotImplementedException();
         }
@@ -89,16 +85,16 @@ namespace RecipesAPI.Mappers
                 Id = recipe.Id,
                 Version = recipe.Version,
                 UserId = null,
-                Name = recipe.Name,
+                Name = recipe.Name ?? "default",
                 Description = recipe.Description,
                 Ingredients = recipe.Ingredients.Select(ingr => ToIngredientDTO(ingr)).ToList(),
-                //Steps = recipe.Steps.Select(step => ToStepDTO(step)).ToList(),
+                Steps = recipe.Steps.Select(step => ToStepDTO(step)).ToList(),
                 CreatedAt = recipe.CreatedAt,
                 UpdatedAt = recipe.UpdatedAt,
                 Servings = recipe.Servings,
                 Duration = recipe.CookingTimeInSeconds,
                 Energy = recipe.EnergyInKCal,
-                //Level = recipe.Level is null ? null : ToLevelDTO((ComplexityLevel)recipe.Level),
+                Level = recipe.Level is null ? null : ToLevelDTO((ComplexityLevel)recipe.Level),
             };
 
             return recipeDTO;
@@ -111,7 +107,7 @@ namespace RecipesAPI.Mappers
                 Id = ingredient.Id,
                 Name = ingredient.Name,
                 Measurement = ToMeasurementDTO(ingredient.MeasurementType),
-                Amount = 0, // TODO: IMPLEMENT THIS
+                Amount = 0
             };
             return ingredientDTO;
         }
@@ -162,6 +158,8 @@ namespace RecipesAPI.Mappers
             return new Ingredient()
             {
                 Id = ingredientDTO.Id is null ? 0L : (long)ingredientDTO.Id,
+                Name = ingredientDTO.Name ?? "default",
+                Version = ingredientDTO.Amount?? 0,
             };
         }
 

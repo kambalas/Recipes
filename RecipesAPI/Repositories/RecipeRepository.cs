@@ -20,8 +20,12 @@ namespace RecipesAPI.Repositories
                 throw new NotImplementedException();
             else return entity;
         }
+		public async Task<Recipe> AddNewRecipe(Recipe recipe)
+		{
+			return await InsertAsync(recipe);
+		}
 
-        public override async Task<IEnumerable<Recipe>> GetAsync(
+		public override async Task<IEnumerable<Recipe>> GetAsync(
        Expression<Func<Recipe, bool>>? filter = null,
        Func<IQueryable<Recipe>, IOrderedQueryable<Recipe>>? orderBy = null,
        int? itemsToSkip = null,
