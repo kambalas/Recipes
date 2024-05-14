@@ -101,6 +101,63 @@ public class RecipeService : ApiService<RecipeDTO>, IRecipeService
     }
     
     
+    
+    public async Task<RecipeDTO> GetRecipeById(long id)
+    {
+        string endpoint = $"recipe/{id}";
+
+        _logger.LogInformation("Fetching recipe with ID {Id} from {Endpoint}", id, endpoint);
+
+        try
+        {
+            string requestUrl = $"{_httpClient.BaseAddress}{endpoint}";
+            _logger.LogInformation("Request URL: {RequestUrl}", requestUrl);
+
+            var response = await _httpClient.GetAsync(endpoint);
+            var responseBody = await response.Content.ReadAsStringAsync();
+
+            _logger.LogInformation("Response Body: {ResponseBody}", responseBody);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    _logger.LogWarning("Recipe with ID {Id} was not found.", id);
+                    return null;
+                }
+
+                _logger.LogError("HTTP {StatusCode} error occurred while fetching recipe with ID {Id} from {Endpoint}. Response Body: {ResponseBody}",
+                                 response.StatusCode, id, endpoint, responseBody);
+                throw new ApplicationException($"HTTP error occurred while fetching recipe with ID {id} from {endpoint}. Status Code: {response.StatusCode}");
+            }
+
+            var recipe = JsonSerializer.Deserialize<RecipeDTO>(responseBody, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            if (recipe == null)
+            {
+                _logger.LogInformation("No recipe was found at the endpoint: {Endpoint}", endpoint);
+                return null;
+            }
+
+            return recipe;
+        }
+        catch (HttpRequestException httpEx)
+        {
+            _logger.LogError(httpEx, "HTTP error occurred while fetching recipe with ID {Id} from {Endpoint}", id, endpoint);
+            throw new ApplicationException($"HTTP error occurred while fetching recipe with ID {id} from {endpoint}", httpEx);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An unexpected error occurred while fetching recipe with ID {Id} from {Endpoint}", id, endpoint);
+            throw new ApplicationException($"An unexpected error occurred while fetching recipe with ID {id} from {endpoint}", ex);
+        }
+    }
+
+    
+    
 }
 
 

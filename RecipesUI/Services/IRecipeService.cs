@@ -15,6 +15,8 @@ public interface IRecipeService : IApiService<RecipeDTO>
         int pageSize = 9,
         string orderBy = null,
         string sorting = "asc");
+    
+    public Task<RecipeDTO> GetRecipeById(long id);
 
 
 }

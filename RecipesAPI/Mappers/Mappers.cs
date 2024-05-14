@@ -110,7 +110,7 @@ namespace RecipesAPI.Mappers
             {
                 Id = ingredient.Id,
                 Name = ingredient.Name,
-                Measurement = ToMeasurementDTO(ingredient.MeasurementType),
+                 Measurement = (MeasurementEnum?)1, //ingredient.MeasurementType, nezinau, please paaiskink kam cia, nes jei nereikia tai tiesiog darom, kad measurment iskart butu Kg, G, L ir t.t.
                 Amount = 0, // TODO: IMPLEMENT THIS
             };
             return ingredientDTO;
@@ -127,35 +127,35 @@ namespace RecipesAPI.Mappers
             };
         }
 
-        private MeasurementEnum ToMeasurementDTO(MeasurementType measurementType)
-        {
-            switch (measurementType)
-            {
-                case MeasurementType.Gram:
-                    {
-                        return MeasurementEnum.GEnum;
-                    }
-                case MeasurementType.Kilogram:
-                    {
-                        return MeasurementEnum.KgEnum;
-                    }
-                case MeasurementType.MiliLitre:
-                    {
-                        return MeasurementEnum.MlEnum;
-                    }
-                case MeasurementType.Litre:
-                    {
-                        return MeasurementEnum.LEnum;
-                    }
-                case MeasurementType.Piece:
-                    {
-                        return MeasurementEnum.PieceEnum;
-                    }
-                default: break;
-            }
-
-            throw new NotImplementedException();
-        }
+        // private MeasurementEnum ToMeasurementDTO(MeasurementType measurementType)
+        // {
+        //     switch (measurementType)
+        //     {
+        //         case MeasurementType.Gram:
+        //             {
+        //                 return MeasurementEnum.GEnum;
+        //             }
+        //         case MeasurementType.Kilogram:
+        //             {
+        //                 return MeasurementEnum.KgEnum;
+        //             }
+        //         case MeasurementType.MiliLitre:
+        //             {
+        //                 return MeasurementEnum.MlEnum;
+        //             }
+        //         case MeasurementType.Litre:
+        //             {
+        //                 return MeasurementEnum.LEnum;
+        //             }
+        //         case MeasurementType.Piece:
+        //             {
+        //                 return MeasurementEnum.PieceEnum;
+        //             }
+        //         default: break;
+        //     }
+        //
+        //     throw new NotImplementedException();
+        // }        KOKIO VELNIO ISVIS VADINTI KGENUM?? TIPO KAM? SENI, ALIO? AS ISTRINCIAU, BET GAL CIA YRA SITAM PRIEZASTIS KOKIA..
 
         private Ingredient ToIngredient(IngredientDTO ingredientDTO)
         {

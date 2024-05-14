@@ -59,11 +59,61 @@ else
 }
 
 
+@if (Recipe != null)
+{
+    <div>
+        <h2>@Recipe.Name</h2>
+        <p>@Recipe.Description</p>
+
+        <h3>Ingredients</h3>
+        <ul>
+            @if (Recipe.Ingredients != null)
+            {
+                @foreach (var ingredient in Recipe.Ingredients)
+                {
+                    <li>@ingredient.Name: @ingredient.Amount @ingredient.Measurement.Value</li>
+                }
+            }
+            else
+            {
+                <li>No ingredients available</li>
+            }
+        </ul>
+
+        <h3>Steps</h3>
+        <ol>
+            @if (Recipe.Steps != null)
+            {
+                @foreach (var step in Recipe.Steps)
+                {
+                    <li>@step.Description</li>
+                }
+            }
+            else
+            {
+                <li>No steps available</li>
+            }
+        </ol>
+    </div>
+}
+else
+{
+    <p>Loading...</p>
+}
+
+
+
+
+
 @code {
     private List<RecipeDTO> Recipes;
+    private RecipeDTO Recipe;
 
     protected override async Task OnInitializedAsync()
     {
         Recipes = await RecipeService.GetRecipes();
+        Recipe = await RecipeService.GetRecipeById(2);
     }
+    
+
 }
