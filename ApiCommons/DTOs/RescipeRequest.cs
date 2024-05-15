@@ -32,6 +32,12 @@ namespace ApiCommons.DTOs
         public string Description { get; set; }
 
         /// <summary>
+        /// Gets or Sets ImageURL
+        /// </summary>
+        [DataMember(Name = "imageUrl")]
+        public string? ImageURL { get; set; }
+
+        /// <summary>
         /// Gets or Sets Ingredients
         /// </summary>
         [Required]
@@ -52,10 +58,16 @@ namespace ApiCommons.DTOs
         public long? Servings { get; set; }
 
         /// <summary>
-        /// Gets or Sets Duration
+        /// Gets or Sets CookingDuration
         /// </summary>
-        [DataMember(Name = "duration")]
-        public long? Duration { get; set; }
+        [DataMember(Name = "cookingDuration")]
+        public long? CookingDuration { get; set; }
+
+        /// <summary>
+        /// Gets or Sets PreparationDuration
+        /// </summary>
+        [DataMember(Name = "preparationDuration")]
+        public long? PreparationDuration { get; set; }
 
         /// <summary>
         /// Gets or Sets Energy
@@ -82,7 +94,8 @@ namespace ApiCommons.DTOs
             sb.Append("  Ingredients: ").Append(Ingredients).Append("\n");
             sb.Append("  Steps: ").Append(Steps).Append("\n");
             sb.Append("  Servings: ").Append(Servings).Append("\n");
-            sb.Append("  Duration: ").Append(Duration).Append("\n");
+            sb.Append("  CookingDuration: ").Append(CookingDuration).Append("\n");
+            sb.Append("  PreparationDuration: ").Append(PreparationDuration).Append("\n");
             sb.Append("  Energy: ").Append(Energy).Append("\n");
             sb.Append("  Level: ").Append(Level).Append("\n");
             sb.Append("}\n");
@@ -147,9 +160,14 @@ namespace ApiCommons.DTOs
                     Servings.Equals(other.Servings)
                 ) &&
                 (
-                    Duration == other.Duration ||
-                    Duration != null &&
-                    Duration.Equals(other.Duration)
+                    CookingDuration == other.CookingDuration ||
+                    CookingDuration != null &&
+                    CookingDuration.Equals(other.CookingDuration)
+                ) &&
+                (
+                    PreparationDuration == other.PreparationDuration ||
+                    PreparationDuration != null &&
+                    PreparationDuration.Equals(other.PreparationDuration)
                 ) &&
                 (
                     Energy == other.Energy ||
@@ -183,8 +201,10 @@ namespace ApiCommons.DTOs
                     hashCode = hashCode * 59 + Steps.GetHashCode();
                 if (Servings != null)
                     hashCode = hashCode * 59 + Servings.GetHashCode();
-                if (Duration != null)
-                    hashCode = hashCode * 59 + Duration.GetHashCode();
+                if (CookingDuration != null)
+                    hashCode = hashCode * 59 + CookingDuration.GetHashCode();
+                if (PreparationDuration != null)
+                    hashCode = hashCode * 59 + PreparationDuration.GetHashCode();
                 if (Energy != null)
                     hashCode = hashCode * 59 + Energy.GetHashCode();
                 if (Level != null)
