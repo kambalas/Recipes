@@ -15,7 +15,12 @@ namespace RecipesAPI.Repositories
 
         public override async Task<Recipe> GetByIdAsync(object id)
         {
-            var entity = await DbSet.Include(r => r.Ingredients).FirstOrDefaultAsync(r => r.Id == (long)id) ;
+            var entity = await DbSet
+                .Include(r => r.RecipeIngredients)
+                .ThenInclude(ri => ri.Ingredient)
+                .Include(r => r.Steps)
+                .FirstOrDefaultAsync(r => r.Id == (long)id);
+
             if (entity == null)
                 throw new NotImplementedException();
             else return entity;

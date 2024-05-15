@@ -25,7 +25,7 @@ namespace IO.Swagger.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class IngredientResponse : IEquatable<IngredientResponse>
+    public partial class RecipeIngredientResponse : IEquatable<RecipeIngredientResponse>
     { 
         /// <summary>
         /// Gets or Sets Id
@@ -107,7 +107,7 @@ namespace IO.Swagger.Models
                     Name == other.Name ||
                     Name != null &&
                     Name.Equals(other.Name)
-                ) && 
+                ) &&
                 (
                     Amount == other.Amount ||
                     Amount != null &&
@@ -135,15 +135,20 @@ namespace IO.Swagger.Models
             }
         }
 
-        #region Operators
-        #pragma warning disable 1591
+        public bool Equals(RecipeIngredientResponse? other)
+        {
+            throw new NotImplementedException();
+        }
 
-        public static bool operator ==(IngredientResponse left, IngredientResponse right)
+        #region Operators
+#pragma warning disable 1591
+
+        public static bool operator ==(RecipeIngredientResponse left, RecipeIngredientResponse right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(IngredientResponse left, IngredientResponse right)
+        public static bool operator !=(RecipeIngredientResponse left, RecipeIngredientResponse right)
         {
             return !Equals(left, right);
         }
