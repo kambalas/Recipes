@@ -8,7 +8,7 @@ namespace RecipesAPI.Services.Interfaces
         Task DeleteRecipeByIdAsync(long id);
         Task<Recipe> GetRecipeByIdAsync(long id);
         Task<Recipe> UpdateRecipeByIdAsync(Recipe body, long id);
-        Task<Recipe> CreateRecipeAsync(Recipe body);
+        Task<Recipe> CreateRecipesAsync(Recipe body);
         Task<IEnumerable<Recipe>> GetRecipesAsync(RecipeFilter filter);
     }
 }

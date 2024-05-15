@@ -24,81 +24,55 @@ namespace IO.Swagger.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class Ingredient : IEquatable<Ingredient>
+    public partial class StepResponse : IEquatable<StepResponse>
     { 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
-        [Required]
 
         [DataMember(Name="id")]
         public long? Id { get; set; }
 
         /// <summary>
-        /// Gets or Sets Name
+        /// Gets or Sets Description
         /// </summary>
         [Required]
 
-        [DataMember(Name="name")]
-        public string Name { get; set; }
+        [DataMember(Name="description")]
+        public string? Description { get; set; }
 
         /// <summary>
-        /// Gets or Sets Measurement
+        /// Gets or Sets Phase
         /// </summary>
         [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public enum MeasurementEnum
+        public enum PhaseEnum
         {
             /// <summary>
-            /// Enum KgEnum for kg
+            /// Enum PrepEnum for prep
             /// </summary>
-            [EnumMember(Value = "kg")]
-            Kg = 0,
+            [EnumMember(Value = "prep")]
+            PrepEnum = 0,
             /// <summary>
-            /// Enum GEnum for g
+            /// Enum CookingEnum for cooking
             /// </summary>
-            [EnumMember(Value = "g")]
-            G = 1,
-            /// <summary>
-            /// Enum LEnum for l
-            /// </summary>
-            [EnumMember(Value = "l")]
-            L = 2,
-            /// <summary>
-            /// Enum MlEnum for ml
-            /// </summary>
-            [EnumMember(Value = "ml")]
-            Ml = 3,
-            /// <summary>
-            /// Enum TspEnum for tsp
-            /// </summary>
-            [EnumMember(Value = "tsp")]
-            Tsp = 4,
-            /// <summary>
-            /// Enum TbspEnum for tbsp
-            /// </summary>
-            [EnumMember(Value = "tbsp")]
-            Tbsp = 5,
-            /// <summary>
-            /// Enum PieceEnum for piece
-            /// </summary>
-            [EnumMember(Value = "piece")]
-            Piece = 6        }
+            [EnumMember(Value = "cooking")]
+            CookingEnum = 1        }
 
         /// <summary>
-        /// Gets or Sets Measurement
+        /// Gets or Sets Phase
         /// </summary>
         [Required]
 
-        [DataMember(Name="measurement")]
-        public MeasurementEnum? Measurement { get; set; }
+        [DataMember(Name="phase")]
+        public PhaseEnum? Phase { get; set; }
 
         /// <summary>
-        /// Gets or Sets Amount
+        /// Gets or Sets StepNumber
         /// </summary>
         [Required]
 
-        [DataMember(Name="amount")]
-        public long? Amount { get; set; }
+        [DataMember(Name="step_number")]
+        public int? StepNumber { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -107,11 +81,11 @@ namespace IO.Swagger.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class Ingredient {\n");
+            sb.Append("class Step {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  Measurement: ").Append(Measurement).Append("\n");
-            sb.Append("  Amount: ").Append(Amount).Append("\n");
+            sb.Append("  Description: ").Append(Description).Append("\n");
+            sb.Append("  Phase: ").Append(Phase).Append("\n");
+            sb.Append("  StepNumber: ").Append(StepNumber).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -134,15 +108,15 @@ namespace IO.Swagger.Models
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((Ingredient)obj);
+            return obj.GetType() == GetType() && Equals((StepResponse)obj);
         }
 
         /// <summary>
-        /// Returns true if Ingredient instances are equal
+        /// Returns true if Step instances are equal
         /// </summary>
-        /// <param name="other">Instance of Ingredient to be compared</param>
+        /// <param name="other">Instance of Step to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Ingredient other)
+        public bool Equals(StepResponse other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -154,19 +128,19 @@ namespace IO.Swagger.Models
                     Id.Equals(other.Id)
                 ) && 
                 (
-                    Name == other.Name ||
-                    Name != null &&
-                    Name.Equals(other.Name)
+                    Description == other.Description ||
+                    Description != null &&
+                    Description.Equals(other.Description)
                 ) && 
                 (
-                    Measurement == other.Measurement ||
-                    Measurement != null &&
-                    Measurement.Equals(other.Measurement)
+                    Phase == other.Phase ||
+                    Phase != null &&
+                    Phase.Equals(other.Phase)
                 ) && 
                 (
-                    Amount == other.Amount ||
-                    Amount != null &&
-                    Amount.Equals(other.Amount)
+                    StepNumber == other.StepNumber ||
+                    StepNumber != null &&
+                    StepNumber.Equals(other.StepNumber)
                 );
         }
 
@@ -182,12 +156,12 @@ namespace IO.Swagger.Models
                 // Suitable nullity checks etc, of course :)
                     if (Id != null)
                     hashCode = hashCode * 59 + Id.GetHashCode();
-                    if (Name != null)
-                    hashCode = hashCode * 59 + Name.GetHashCode();
-                    if (Measurement != null)
-                    hashCode = hashCode * 59 + Measurement.GetHashCode();
-                    if (Amount != null)
-                    hashCode = hashCode * 59 + Amount.GetHashCode();
+                    if (Description != null)
+                    hashCode = hashCode * 59 + Description.GetHashCode();
+                    if (Phase != null)
+                    hashCode = hashCode * 59 + Phase.GetHashCode();
+                    if (StepNumber != null)
+                    hashCode = hashCode * 59 + StepNumber.GetHashCode();
                 return hashCode;
             }
         }
@@ -195,12 +169,12 @@ namespace IO.Swagger.Models
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(Ingredient left, Ingredient right)
+        public static bool operator ==(StepResponse left, StepResponse right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(Ingredient left, Ingredient right)
+        public static bool operator !=(StepResponse left, StepResponse right)
         {
             return !Equals(left, right);
         }

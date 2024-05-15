@@ -1,80 +1,55 @@
 ﻿using IO.Swagger.Models;
 using RecipesAPI.Models;
-using IngredientDTO = IO.Swagger.Models.Ingredient;
 using Ingredient = RecipesAPI.Models.Ingredient;
-using static IO.Swagger.Models.RecipeDTO;
-using Step = RecipesAPI.Models.Step;
-using StepDTO = IO.Swagger.Models.Step;
-using static IO.Swagger.Models.Step;
-using static IO.Swagger.Models.Ingredient;
+using static IO.Swagger.Models.StepResponse;
+using ApiCommons.DTOs;
+using static ApiCommons.DTOs.LevelEnum;
+using Microsoft.AspNetCore.Http;
 
 namespace RecipesAPI.Mappers
 {
     public class Mappers : IMappers
     {
-        public Recipe ToRecipe(RecipeDTO recipeDTO)
+        public Recipe ToRecipe(RecipeRequest recipeRequest)
         {
-            /*return new Recipe()
-            {
-                Id = recipeDTO.Id is null ? 0L : (long)recipeDTO.Id,
-                Version = recipeDTO.Version is null ? 0L : (long)recipeDTO.Version,
-                Name = recipeDTO.Name,
-                CreatedAt = recipeDTO.CreatedAt is null ? DateTime.UtcNow : (DateTime)recipeDTO.CreatedAt,
-                UpdatedAt = recipeDTO.UpdatedAt is null ? DateTime.UtcNow : (DateTime)recipeDTO.UpdatedAt,
-                Ingredients = recipeDTO.Ingredients.Select(ingrDTO => ToIngredient(ingrDTO)).ToList(),
-                Description = recipeDTO.Description,
-                PreparationTimeInSeconds = 0, // TODO: FIX THIS
-                CookingTimeInSeconds = recipeDTO.Duration, // TODO: FIX THIS
-                Servings = recipeDTO.Servings,
-                EnergyInKCal = recipeDTO.Energy,
-                Level = recipeDTO.Id is null ? null : ToLevel((LevelEnum)recipeDTO.Level!),
-                Steps = recipeDTO.Steps.Select(stepDto => ToStep(stepDto)).ToList(),
-            };*/
 
-            // Started doing create,
-            // but did not finish, feel free to use,
-            // this might not be correct though
+			var defaultDateTime = DateTime.UtcNow;
+			return new Recipe()
+            {
+                Version = 1,
+                Name = recipeRequest.Name ?? "default",
+                CreatedAt = defaultDateTime,
+				UpdatedAt = defaultDateTime,
+                Ingredients = recipeRequest.Ingredients.Select(ingrDTO => ToIngredient(ingrDTO)).ToList(),
+                Description = recipeRequest.Description,
+                PreparationTimeInSeconds = 0,
+                CookingTimeInSeconds = recipeRequest.Duration, 
+                Servings = recipeRequest.Servings,
+                EnergyInKCal = recipeRequest.Energy,
+                Level = 0,
+                //Steps = recipeRequest.Steps.Select(stepDto => ToStep()).ToList(),
+            };
             
             throw new NotImplementedException();
         }
 
-        private ComplexityLevel ToLevel(LevelEnum levelDTO)
-        {
-            switch (levelDTO)
-            {
-                case LevelEnum.EasyEnum:
-                    {
-                        return ComplexityLevel.Easy;
-                    }
-                case LevelEnum.MediumEnum:
-                    {
-                        return ComplexityLevel.Medium;
-                    }
-                case LevelEnum.HardEnum:
-                    {
-                        return ComplexityLevel.HardEnum;
-                    }
-                default: break;
-            }
 
-            throw new NotImplementedException();
-        }
 
-        private LevelEnum ToLevelDTO(ComplexityLevel level)
+        private LevelEnum ToLevel(ComplexityLevel level)
         {
             switch (level)
             {
                 case ComplexityLevel.Easy:
                     {
-                        return LevelEnum.EasyEnum;
+                        return EasyEnum;
                     }
                 case ComplexityLevel.Medium:
                     {
-                        return LevelEnum.MediumEnum;
+                        return MediumEnum;
                     }
                 case ComplexityLevel.HardEnum:
                     {
-                        return LevelEnum.HardEnum;
+                        return HardEnum;
                     }
                 default: break;
             }
@@ -82,52 +57,52 @@ namespace RecipesAPI.Mappers
             throw new NotImplementedException();
         }
 
-        public RecipeDTO ToRecipeDTO(Recipe recipe)
+        public RecipeResponse ToRecipeResponse(Recipe recipe)
         {
-            var recipeDTO = new RecipeDTO
+            var recipeDTO = new RecipeResponse
             {
                 Id = recipe.Id,
                 Version = recipe.Version,
                 UserId = null,
-                Name = recipe.Name,
+                Name = recipe.Name ?? "default",
                 Description = recipe.Description,
-                Ingredients = recipe.Ingredients.Select(ingr => ToIngredientDTO(ingr)).ToList(),
+                Ingredients = recipe.Ingredients.Select(ingr => ToIngredientResponse(ingr)).ToList(),
                 //Steps = recipe.Steps.Select(step => ToStepDTO(step)).ToList(),
                 CreatedAt = recipe.CreatedAt,
                 UpdatedAt = recipe.UpdatedAt,
                 Servings = recipe.Servings,
                 Duration = recipe.CookingTimeInSeconds,
                 Energy = recipe.EnergyInKCal,
-                //Level = recipe.Level is null ? null : ToLevelDTO((ComplexityLevel)recipe.Level),
+                Level = 0
             };
 
             return recipeDTO;
         }
 
-        private IngredientDTO ToIngredientDTO(Ingredient ingredient)
+        public IngredientResponse ToIngredientResponse(Ingredient ingredient)
         {
-            var ingredientDTO = new IngredientDTO
+            var ingredientDTO = new IngredientResponse
             {
                 Id = ingredient.Id,
                 Name = ingredient.Name,
-                Measurement = ToMeasurementDTO(ingredient.MeasurementType),
-                Amount = 0, // TODO: IMPLEMENT THIS
+                Measurement = ToMeasurement(ingredient.MeasurementType),
+                Amount = 0, 
             };
             return ingredientDTO;
         }
 
-        private StepDTO ToStepDTO(Step step)
+        public StepResponse ToStepResponse(Step step)
         {
-            return new StepDTO
+            return new StepResponse
             {
                 Id = (int?)step.Id,
                 Description = step.Description,
-                Phase = ToPhaseDTO(step.Phase),
+                Phase = ToPhaseResponse(step.Phase),
                 StepNumber = step.Index,
             };
         }
 
-        private MeasurementEnum ToMeasurementDTO(MeasurementType measurementType)
+        private MeasurementEnum ToMeasurement(MeasurementType measurementType)
         {
             switch (measurementType)
             {
@@ -157,28 +132,31 @@ namespace RecipesAPI.Mappers
             throw new NotImplementedException();
         }
 
-        private Ingredient ToIngredient(IngredientDTO ingredientDTO)
+        public Ingredient ToIngredient(IngredientRequest ingredientRequest)
         {
             return new Ingredient()
             {
-                Id = ingredientDTO.Id is null ? 0L : (long)ingredientDTO.Id,
-            };
+                Version = 1,
+				Name = ingredientRequest.Name,     
+                MeasurementType = MeasurementType.Gram
+			};
         }
 
-        private Step ToStep(StepDTO stepDTO)
+        public Step ToStep(StepRequest stepRequest)
         {
             return new Step()
             {
-                Id = stepDTO.Id is null ? 0L : (long)stepDTO.Id,
-                Description = stepDTO.Description,
-                Phase = stepDTO.Phase is null ? 0L : ToPhase((PhaseEnum)stepDTO.Phase),
-                Index = stepDTO.StepNumber is null ? 0 : (int)stepDTO.StepNumber,
+                //Id = stepDTO.Id is null ? 0L : (long)stepDTO.Id, Should be autogenerated
+                Id = 0,
+                Description = stepRequest.Description,
+                Phase = stepRequest.Phase is null ? 0L : ToPhase((PhaseEnum)stepRequest.Phase),
+                Index = stepRequest.StepNumber is null ? 0 : (int)stepRequest.StepNumber,
             };
         }
 
-        private StepPhase ToPhase(PhaseEnum phaseDTO)
+        private StepPhase ToPhase(PhaseEnum phase)
         {
-            switch (phaseDTO)
+            switch (phase)
             {
                 case PhaseEnum.PrepEnum:
                     {
@@ -193,7 +171,7 @@ namespace RecipesAPI.Mappers
             throw new NotImplementedException();
         }
 
-        private PhaseEnum ToPhaseDTO(StepPhase phase)
+        private PhaseEnum ToPhaseResponse(StepPhase phase)
         {
             switch (phase)
             {
