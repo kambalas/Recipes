@@ -111,7 +111,7 @@ using ApiCommons.DTOs;
         public async Task<IActionResult> RecipePost([FromBody] RecipeRequest recipeDTO)
         {
             var recipe = await _recipeService.CreateRecipesAsync(_mappers.ToRecipe(recipeDTO));
-            return Ok(_mappers.ToRecipeResponse(recipe));
+            return Ok(_mappers.ToRecipeResponseOnCreate(recipe));
         }
 
         /// <summary>
