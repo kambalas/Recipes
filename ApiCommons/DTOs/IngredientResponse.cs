@@ -18,6 +18,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using ApiCommons.DTOs;
 
 namespace IO.Swagger.Models
 {
@@ -25,7 +26,7 @@ namespace IO.Swagger.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class Ingredient : IEquatable<Ingredient>
+    public partial class IngredientResponse : IEquatable<IngredientResponse>
     { 
         /// <summary>
         /// Gets or Sets Id
@@ -43,47 +44,6 @@ namespace IO.Swagger.Models
         [DataMember(Name="name")]
         public string Name { get; set; }
 
-        /// <summary>
-        /// Gets or Sets Measurement
-        /// </summary>
-        [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public enum MeasurementEnum
-        {
-            /// <summary>
-            /// Enum KgEnum for kg
-            /// </summary>
-            [EnumMember(Value = "kg")]
-            Kg = 0,
-            /// <summary>
-            /// Enum GEnum for g
-            /// </summary>
-            [EnumMember(Value = "g")]
-            G = 1,
-            /// <summary>
-            /// Enum LEnum for l
-            /// </summary>
-            [EnumMember(Value = "l")]
-            L = 2,
-            /// <summary>
-            /// Enum MlEnum for ml
-            /// </summary>
-            [EnumMember(Value = "ml")]
-            Ml = 3,
-            /// <summary>
-            /// Enum TspEnum for tsp
-            /// </summary>
-            [EnumMember(Value = "tsp")]
-            Tsp = 4,
-            /// <summary>
-            /// Enum TbspEnum for tbsp
-            /// </summary>
-            [EnumMember(Value = "tbsp")]
-            Tbsp = 5,
-            /// <summary>
-            /// Enum PieceEnum for piece
-            /// </summary>
-            [EnumMember(Value = "piece")]
-            Piece = 6        }
 
         /// <summary>
         /// Gets or Sets Measurement
@@ -135,7 +95,7 @@ namespace IO.Swagger.Models
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((Ingredient)obj);
+            return obj.GetType() == GetType() && Equals((IngredientResponse)obj);
         }
 
         /// <summary>
@@ -143,7 +103,7 @@ namespace IO.Swagger.Models
         /// </summary>
         /// <param name="other">Instance of Ingredient to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Ingredient other)
+        public bool Equals(IngredientResponse other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -198,12 +158,12 @@ namespace IO.Swagger.Models
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(Ingredient left, Ingredient right)
+        public static bool operator ==(IngredientResponse left, IngredientResponse right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(Ingredient left, Ingredient right)
+        public static bool operator !=(IngredientResponse left, IngredientResponse right)
         {
             return !Equals(left, right);
         }

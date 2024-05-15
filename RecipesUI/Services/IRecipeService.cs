@@ -6,9 +6,9 @@ using IO.Swagger.Models;
 namespace RecipesUI.Services;
 
 
-public interface IRecipeService : IApiService<RecipeDTO>
+public interface IRecipeService : IApiService<RecipeResponse>
 {
-    public Task<List<RecipeDTO>> GetRecipes(
+    public Task<List<RecipeResponse>> GetRecipes(
         string search = null,
         List<int> ingredientIds = null,
         int page = 1,
@@ -16,7 +16,7 @@ public interface IRecipeService : IApiService<RecipeDTO>
         string orderBy = null,
         string sorting = "asc");
     
-    public Task<RecipeDTO> GetRecipeById(long id);
+    public Task<RecipeResponse> GetRecipeById(long id);
 
 
 }

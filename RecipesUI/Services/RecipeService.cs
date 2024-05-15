@@ -11,7 +11,7 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace RecipesUI.Services;
 
-public class RecipeService : ApiService<RecipeDTO>, IRecipeService
+public class RecipeService : ApiService<RecipeResponse>, IRecipeService
 {
     //private readonly Logger<RecipeService> _logger;
     
@@ -20,7 +20,7 @@ public class RecipeService : ApiService<RecipeDTO>, IRecipeService
         
     }
     
-    public async Task<List<RecipeDTO>> GetRecipes(
+    public async Task<List<RecipeResponse>> GetRecipes(
         string search = null,
         List<int> ingredientIds = null,
         int page = 1,
@@ -75,7 +75,7 @@ public class RecipeService : ApiService<RecipeDTO>, IRecipeService
                 throw new ApplicationException($"HTTP error occurred while fetching recipes from {endpoint}. Status Code: {response.StatusCode}");
             }
 
-            var recipes = JsonSerializer.Deserialize<List<RecipeDTO>>(responseBody, new JsonSerializerOptions
+            var recipes = JsonSerializer.Deserialize<List<RecipeResponse>>(responseBody, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });
@@ -83,7 +83,7 @@ public class RecipeService : ApiService<RecipeDTO>, IRecipeService
             if (recipes == null || !recipes.Any())
             {
                 _logger.LogInformation("No recipes were found at the endpoint: {Endpoint}", endpoint);
-                return new List<RecipeDTO>();
+                return new List<RecipeResponse>();
             }
 
             return recipes;
@@ -102,7 +102,7 @@ public class RecipeService : ApiService<RecipeDTO>, IRecipeService
     
     
     
-    public async Task<RecipeDTO> GetRecipeById(long id)
+    public async Task<RecipeResponse> GetRecipeById(long id)
     {
         string endpoint = $"recipe/{id}";
 
@@ -131,7 +131,7 @@ public class RecipeService : ApiService<RecipeDTO>, IRecipeService
                 throw new ApplicationException($"HTTP error occurred while fetching recipe with ID {id} from {endpoint}. Status Code: {response.StatusCode}");
             }
 
-            var recipe = JsonSerializer.Deserialize<RecipeDTO>(responseBody, new JsonSerializerOptions
+            var recipe = JsonSerializer.Deserialize<RecipeResponse>(responseBody, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });
