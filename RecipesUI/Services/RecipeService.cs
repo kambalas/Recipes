@@ -184,17 +184,15 @@ public class RecipeService : ApiService<RecipeResponse>, IRecipeService
                 {
                     StepNumber = 1,
                     Description = "This is step 1",
-                    Phase = StepRequest.PhaseEnum.PrepEnum
+                    Phase = PhaseEnum.PrepEnum
                 },
                 new StepRequest()
                 {
                     StepNumber = 2,
                     Description = "This is step 2",
-                    Phase = StepRequest.PhaseEnum.PrepEnum
-                }
+                    Phase = PhaseEnum.PrepEnum }
             },
             Servings = 4,
-            Duration = 60,
             Energy = 500,
             Level = LevelEnum.EasyEnum
         };
