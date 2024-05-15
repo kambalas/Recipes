@@ -1,3 +1,4 @@
+using ApiCommons.DTOs;
 using IO.Swagger.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -153,6 +154,76 @@ public class RecipeService : ApiService<RecipeResponse>, IRecipeService
         {
             _logger.LogError(ex, "An unexpected error occurred while fetching recipe with ID {Id} from {Endpoint}", id, endpoint);
             throw new ApplicationException($"An unexpected error occurred while fetching recipe with ID {id} from {endpoint}", ex);
+        }
+    }
+    
+    public async Task<bool> CreateRecipe(RecipeRequest recipeRequest = null)
+    {
+        var recipeRequestTest = new RecipeRequest
+        {
+            Name = "Test Recipe",
+            Description = "This is a test recipe",
+            Ingredients = new List<IngredientRequest>
+            {
+                new IngredientRequest
+                {
+                    Name = "Test Ingredient 1",
+                    Measurement = MeasurementEnum.GEnum,
+                    Amount = 2
+                },
+                new IngredientRequest
+                {
+                    Name = "Test Ingredient 2",
+                    Measurement = MeasurementEnum.MlEnum,
+                    Amount = 3
+                }
+            },
+            Steps = new List<StepRequest>
+            {
+                new StepRequest()
+                {
+                    StepNumber = 1,
+                    Description = "This is step 1",
+                    Phase = StepRequest.PhaseEnum.PrepEnum
+                },
+                new StepRequest()
+                {
+                    StepNumber = 2,
+                    Description = "This is step 2",
+                    Phase = StepRequest.PhaseEnum.PrepEnum
+                }
+            },
+            Servings = 4,
+            Duration = 60,
+            Energy = 500,
+            Level = LevelEnum.EasyEnum
+        };
+        
+        
+        
+        
+        try
+        {
+            _logger.LogInformation("Sending POST request to create a new recipe.");
+            var response = await _httpClient.PostAsJsonAsync("recipe", recipeRequestTest);
+
+            if (response.IsSuccessStatusCode)
+            {
+                _logger.LogInformation("Recipe created successfully.");
+                return true;
+            }
+            else
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                _logger.LogError("Failed to create recipe. Status Code: {StatusCode}, Response: {Response}",
+                    response.StatusCode, responseContent);
+                return false;
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while creating the recipe.");
+            return false;
         }
     }
 

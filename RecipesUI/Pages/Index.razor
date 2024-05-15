@@ -112,7 +112,8 @@ else
     protected override async Task OnInitializedAsync()
     {
         Recipes = await RecipeService.GetRecipes();
-        Recipe = await RecipeService.GetRecipeById(2);
+        Recipe = await RecipeService.GetRecipeById(1);
+        RecipeService.CreateRecipe(null);
     }
     
 

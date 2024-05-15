@@ -1,6 +1,7 @@
 using IO.Swagger.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ApiCommons.DTOs;
 using IO.Swagger.Models;
 
 namespace RecipesUI.Services;
@@ -17,6 +18,7 @@ public interface IRecipeService : IApiService<RecipeResponse>
         string sorting = "asc");
     
     public Task<RecipeResponse> GetRecipeById(long id);
+    public Task<bool> CreateRecipe(RecipeRequest recipe);
 
 
 }
