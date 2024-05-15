@@ -20,7 +20,7 @@ namespace RecipesAPI.Mappers
                 Name = recipeRequest.Name ?? "default",
                 CreatedAt = defaultDateTime,
 				UpdatedAt = defaultDateTime,
-                Ingredients = recipeRequest.Ingredients.Select(ingrDTO => ToIngredient(ingrDTO)).ToList(),
+                Ingredients = recipeRequest.Ingredients.ToList().Select(ingrDTO => ToIngredient(ingrDTO)).ToList(),
                 Description = recipeRequest.Description,
                 PreparationTimeInSeconds = 0,
                 CookingTimeInSeconds = recipeRequest.Duration, 
@@ -66,8 +66,9 @@ namespace RecipesAPI.Mappers
                 UserId = null,
                 Name = recipe.Name ?? "default",
                 Description = recipe.Description,
+                ImageURL = recipe.ImageURL,
                 Ingredients = recipe.Ingredients.Select(ingr => ToIngredientResponse(ingr)).ToList(),
-                //Steps = recipe.Steps.Select(step => ToStepDTO(step)).ToList(),
+                Steps = recipe.Steps.Select(step => ToStepResponse(step)).ToList(),
                 CreatedAt = recipe.CreatedAt,
                 UpdatedAt = recipe.UpdatedAt,
                 Servings = recipe.Servings,
@@ -85,7 +86,7 @@ namespace RecipesAPI.Mappers
             {
                 Id = ingredient.Id,
                 Name = ingredient.Name,
-                Measurement = ToMeasurement(ingredient.MeasurementType),
+                //Measurement = ToMeasurement(ingredient.MeasurementType),
                 Amount = 0, 
             };
             return ingredientDTO;
@@ -138,7 +139,7 @@ namespace RecipesAPI.Mappers
             {
                 Version = 1,
 				Name = ingredientRequest.Name,     
-                MeasurementType = MeasurementType.Gram
+                //MeasurementType = MeasurementType.Gram
 			};
         }
 

@@ -14,8 +14,6 @@ namespace RecipesAPI.Models
 
         public string Name { get; set; }
 
-        public MeasurementType MeasurementType { get; set; }
-
         public IEnumerable<Recipe> Recipes { get; set; }
     }
 }

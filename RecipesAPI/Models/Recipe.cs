@@ -16,6 +16,8 @@ namespace RecipesAPI.Models
 
         public string Name { get; set; }
 
+        public string? ImageURL { get; set; }
+
         [Required]
         public DateTime? CreatedAt { get; set; }
 
@@ -23,6 +25,7 @@ namespace RecipesAPI.Models
         public DateTime? UpdatedAt { get; set; }
 
         public IEnumerable<Ingredient> Ingredients { get; set; }
+        public IEnumerable<RecipeIngredient> RecipeIngredients { get; set; }
 
         public string? Description { get; set; }
 
@@ -36,7 +39,7 @@ namespace RecipesAPI.Models
 
         public ComplexityLevel? Level { get; set; }
 
-        public IEnumerable<Step> Steps { get; set; } = Enumerable.Empty<Step>();
+        public IEnumerable<Step> Steps { get; set; }
 
     }
 }

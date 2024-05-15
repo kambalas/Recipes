@@ -57,6 +57,10 @@ namespace IO.Swagger.Models
         [DataMember(Name="description")]
         public string? Description { get; set; }
 
+
+        [DataMember(Name = "imageURL")]
+        public string? ImageURL { get; set; }
+
         /// <summary>
         /// Gets or Sets Ingredients
         /// </summary>
