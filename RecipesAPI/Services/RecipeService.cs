@@ -19,7 +19,7 @@ namespace PoS.Application.Services
             _recipeRepository = recipeRepository;
         }
 
-        public async Task<Recipe> CreateRecipeAsync(Recipe recipe)
+        public async Task<Recipe> CreateRecipesAsync(Recipe recipe)
         {
             return await _recipeRepository.InsertAsync(recipe);
         }
@@ -42,7 +42,8 @@ namespace PoS.Application.Services
 
             if (filter.Search != null)
             {
-                recipeFilter = recipeFilter.And(x => x.Description != null && x.Description.Contains(filter.Search) || x.Name.Contains(filter.Search));
+                recipeFilter = recipeFilter.And(
+                    x => (x.Description != null && x.Description.Contains(filter.Search)) || ( x.Name != null &&  x.Name.Contains(filter.Search)));
             }
 
             if (filter.IngredientId != null && filter.IngredientId.Length > 0)
