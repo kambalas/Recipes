@@ -67,17 +67,30 @@ namespace RecipesAPI.Mappers
                 Name = recipe.Name ?? "default",
                 Description = recipe.Description,
                 ImageURL = recipe.ImageURL,
-                Ingredients = recipe.Ingredients.Select(ingr => ToIngredientResponse(ingr)).ToList(),
+                Ingredients = recipe.RecipeIngredients.Select(ri => ToIngredientResponse(ri)).ToList(),
                 Steps = recipe.Steps.Select(step => ToStepResponse(step)).ToList(),
                 CreatedAt = recipe.CreatedAt,
                 UpdatedAt = recipe.UpdatedAt,
                 Servings = recipe.Servings,
-                Duration = recipe.CookingTimeInSeconds,
+                CookingDuration = recipe.CookingTimeInSeconds,
+                PreparationDuration = recipe.PreparationTimeInSeconds,
                 Energy = recipe.EnergyInKCal,
                 Level = 0
             };
 
             return recipeDTO;
+        }
+
+        public RecipeIngredientResponse ToIngredientResponse(RecipeIngredient recipeIngredient)
+        {
+            var recipeIngredientDTO = new RecipeIngredientResponse
+            {
+                Id = recipeIngredient.Ingredient.Id,
+                Name = recipeIngredient.Ingredient.Name,
+                Measurement = ToMeasurement(recipeIngredient.MeasurementType),
+                Amount = recipeIngredient.Amount,
+            };
+            return recipeIngredientDTO;
         }
 
         public IngredientResponse ToIngredientResponse(Ingredient ingredient)

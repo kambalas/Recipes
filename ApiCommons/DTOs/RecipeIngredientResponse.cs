@@ -44,6 +44,13 @@ namespace IO.Swagger.Models
         public string Name { get; set; }
 
         /// <summary>
+        /// Gets or Sets Measurement
+        /// </summary>
+        [Required]
+        [DataMember(Name = "measurement")]
+        public MeasurementEnum? Measurement { get; set; }
+
+        /// <summary>
         /// Gets or Sets Amount
         /// </summary>
         [Required]
@@ -62,6 +69,7 @@ namespace IO.Swagger.Models
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Amount: ").Append(Amount).Append("\n");
+            sb.Append("  Measurement: ").Append(Measurement).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -92,7 +100,7 @@ namespace IO.Swagger.Models
         /// </summary>
         /// <param name="other">Instance of Ingredient to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(IngredientResponse other)
+        public bool Equals(RecipeIngredientResponse other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -107,6 +115,11 @@ namespace IO.Swagger.Models
                     Name == other.Name ||
                     Name != null &&
                     Name.Equals(other.Name)
+                ) &&
+                (
+                    Measurement == other.Measurement ||
+                    Measurement != null &&
+                    Measurement.Equals(other.Measurement)
                 ) &&
                 (
                     Amount == other.Amount ||
@@ -133,11 +146,6 @@ namespace IO.Swagger.Models
                     hashCode = hashCode * 59 + Amount.GetHashCode();
                 return hashCode;
             }
-        }
-
-        public bool Equals(RecipeIngredientResponse? other)
-        {
-            throw new NotImplementedException();
         }
 
         #region Operators
