@@ -17,6 +17,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using ApiCommons.DTOs;
 
 namespace IO.Swagger.Models
 {
@@ -40,23 +41,6 @@ namespace IO.Swagger.Models
 
         [DataMember(Name="description")]
         public string? Description { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Phase
-        /// </summary>
-        [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public enum PhaseEnum
-        {
-            /// <summary>
-            /// Enum PrepEnum for prep
-            /// </summary>
-            [EnumMember(Value = "prep")]
-            PrepEnum = 0,
-            /// <summary>
-            /// Enum CookingEnum for cooking
-            /// </summary>
-            [EnumMember(Value = "cooking")]
-            CookingEnum = 1        }
 
         /// <summary>
         /// Gets or Sets Phase

@@ -43,7 +43,7 @@ namespace ApiCommons.DTOs
         /// </summary>
         [Required]
         [DataMember(Name = "steps")]
-        public List<StepResponse> Steps { get; set; }
+        public List<StepRequest> Steps { get; set; }
 
         /// <summary>
         /// Gets or Sets Servings

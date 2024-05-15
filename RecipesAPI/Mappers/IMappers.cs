@@ -10,9 +10,11 @@ namespace RecipesAPI.Mappers
 
         public RecipeResponse ToRecipeResponse(Recipe recipe);
 
+        public RecipeResponse ToRecipeResponseOnCreate(Recipe recipe);
+
         public Ingredient ToIngredient(IngredientRequest ingredientRequest);
 
-        public IngredientResponse ToIngredientResponse(Ingredient ingredient);
+        public RecipeIngredientResponse ToIngredientResponse(Ingredient ingredient);
 
         public Step ToStep(StepRequest stepRequest);
 

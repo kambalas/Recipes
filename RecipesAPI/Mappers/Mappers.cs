@@ -27,7 +27,7 @@ namespace RecipesAPI.Mappers
                 Servings = recipeRequest.Servings,
                 EnergyInKCal = recipeRequest.Energy,
                 Level = 0,
-                //Steps = recipeRequest.Steps.Select(stepDto => ToStep()).ToList(),
+                Steps = recipeRequest.Steps.Select(stepDto => ToStep(stepDto)).ToList(),
             };
             
             throw new NotImplementedException();
@@ -59,6 +59,7 @@ namespace RecipesAPI.Mappers
 
         public RecipeResponse ToRecipeResponse(Recipe recipe)
         {
+            
             var recipeDTO = new RecipeResponse
             {
                 Id = recipe.Id,
@@ -67,7 +68,7 @@ namespace RecipesAPI.Mappers
                 Name = recipe.Name ?? "default",
                 Description = recipe.Description,
                 ImageURL = recipe.ImageURL,
-                Ingredients = recipe.RecipeIngredients.Select(ri => ToIngredientResponse(ri)).ToList(),
+                Ingredients = recipe.RecipeIngredients?.Select(ri => ToIngredientResponse(ri)).ToList(),
                 Steps = recipe.Steps.Select(step => ToStepResponse(step)).ToList(),
                 CreatedAt = recipe.CreatedAt,
                 UpdatedAt = recipe.UpdatedAt,
@@ -75,7 +76,32 @@ namespace RecipesAPI.Mappers
                 CookingDuration = recipe.CookingTimeInSeconds,
                 PreparationDuration = recipe.PreparationTimeInSeconds,
                 Energy = recipe.EnergyInKCal,
-                Level = 0
+                Level = 0,
+            };
+
+            return recipeDTO;
+        }
+
+        public RecipeResponse ToRecipeResponseOnCreate(Recipe recipe)
+        {
+
+            var recipeDTO = new RecipeResponse
+            {
+                Id = recipe.Id,
+                Version = recipe.Version,
+                UserId = null,
+                Name = recipe.Name ?? "default",
+                Description = recipe.Description,
+                ImageURL = recipe.ImageURL,
+                Ingredients = recipe.Ingredients?.Select(ri => ToIngredientResponse(ri)).ToList(),
+                Steps = recipe.Steps.Select(step => ToStepResponse(step)).ToList(),
+                CreatedAt = recipe.CreatedAt,
+                UpdatedAt = recipe.UpdatedAt,
+                Servings = recipe.Servings,
+                CookingDuration = recipe.CookingTimeInSeconds,
+                PreparationDuration = recipe.PreparationTimeInSeconds,
+                Energy = recipe.EnergyInKCal,
+                Level = 0,
             };
 
             return recipeDTO;
@@ -93,9 +119,9 @@ namespace RecipesAPI.Mappers
             return recipeIngredientDTO;
         }
 
-        public IngredientResponse ToIngredientResponse(Ingredient ingredient)
+        public RecipeIngredientResponse ToIngredientResponse(Ingredient ingredient)
         {
-            var ingredientDTO = new IngredientResponse
+            var ingredientDTO = new RecipeIngredientResponse
             {
                 Id = ingredient.Id,
                 Name = ingredient.Name,
