@@ -57,13 +57,17 @@ namespace IO.Swagger.Models
         [DataMember(Name="description")]
         public string? Description { get; set; }
 
+
+        [DataMember(Name = "imageURL")]
+        public string? ImageURL { get; set; }
+
         /// <summary>
         /// Gets or Sets Ingredients
         /// </summary>
         [Required]
 
         [DataMember(Name="ingredients")]
-        public List<IngredientResponse> Ingredients { get; set; }
+        public List<RecipeIngredientResponse> Ingredients { get; set; }
 
         /// <summary>
         /// Gets or Sets Steps
@@ -98,8 +102,15 @@ namespace IO.Swagger.Models
         /// Gets or Sets Duration
         /// </summary>
 
-        [DataMember(Name="duration")]
-        public long? Duration { get; set; }
+        [DataMember(Name="cooking_duration")]
+        public long? CookingDuration { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Duration
+        /// </summary>
+
+        [DataMember(Name = "preparation_duration")]
+        public long? PreparationDuration { get; set; }
 
         /// <summary>
         /// Gets or Sets Energy
@@ -141,7 +152,8 @@ namespace IO.Swagger.Models
             sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
             sb.Append("  UpdatedAt: ").Append(UpdatedAt).Append("\n");
             sb.Append("  Servings: ").Append(Servings).Append("\n");
-            sb.Append("  Duration: ").Append(Duration).Append("\n");
+            sb.Append("  CookingDuration: ").Append(CookingDuration).Append("\n");
+            sb.Append("  PreparationDuration: ").Append(PreparationDuration).Append("\n");
             sb.Append("  Energy: ").Append(Energy).Append("\n");
             sb.Append("  Level: ").Append(Level).Append("\n");
             sb.Append("  Version: ").Append(Version).Append("\n");
@@ -227,10 +239,15 @@ namespace IO.Swagger.Models
                     Servings.Equals(other.Servings)
                 ) && 
                 (
-                    Duration == other.Duration ||
-                    Duration != null &&
-                    Duration.Equals(other.Duration)
-                ) && 
+                    CookingDuration == other.CookingDuration ||
+                    CookingDuration != null &&
+                    CookingDuration.Equals(other.CookingDuration)
+                ) &&
+                (
+                    PreparationDuration == other.PreparationDuration ||
+                    PreparationDuration != null &&
+                    PreparationDuration.Equals(other.PreparationDuration)
+                ) &&
                 (
                     Energy == other.Energy ||
                     Energy != null &&
@@ -276,8 +293,10 @@ namespace IO.Swagger.Models
                     hashCode = hashCode * 59 + UpdatedAt.GetHashCode();
                     if (Servings != null)
                     hashCode = hashCode * 59 + Servings.GetHashCode();
-                    if (Duration != null)
-                    hashCode = hashCode * 59 + Duration.GetHashCode();
+                    if (CookingDuration != null)
+                    hashCode = hashCode * 59 + CookingDuration.GetHashCode();
+                    if (PreparationDuration != null)
+                    hashCode = hashCode * 59 + PreparationDuration.GetHashCode();
                     if (Energy != null)
                     hashCode = hashCode * 59 + Energy.GetHashCode();
                     if (Level != null)

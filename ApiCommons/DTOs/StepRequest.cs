@@ -25,24 +25,6 @@ namespace ApiCommons.DTOs
         /// <summary>
         /// Gets or Sets Phase
         /// </summary>
-        [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public enum PhaseEnum
-        {
-            /// <summary>
-            /// Enum PrepEnum for prep
-            /// </summary>
-            [EnumMember(Value = "prep")]
-            PrepEnum = 0,
-            /// <summary>
-            /// Enum CookingEnum for cooking
-            /// </summary>
-            [EnumMember(Value = "cooking")]
-            CookingEnum = 1
-        }
-
-        /// <summary>
-        /// Gets or Sets Phase
-        /// </summary>
         [Required]
         [DataMember(Name = "phase")]
         public PhaseEnum? Phase { get; set; }

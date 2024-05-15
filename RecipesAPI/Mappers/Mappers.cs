@@ -18,16 +18,17 @@ namespace RecipesAPI.Mappers
             {
                 Version = 1,
                 Name = recipeRequest.Name ?? "default",
+                ImageURL = "https://google.com",
                 CreatedAt = defaultDateTime,
 				UpdatedAt = defaultDateTime,
-                Ingredients = recipeRequest.Ingredients.Select(ingrDTO => ToIngredient(ingrDTO)).ToList(),
+                Ingredients = recipeRequest.Ingredients.ToList().Select(ingrDTO => ToIngredient(ingrDTO)).ToList(),
                 Description = recipeRequest.Description,
-                PreparationTimeInSeconds = 0,
-                CookingTimeInSeconds = recipeRequest.Duration, 
+                PreparationTimeInSeconds = recipeRequest.CookingDuration,
+                CookingTimeInSeconds = recipeRequest.CookingDuration,
                 Servings = recipeRequest.Servings,
                 EnergyInKCal = recipeRequest.Energy,
                 Level = 0,
-                //Steps = recipeRequest.Steps.Select(stepDto => ToStep()).ToList(),
+                Steps = recipeRequest.Steps.Select(stepDto => ToStep(stepDto)).ToList(),
             };
             
             throw new NotImplementedException();
@@ -59,6 +60,7 @@ namespace RecipesAPI.Mappers
 
         public RecipeResponse ToRecipeResponse(Recipe recipe)
         {
+            
             var recipeDTO = new RecipeResponse
             {
                 Id = recipe.Id,
@@ -66,26 +68,65 @@ namespace RecipesAPI.Mappers
                 UserId = null,
                 Name = recipe.Name ?? "default",
                 Description = recipe.Description,
-                Ingredients = recipe.Ingredients.Select(ingr => ToIngredientResponse(ingr)).ToList(),
-                //Steps = recipe.Steps.Select(step => ToStepDTO(step)).ToList(),
+                ImageURL = recipe.ImageURL,
+                Ingredients = recipe.RecipeIngredients?.Select(ri => ToIngredientResponse(ri)).ToList(),
+                Steps = recipe.Steps.Select(step => ToStepResponse(step)).ToList(),
                 CreatedAt = recipe.CreatedAt,
                 UpdatedAt = recipe.UpdatedAt,
                 Servings = recipe.Servings,
-                Duration = recipe.CookingTimeInSeconds,
+                CookingDuration = recipe.CookingTimeInSeconds,
+                PreparationDuration = recipe.PreparationTimeInSeconds,
                 Energy = recipe.EnergyInKCal,
-                Level = 0
+                Level = 0,
             };
 
             return recipeDTO;
         }
 
-        public IngredientResponse ToIngredientResponse(Ingredient ingredient)
+        public RecipeResponse ToRecipeResponseOnCreate(Recipe recipe)
         {
-            var ingredientDTO = new IngredientResponse
+
+            var recipeDTO = new RecipeResponse
+            {
+                Id = recipe.Id,
+                Version = recipe.Version,
+                UserId = null,
+                Name = recipe.Name ?? "default",
+                Description = recipe.Description,
+                ImageURL = recipe.ImageURL,
+                Ingredients = recipe.Ingredients?.Select(ri => ToIngredientResponse(ri)).ToList(),
+                Steps = recipe.Steps.Select(step => ToStepResponse(step)).ToList(),
+                CreatedAt = recipe.CreatedAt,
+                UpdatedAt = recipe.UpdatedAt,
+                Servings = recipe.Servings,
+                CookingDuration = recipe.CookingTimeInSeconds,
+                PreparationDuration = recipe.PreparationTimeInSeconds,
+                Energy = recipe.EnergyInKCal,
+                Level = 0,
+            };
+
+            return recipeDTO;
+        }
+
+        public RecipeIngredientResponse ToIngredientResponse(RecipeIngredient recipeIngredient)
+        {
+            var recipeIngredientDTO = new RecipeIngredientResponse
+            {
+                Id = recipeIngredient.Ingredient.Id,
+                Name = recipeIngredient.Ingredient.Name,
+                Measurement = ToMeasurement(recipeIngredient.MeasurementType),
+                Amount = recipeIngredient.Amount,
+            };
+            return recipeIngredientDTO;
+        }
+
+        public RecipeIngredientResponse ToIngredientResponse(Ingredient ingredient)
+        {
+            var ingredientDTO = new RecipeIngredientResponse
             {
                 Id = ingredient.Id,
                 Name = ingredient.Name,
-                Measurement = ToMeasurement(ingredient.MeasurementType),
+                //Measurement = ToMeasurement(ingredient.MeasurementType),
                 Amount = 0, 
             };
             return ingredientDTO;
@@ -138,7 +179,7 @@ namespace RecipesAPI.Mappers
             {
                 Version = 1,
 				Name = ingredientRequest.Name,     
-                MeasurementType = MeasurementType.Gram
+                //MeasurementType = MeasurementType.Gram
 			};
         }
 

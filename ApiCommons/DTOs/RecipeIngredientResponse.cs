@@ -25,38 +25,38 @@ namespace IO.Swagger.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class StepResponse : IEquatable<StepResponse>
+    public partial class RecipeIngredientResponse : IEquatable<RecipeIngredientResponse>
     { 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
+        [Required]
 
         [DataMember(Name="id")]
         public long? Id { get; set; }
 
         /// <summary>
-        /// Gets or Sets Description
+        /// Gets or Sets Name
         /// </summary>
         [Required]
 
-        [DataMember(Name="description")]
-        public string? Description { get; set; }
+        [DataMember(Name="name")]
+        public string Name { get; set; }
 
         /// <summary>
-        /// Gets or Sets Phase
+        /// Gets or Sets Measurement
         /// </summary>
         [Required]
-
-        [DataMember(Name="phase")]
-        public PhaseEnum? Phase { get; set; }
+        [DataMember(Name = "measurement")]
+        public MeasurementEnum? Measurement { get; set; }
 
         /// <summary>
-        /// Gets or Sets StepNumber
+        /// Gets or Sets Amount
         /// </summary>
         [Required]
 
-        [DataMember(Name="step_number")]
-        public int? StepNumber { get; set; }
+        [DataMember(Name="amount")]
+        public long? Amount { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -65,11 +65,11 @@ namespace IO.Swagger.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class Step {\n");
+            sb.Append("class Ingredient {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  Description: ").Append(Description).Append("\n");
-            sb.Append("  Phase: ").Append(Phase).Append("\n");
-            sb.Append("  StepNumber: ").Append(StepNumber).Append("\n");
+            sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("  Amount: ").Append(Amount).Append("\n");
+            sb.Append("  Measurement: ").Append(Measurement).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -92,15 +92,15 @@ namespace IO.Swagger.Models
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((StepResponse)obj);
+            return obj.GetType() == GetType() && Equals((IngredientResponse)obj);
         }
 
         /// <summary>
-        /// Returns true if Step instances are equal
+        /// Returns true if Ingredient instances are equal
         /// </summary>
-        /// <param name="other">Instance of Step to be compared</param>
+        /// <param name="other">Instance of Ingredient to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(StepResponse other)
+        public bool Equals(RecipeIngredientResponse other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -112,19 +112,19 @@ namespace IO.Swagger.Models
                     Id.Equals(other.Id)
                 ) && 
                 (
-                    Description == other.Description ||
-                    Description != null &&
-                    Description.Equals(other.Description)
-                ) && 
+                    Name == other.Name ||
+                    Name != null &&
+                    Name.Equals(other.Name)
+                ) &&
                 (
-                    Phase == other.Phase ||
-                    Phase != null &&
-                    Phase.Equals(other.Phase)
-                ) && 
+                    Measurement == other.Measurement ||
+                    Measurement != null &&
+                    Measurement.Equals(other.Measurement)
+                ) &&
                 (
-                    StepNumber == other.StepNumber ||
-                    StepNumber != null &&
-                    StepNumber.Equals(other.StepNumber)
+                    Amount == other.Amount ||
+                    Amount != null &&
+                    Amount.Equals(other.Amount)
                 );
         }
 
@@ -140,25 +140,23 @@ namespace IO.Swagger.Models
                 // Suitable nullity checks etc, of course :)
                     if (Id != null)
                     hashCode = hashCode * 59 + Id.GetHashCode();
-                    if (Description != null)
-                    hashCode = hashCode * 59 + Description.GetHashCode();
-                    if (Phase != null)
-                    hashCode = hashCode * 59 + Phase.GetHashCode();
-                    if (StepNumber != null)
-                    hashCode = hashCode * 59 + StepNumber.GetHashCode();
+                    if (Name != null)
+                    hashCode = hashCode * 59 + Name.GetHashCode();
+                    if (Amount != null)
+                    hashCode = hashCode * 59 + Amount.GetHashCode();
                 return hashCode;
             }
         }
 
         #region Operators
-        #pragma warning disable 1591
+#pragma warning disable 1591
 
-        public static bool operator ==(StepResponse left, StepResponse right)
+        public static bool operator ==(RecipeIngredientResponse left, RecipeIngredientResponse right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(StepResponse left, StepResponse right)
+        public static bool operator !=(RecipeIngredientResponse left, RecipeIngredientResponse right)
         {
             return !Equals(left, right);
         }
