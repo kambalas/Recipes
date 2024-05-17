@@ -29,12 +29,12 @@ namespace ApiCommons.DTOs
         [DataMember(Name = "measurement")]
         public MeasurementEnum? Measurement { get; set; }
 
-        /// <summary>
+ /*       /// <summary>
         /// Gets or Sets Amount
         /// </summary>
         [Required]
         [DataMember(Name = "amount")]
-        public long? Amount { get; set; }
+        public long? Amount { get; set; }*/
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -46,7 +46,7 @@ namespace ApiCommons.DTOs
             sb.Append("class IngredientRequest {\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Measurement: ").Append(Measurement).Append("\n");
-            sb.Append("  Amount: ").Append(Amount).Append("\n");
+            //sb.Append("  Amount: ").Append(Amount).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -92,12 +92,12 @@ namespace ApiCommons.DTOs
                     Measurement == other.Measurement ||
                     Measurement != null &&
                     Measurement.Equals(other.Measurement)
-                ) &&
+                )/* &&
                 (
                     Amount == other.Amount ||
                     Amount != null &&
                     Amount.Equals(other.Amount)
-                );
+                )*/;
         }
 
         /// <summary>
@@ -114,8 +114,8 @@ namespace ApiCommons.DTOs
                     hashCode = hashCode * 59 + Name.GetHashCode();
                 if (Measurement != null)
                     hashCode = hashCode * 59 + Measurement.GetHashCode();
-                if (Amount != null)
-                    hashCode = hashCode * 59 + Amount.GetHashCode();
+/*                if (Amount != null)
+                    hashCode = hashCode * 59 + Amount.GetHashCode();*/
                 return hashCode;
             }
         }

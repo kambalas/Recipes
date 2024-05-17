@@ -21,7 +21,11 @@ namespace RecipesAPI.Mappers
                 ImageURL = "https://google.com",
                 CreatedAt = defaultDateTime,
 				UpdatedAt = defaultDateTime,
-                Ingredients = recipeRequest.Ingredients.ToList().Select(ingrDTO => ToIngredient(ingrDTO)).ToList(),
+                RecipeIngredients = recipeRequest.Ingredients.ToList().Select(ingrDTO => 
+                    new RecipeIngredient() {
+                        Amount = ingrDTO.Amount ?? 0,
+                        IngredientId = ingrDTO.Id,
+                    }).ToList(),
                 Description = recipeRequest.Description,
                 PreparationTimeInSeconds = recipeRequest.CookingDuration,
                 CookingTimeInSeconds = recipeRequest.CookingDuration,
@@ -94,8 +98,8 @@ namespace RecipesAPI.Mappers
                 Name = recipe.Name ?? "default",
                 Description = recipe.Description,
                 ImageURL = recipe.ImageURL,
-                Ingredients = recipe.Ingredients?.Select(ri => ToIngredientResponse(ri)).ToList(),
-                Steps = recipe.Steps.Select(step => ToStepResponse(step)).ToList(),
+                Ingredients = recipe.RecipeIngredients != null ? recipe.RecipeIngredients.Select(ri => ToIngredientResponse(ri)).ToList() : null,
+                Steps = recipe.Steps != null ? recipe.Steps.Select(step => ToStepResponse(step)).ToList() : null,
                 CreatedAt = recipe.CreatedAt,
                 UpdatedAt = recipe.UpdatedAt,
                 Servings = recipe.Servings,
@@ -110,9 +114,12 @@ namespace RecipesAPI.Mappers
 
         public RecipeIngredientResponse ToIngredientResponse(RecipeIngredient recipeIngredient)
         {
+
+
+
             var recipeIngredientDTO = new RecipeIngredientResponse
             {
-                Id = recipeIngredient.Ingredient.Id,
+                Id = recipeIngredient.IngredientId,
                 Name = recipeIngredient.Ingredient.Name,
                 Measurement = ToMeasurement(recipeIngredient.MeasurementType),
                 Amount = recipeIngredient.Amount,
@@ -120,14 +127,14 @@ namespace RecipesAPI.Mappers
             return recipeIngredientDTO;
         }
 
-        public RecipeIngredientResponse ToIngredientResponse(Ingredient ingredient)
+        public IngredientResponse ToIngredientResponse(Ingredient ingredient)
         {
-            var ingredientDTO = new RecipeIngredientResponse
+            var ingredientDTO = new IngredientResponse
             {
                 Id = ingredient.Id,
                 Name = ingredient.Name,
                 //Measurement = ToMeasurement(ingredient.MeasurementType),
-                Amount = 0, 
+                //Amount = 0, 
             };
             return ingredientDTO;
         }
@@ -167,6 +174,15 @@ namespace RecipesAPI.Mappers
                     {
                         return MeasurementEnum.PieceEnum;
                     }
+                case MeasurementType.Teaspoon:
+                    {
+                        return MeasurementEnum.TspEnum;
+                    }
+                case MeasurementType.Tablespoon:
+                    {
+                        return MeasurementEnum.TbspEnum;
+                    }
+
                 default: break;
             }
 

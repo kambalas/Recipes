@@ -14,7 +14,7 @@ namespace RecipesAPI.Mappers
 
         public Ingredient ToIngredient(IngredientRequest ingredientRequest);
 
-        public RecipeIngredientResponse ToIngredientResponse(Ingredient ingredient);
+        public IngredientResponse ToIngredientResponse(Ingredient ingredient);
 
         public Step ToStep(StepRequest stepRequest);
 
