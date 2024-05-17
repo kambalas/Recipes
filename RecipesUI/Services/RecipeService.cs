@@ -25,7 +25,7 @@ public class RecipeService : ApiService<RecipeResponse>, IRecipeService
         string search = null,
         List<int> ingredientIds = null,
         int page = 1,
-        int pageSize = 10,
+        int pageSize = 9,
         string orderBy = null,
         string sorting = "asc")
     {
