@@ -41,8 +41,8 @@ namespace ApiCommons.DTOs
         /// Gets or Sets Ingredients
         /// </summary>
         [Required]
-        [DataMember(Name = "ingredients")]
-        public List<IngredientRequest> Ingredients { get; set; }
+        [DataMember(Name = "ingredientIds")]
+        public List<IngredientOnCreateRequest>? Ingredients { get; set; }
 
         /// <summary>
         /// Gets or Sets Steps
@@ -228,5 +228,24 @@ namespace ApiCommons.DTOs
 
 #pragma warning restore 1591
         #endregion Operators
+    }
+
+    /// <summary>
+    /// Ingredient details for creating a recipe
+    /// </summary>
+    [DataContract]
+    public partial class IngredientOnCreateRequest
+    {
+        /// <summary>
+        /// Gets or Sets Id
+        /// </summary>
+        [DataMember(Name = "id")]
+        public long? Id { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Amount
+        /// </summary>
+        [DataMember(Name = "amount")]
+        public int? Amount { get; set; }
     }
 }
