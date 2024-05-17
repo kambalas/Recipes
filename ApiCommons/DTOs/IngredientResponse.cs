@@ -15,6 +15,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using ApiCommons.DTOs;
@@ -134,6 +135,8 @@ namespace IO.Swagger.Models
                 return hashCode;
             }
         }
+
+        
 
         #region Operators
         #pragma warning disable 1591
