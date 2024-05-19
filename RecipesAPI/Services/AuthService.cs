@@ -15,9 +15,10 @@ namespace RecipesAPI.Services
         private readonly IConfiguration _config;
         private readonly IUserRepository _userRepository;
 
-        public AuthService(IUserRepository userRepository)
+        public AuthService(IUserRepository userRepository, IConfiguration config)
         {
             _userRepository = userRepository;
+            _config = config;
         }
 
         public async Task<string> LogInAsync(string email, string password)
