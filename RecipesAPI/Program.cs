@@ -15,9 +15,6 @@ using Autofac.Extras.DynamicProxy;
 using PoS.Infrastructure.Repositories;
 using RecipesAPI.Services;
 using RecipesAPI.Services;
-using IO.Swagger.Controllers;
-using Serilog;
-using ILogger = Serilog.ILogger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -90,10 +87,26 @@ builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
 // Add mappers
 builder.Services.AddScoped<IMappers, Mappers>();
 
-// Add controllers and other middleware
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
+builder.Services.AddScoped<IRecipeService, RecipeService>();
+builder.Services.AddScoped<IIngredientService, IngredientService>();
+
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
+
 
 var app = builder.Build();
 
@@ -111,7 +124,7 @@ app.Use(async (context, next) =>
 {
     var userIdentity = context.User.Identity;
 
-    var interceptor = app.Services.GetRequiredService<AsyncLogger>();
+app.UseAuthorization();
 
     interceptor.identity = userIdentity;
     await next();

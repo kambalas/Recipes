@@ -27,5 +27,7 @@ namespace RecipesAPI.Repositories
         public DbSet<Recipe> Recipes { get; set; }
 
         public DbSet<Step> Steps { get; set; }
+
+        public DbSet<User> Users { get; set; }
     }
 }

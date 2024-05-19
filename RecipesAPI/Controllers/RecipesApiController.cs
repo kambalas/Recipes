@@ -85,7 +85,7 @@ using ApiCommons.DTOs;
         [Authorize(AuthenticationSchemes = BearerAuthenticationHandler.SchemeName)]
         [SwaggerOperation("RecipeIdPut")]
         [SwaggerResponse(statusCode: 200, type: typeof(RecipeResponse), description: "Recipe updated")]
-        public virtual IActionResult RecipeIdPut([FromBody] RecipeResponse body, [FromRoute][Required] long? id)
+        public virtual IActionResult RecipeIdPut([FromBody] RecipeRequest body, [FromRoute][Required] long? id)
         {
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(Recipe));

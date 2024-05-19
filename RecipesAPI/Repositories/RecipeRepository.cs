@@ -13,6 +13,17 @@ namespace RecipesAPI.Repositories
     {
         public RecipeRepository(AppDbContext context) : base(context) { }
 
+        public override async Task<Recipe> InsertAsync(Recipe entity)
+        {
+            DbSet.Add(entity);
+            await Context.Instance.SaveChangesAsync();
+
+            return await GetByIdAsync(entity.Id);
+        }
+
+
+
+
         public override async Task<Recipe> GetByIdAsync(object id)
         {
             var entity = await DbSet

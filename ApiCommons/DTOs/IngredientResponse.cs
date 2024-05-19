@@ -44,13 +44,13 @@ namespace IO.Swagger.Models
         [DataMember(Name="name")]
         public string Name { get; set; }
 
-        /// <summary>
+/*        /// <summary>
         /// Gets or Sets Amount
         /// </summary>
         [Required]
 
         [DataMember(Name="amount")]
-        public long? Amount { get; set; }
+        public long? Amount { get; set; }*/
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -62,7 +62,7 @@ namespace IO.Swagger.Models
             sb.Append("class Ingredient {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  Amount: ").Append(Amount).Append("\n");
+/*            sb.Append("  Amount: ").Append(Amount).Append("\n");*/
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -108,12 +108,12 @@ namespace IO.Swagger.Models
                     Name == other.Name ||
                     Name != null &&
                     Name.Equals(other.Name)
-                ) && 
+                )/* && 
                 (
                     Amount == other.Amount ||
                     Amount != null &&
                     Amount.Equals(other.Amount)
-                );
+                )*/;
         }
 
         /// <summary>
@@ -130,8 +130,8 @@ namespace IO.Swagger.Models
                     hashCode = hashCode * 59 + Id.GetHashCode();
                     if (Name != null)
                     hashCode = hashCode * 59 + Name.GetHashCode();
-                    if (Amount != null)
-                    hashCode = hashCode * 59 + Amount.GetHashCode();
+/*                    if (Amount != null)
+                    hashCode = hashCode * 59 + Amount.GetHashCode();*/
                 return hashCode;
             }
         }

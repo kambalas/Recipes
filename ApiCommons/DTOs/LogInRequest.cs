@@ -13,28 +13,22 @@ namespace ApiCommons.DTOs
     /// 
     /// </summary>
     [DataContract]
-    public partial class IngredientRequest : IEquatable<IngredientRequest>
+    public partial class LogInRequest : IEquatable<LogInRequest>
     {
-        /// <summary>
-        /// Gets or Sets Name
-        /// </summary>
-        [Required]
-        [DataMember(Name = "name")]
-        public string Name { get; set; }
 
         /// <summary>
-        /// Gets or Sets Measurement
+        /// Gets or Sets Email
         /// </summary>
         [Required]
-        [DataMember(Name = "measurement")]
-        public MeasurementEnum? Measurement { get; set; }
+        [DataMember(Name = "email")]
+        public string Email { get; set; }
 
- /*       /// <summary>
-        /// Gets or Sets Amount
+        /// <summary>
+        /// Gets or Sets Password
         /// </summary>
         [Required]
-        [DataMember(Name = "amount")]
-        public long? Amount { get; set; }*/
+        [DataMember(Name = "password")]
+        public string Password { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -43,10 +37,9 @@ namespace ApiCommons.DTOs
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class IngredientRequest {\n");
-            sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  Measurement: ").Append(Measurement).Append("\n");
-            //sb.Append("  Amount: ").Append(Amount).Append("\n");
+            sb.Append("class UserRequest {\n");
+            sb.Append("  Email: ").Append(Email).Append("\n");
+            sb.Append("  Password: ").Append(Password).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -77,27 +70,22 @@ namespace ApiCommons.DTOs
         /// </summary>
         /// <param name="other">Instance of Ingredient to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(IngredientRequest other)
+        public bool Equals(LogInRequest other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
 
             return
                 (
-                    Name == other.Name ||
-                    Name != null &&
-                    Name.Equals(other.Name)
+                    Email == other.Email ||
+                    Email != null &&
+                    Email.Equals(other.Email)
                 ) &&
                 (
-                    Measurement == other.Measurement ||
-                    Measurement != null &&
-                    Measurement.Equals(other.Measurement)
-                )/* &&
-                (
-                    Amount == other.Amount ||
-                    Amount != null &&
-                    Amount.Equals(other.Amount)
-                )*/;
+                    Password == other.Password ||
+                    Password != null &&
+                    Password.Equals(other.Password)
+                );
         }
 
         /// <summary>
@@ -110,12 +98,10 @@ namespace ApiCommons.DTOs
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                if (Name != null)
-                    hashCode = hashCode * 59 + Name.GetHashCode();
-                if (Measurement != null)
-                    hashCode = hashCode * 59 + Measurement.GetHashCode();
-/*                if (Amount != null)
-                    hashCode = hashCode * 59 + Amount.GetHashCode();*/
+                if (Email != null)
+                    hashCode = hashCode * 59 + Email.GetHashCode();
+                if (Password != null)
+                    hashCode = hashCode * 59 + Password.GetHashCode();
                 return hashCode;
             }
         }
@@ -123,12 +109,12 @@ namespace ApiCommons.DTOs
         #region Operators
 #pragma warning disable 1591
 
-        public static bool operator ==(IngredientRequest left, IngredientRequest right)
+        public static bool operator ==(LogInRequest left, LogInRequest right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(IngredientRequest left, IngredientRequest right)
+        public static bool operator !=(LogInRequest left, LogInRequest right)
         {
             return !Equals(left, right);
         }

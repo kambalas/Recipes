@@ -14,10 +14,16 @@ namespace RecipesAPI.Mappers
 
         public Ingredient ToIngredient(IngredientRequest ingredientRequest);
 
-        public RecipeIngredientResponse ToIngredientResponse(Ingredient ingredient);
+        public IngredientResponse ToIngredientResponse(Ingredient ingredient);
 
         public Step ToStep(StepRequest stepRequest);
 
         public StepResponse ToStepResponse(Step step);
+
+        public User ToUser(UserRequest userRequest);
+
+        public UserResponse ToUserResponse(User user);
+
+        public LogInResponse ToLogInResponse(string token);
     }
 }

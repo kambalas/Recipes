@@ -45,4 +45,6 @@ namespace ApiCommons.DTOs
         [EnumMember(Value = "piece")]
         PieceEnum = 6
     }
+    
+    
 }

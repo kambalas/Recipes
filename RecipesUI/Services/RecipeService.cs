@@ -25,7 +25,7 @@ public class RecipeService : ApiService<RecipeResponse>, IRecipeService
         string search = null,
         List<int> ingredientIds = null,
         int page = 1,
-        int pageSize = 10,
+        int pageSize = 9,
         string orderBy = null,
         string sorting = "asc")
     {
@@ -159,25 +159,38 @@ public class RecipeService : ApiService<RecipeResponse>, IRecipeService
     
     public async Task<bool> CreateRecipe(RecipeRequest recipeRequest = null)
     {
+        var ingredients = new List<IngredientOnCreateRequest>();
+        ingredients.Add(new IngredientOnCreateRequest()
+        {
+            Id = 1,
+            Amount = 1,
+        });
+        ingredients.Add(new IngredientOnCreateRequest()
+        {
+            Id = 2,
+            Amount = 1,
+        });
+
         var recipeRequestTest = new RecipeRequest
         {
             Name = "Test Recipe",
             Description = "This is a test recipe",
-            Ingredients = new List<IngredientRequest>
-            {
-                new IngredientRequest
-                {
-                    Name = "Test Ingredient 1",
-                    Measurement = MeasurementEnum.GEnum,
-                    Amount = 2
-                },
-                new IngredientRequest
-                {
-                    Name = "Test Ingredient 2",
-                    Measurement = MeasurementEnum.MlEnum,
-                    Amount = 3
-                }
-            },
+            Ingredients = ingredients,
+            /*            Ingredients = new List<IngredientRequest>
+                        {
+                            new IngredientRequest
+                            {
+                                Name = "Test Ingredient 1",
+                                Measurement = MeasurementEnum.GEnum,
+                                //Amount = 2
+                            },
+                            new IngredientRequest
+                            {
+                                Name = "Test Ingredient 2",
+                                Measurement = MeasurementEnum.MlEnum,
+                                //Amount = 3
+                            }
+                        },*/
             Steps = new List<StepRequest>
             {
                 new StepRequest()
