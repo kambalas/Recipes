@@ -267,5 +267,13 @@ namespace RecipesAPI.Mappers
                 Password = user.Password,
             };
         }
+
+        public LogInResponse ToLogInResponse(string token)
+        {
+            return new LogInResponse()
+            {
+                JWTToken = token
+            };
+        }
     }
 }

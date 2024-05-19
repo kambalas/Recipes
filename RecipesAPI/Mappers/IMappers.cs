@@ -23,5 +23,7 @@ namespace RecipesAPI.Mappers
         public User ToUser(UserRequest userRequest);
 
         public UserResponse ToUserResponse(User user);
+
+        public LogInResponse ToLogInResponse(string token);
     }
 }
