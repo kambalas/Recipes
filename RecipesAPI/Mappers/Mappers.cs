@@ -244,5 +244,28 @@ namespace RecipesAPI.Mappers
 
             throw new NotImplementedException();
         }
+
+        public User ToUser(UserRequest userRequest)
+        {
+            return new User()
+            {
+                Id = null,
+                Version = 1,
+                Username = userRequest.Username,
+                Email = userRequest.Email,
+                Password = userRequest.Password,
+            };
+        }
+
+        public UserResponse ToUserResponse(User user)
+        {
+            return new UserResponse()
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Email = user.Email,
+                Password = user.Password,
+            };
+        }
     }
 }
