@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Autofac.Extras.DynamicProxy;
+using Microsoft.EntityFrameworkCore;
 using PoS.Application.Filters;
 using RecipesAPI.Filters;
+using RecipesAPI.Interceptor;
 using RecipesAPI.Models;
 using RecipesAPI.Repositories;
 using RecipesAPI.Repositories.Interfaces;

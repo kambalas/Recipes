@@ -1,14 +1,16 @@
-﻿using IO.Swagger.Models;
+﻿using Autofac.Extras.DynamicProxy;
+using IO.Swagger.Models;
 using Microsoft.EntityFrameworkCore;
 using PoS.Application.Filters;
 using RecipesAPI.Filters;
+using RecipesAPI.Interceptor;
 using RecipesAPI.Models;
 using RecipesAPI.Repositories;
 using RecipesAPI.Repositories.Interfaces;
 using RecipesAPI.Services.Interfaces;
 using System.Linq;
 
-namespace PoS.Application.Services
+namespace RecipesAPI.Services
 {
     public class RecipeService : IRecipeService
     {

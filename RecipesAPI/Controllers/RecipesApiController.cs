@@ -19,7 +19,7 @@ using Microsoft.AspNetCore.Authorization;
 using IO.Swagger.Models;
 using RecipesAPI.Filters;
 using RecipesAPI.Services.Interfaces;
-using PoS.Application.Services;
+using RecipesAPI.Services;
 using RecipesAPI.Mappers;
 using RecipesAPI.Models;
 using ApiCommons.DTOs;

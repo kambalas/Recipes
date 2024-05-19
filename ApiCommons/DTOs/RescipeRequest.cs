@@ -35,14 +35,14 @@ namespace ApiCommons.DTOs
         /// Gets or Sets ImageURL
         /// </summary>
         [DataMember(Name = "imageUrl")]
-        public string? ImageURL { get; set; }
+        public string? ImageEncoded { get; set; }
 
         /// <summary>
         /// Gets or Sets Ingredients
         /// </summary>
         [Required]
         [DataMember(Name = "ingredients")]
-        public List<IngredientRequest> Ingredients { get; set; }
+        public List<RecipeIngredient> Ingredients { get; set; }
 
         /// <summary>
         /// Gets or Sets Steps
@@ -211,6 +211,31 @@ namespace ApiCommons.DTOs
                     hashCode = hashCode * 59 + Level.GetHashCode();
                 return hashCode;
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DataContract]
+        public class RecipeIngredient
+        {
+            [Required]
+
+            [DataMember(Name = "id")]
+            public long? Id { get; set; }
+            /// <summary>
+            /// Gets or Sets Measurement
+            /// </summary>
+            [Required]
+            [DataMember(Name = "measurement")]
+            public MeasurementEnum? Measurement { get; set; }
+
+            /// <summary>
+            /// Gets or Sets Amount
+            /// </summary>
+            [Required]
+            [DataMember(Name = "amount")]
+            public long? Amount { get; set; }
         }
 
         #region Operators

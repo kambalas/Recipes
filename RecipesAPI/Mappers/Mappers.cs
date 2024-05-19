@@ -18,10 +18,14 @@ namespace RecipesAPI.Mappers
             {
                 Version = 1,
                 Name = recipeRequest.Name ?? "default",
-                ImageURL = "https://google.com",
+                ImageURL = recipeRequest.ImageEncoded,
                 CreatedAt = defaultDateTime,
 				UpdatedAt = defaultDateTime,
-                Ingredients = recipeRequest.Ingredients.ToList().Select(ingrDTO => ToIngredient(ingrDTO)).ToList(),
+                RecipeIngredients = recipeRequest.Ingredients != null ? recipeRequest.Ingredients.ToList().Select(ingrDTO => 
+                    new RecipeIngredient() {
+                        Amount = (int)(ingrDTO.Amount ?? 0),
+                        IngredientId = ingrDTO.Id,
+                    }).ToList() : new List<RecipeIngredient>(),
                 Description = recipeRequest.Description,
                 PreparationTimeInSeconds = recipeRequest.CookingDuration,
                 CookingTimeInSeconds = recipeRequest.CookingDuration,
@@ -69,8 +73,8 @@ namespace RecipesAPI.Mappers
                 Name = recipe.Name ?? "default",
                 Description = recipe.Description,
                 ImageURL = recipe.ImageURL,
-                Ingredients = recipe.RecipeIngredients != null? recipe.RecipeIngredients.Select(ri => ToIngredientResponse(ri)).ToList() : null,
-                Steps = recipe.Steps != null ? recipe.Steps.Select(step => ToStepResponse(step)).ToList() : null,
+                Ingredients = recipe.RecipeIngredients != null ? recipe.RecipeIngredients.Select(ri => ToIngredientResponse(ri)).ToList() : new List<RecipeIngredientResponse>(),
+                Steps = recipe.Steps != null ? recipe.Steps.Select(step => ToStepResponse(step)).ToList() : new List<StepResponse>(),
                 CreatedAt = recipe.CreatedAt,
                 UpdatedAt = recipe.UpdatedAt,
                 Servings = recipe.Servings,
@@ -94,8 +98,8 @@ namespace RecipesAPI.Mappers
                 Name = recipe.Name ?? "default",
                 Description = recipe.Description,
                 ImageURL = recipe.ImageURL,
-                Ingredients = recipe.Ingredients?.Select(ri => ToIngredientResponse(ri)).ToList(),
-                Steps = recipe.Steps.Select(step => ToStepResponse(step)).ToList(),
+                Ingredients = recipe.RecipeIngredients != null ? recipe.RecipeIngredients.Select(ri => ToIngredientResponse(ri)).ToList() : new List<RecipeIngredientResponse>(),
+                Steps = recipe.Steps != null ? recipe.Steps.Select(step => ToStepResponse(step)).ToList() : new List<StepResponse>(),
                 CreatedAt = recipe.CreatedAt,
                 UpdatedAt = recipe.UpdatedAt,
                 Servings = recipe.Servings,
@@ -166,6 +170,14 @@ namespace RecipesAPI.Mappers
                 case MeasurementType.Piece:
                     {
                         return MeasurementEnum.PieceEnum;
+                    }
+                case MeasurementType.Tablespoon:
+                    {
+                        return MeasurementEnum.TbspEnum;
+                    }
+                case MeasurementType.Teaspoon:
+                    {
+                        return MeasurementEnum.TspEnum;
                     }
                 default: break;
             }
