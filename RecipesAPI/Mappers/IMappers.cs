@@ -19,5 +19,9 @@ namespace RecipesAPI.Mappers
         public Step ToStep(StepRequest stepRequest);
 
         public StepResponse ToStepResponse(Step step);
+
+        public User ToUser(UserRequest userRequest);
+
+        public UserResponse ToUserResponse(User user);
     }
 }

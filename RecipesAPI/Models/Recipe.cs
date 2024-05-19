@@ -24,6 +24,8 @@ namespace RecipesAPI.Models
         [Required]
         public DateTime? UpdatedAt { get; set; }
 
+        public User User { get; set; }
+
         public IEnumerable<Ingredient> Ingredients { get; set; }
         public IEnumerable<RecipeIngredient> RecipeIngredients { get; set; }
 
