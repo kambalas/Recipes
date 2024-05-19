@@ -25,6 +25,7 @@ namespace RecipesAPI.Mappers
                     new RecipeIngredient() {
                         Amount = (int)(ingrDTO.Amount ?? 0),
                         IngredientId = ingrDTO.Id,
+                        MeasurementType = ToMeasurementType(ingrDTO.Measurement)
                     }).ToList() : new List<RecipeIngredient>(),
                 Description = recipeRequest.Description,
                 PreparationTimeInSeconds = recipeRequest.CookingDuration,
@@ -178,6 +179,7 @@ namespace RecipesAPI.Mappers
                     {
                         return MeasurementEnum.TbspEnum;
                     }
+
                 case MeasurementType.Teaspoon:
                     {
                         return MeasurementEnum.TspEnum;
@@ -187,6 +189,46 @@ namespace RecipesAPI.Mappers
 
             throw new NotImplementedException();
         }
+
+        private MeasurementType ToMeasurementType(MeasurementEnum measurementEnum)
+        {
+            switch (measurementEnum)
+            {
+                case MeasurementEnum.GEnum:
+                    {
+                        return MeasurementType.Gram;
+                    }
+                case MeasurementEnum.KgEnum:
+                    {
+                        return MeasurementType.Kilogram;
+                    }
+                case MeasurementEnum.MlEnum:
+                    {
+                        return MeasurementType.MiliLitre;
+                    }
+                case MeasurementEnum.LEnum:
+                    {
+                        return MeasurementType.Litre;
+                    }
+                case MeasurementEnum.PieceEnum:
+                    {
+                        return MeasurementType.Piece;
+                    }
+                case MeasurementEnum.TbspEnum:
+                    {
+                        return MeasurementType.Tablespoon;
+                    }
+                case MeasurementEnum.TspEnum:
+                    {
+                        return MeasurementType.Teaspoon;
+                    }
+                default:
+                    break;
+            }
+
+            throw new NotImplementedException();
+        }
+
 
         public Ingredient ToIngredient(IngredientRequest ingredientRequest)
         {

@@ -1,8 +1,4 @@
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using RecipesAPI.Repositories;
 using RecipesAPI.Repositories.Interfaces;
 using RecipesAPI.Services.Interfaces;
@@ -10,15 +6,20 @@ using RecipesAPI.Interceptor;
 using RecipesAPI.Mappers;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using System.Reflection;
 using Autofac.Extras.DynamicProxy;
 using PoS.Infrastructure.Repositories;
 using RecipesAPI.Services;
-using RecipesAPI.Services;
+using Serilog;
+using Microsoft.IdentityModel.Tokens;
+using ILogger = Serilog.ILogger;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configuration setup
+
+
 var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
@@ -68,29 +69,30 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
 
     });
 
-// Add services to the container
+// Add services to the container.
+
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseMySQL(builder.Configuration.GetConnectionString("AppDbContext")
-        ?? throw new InvalidOperationException("Connection string 'AppDbContext' not found.")));
+        options.UseMySQL(builder.Configuration.GetConnectionString("AppDbContext") ?? throw new InvalidOperationException("Connection string 'savingsAppContext' not found.")));
 
-builder.Services.AddScoped<IRecipeService, RecipeService>();
-builder.Services.AddScoped<IIngredientService, IngredientService>();
-
-// Configure logging options
-builder.Services.Configure<LoggingOptions>(builder.Configuration.GetSection("LoggingOptions"));
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 // Add repositories to the container
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
 builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
-
-// Add mappers
 builder.Services.AddScoped<IMappers, Mappers>();
 
 //builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
 builder.Services.AddScoped<IRecipeService, RecipeService>();
 builder.Services.AddScoped<IIngredientService, IngredientService>();
 
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -110,7 +112,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
-// Middleware pipeline configuration
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -118,16 +120,18 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseAuthorization();
 
+app.UseAuthentication();
+
+app.UseAuthorization();
 app.Use(async (context, next) =>
 {
     var userIdentity = context.User.Identity;
 
-app.UseAuthorization();
-
+    var interceptor = app.Services.GetRequiredService<AsyncLogger>();
     interceptor.identity = userIdentity;
     await next();
 });
 app.MapControllers();
+
 app.Run();

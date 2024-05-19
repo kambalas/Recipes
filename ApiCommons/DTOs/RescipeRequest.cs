@@ -279,5 +279,10 @@ namespace ApiCommons.DTOs
         /// </summary>
         [DataMember(Name = "amount")]
         public int? Amount { get; set; }
+        /// <summary>
+        /// Gets or Sets Measurement
+        /// </summary>
+        [DataMember(Name = "measurement")]
+        public MeasurementEnum Measurement { get; set; }
     }
 }
