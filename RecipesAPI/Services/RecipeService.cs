@@ -58,6 +58,11 @@ namespace RecipesAPI.Services
                 }
             }
 
+            if (filter.UserId != null)
+            {
+                recipeFilter = recipeFilter.And(x => x.User.Id == filter.UserId);
+            }
+
             var validProperties = typeof(Recipe).GetProperties().Select(p => p.Name);
             if (validProperties.Contains(filter.OrderBy))
             {

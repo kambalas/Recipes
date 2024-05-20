@@ -70,7 +70,6 @@ namespace RecipesAPI.Mappers
             {
                 Id = recipe.Id,
                 Version = recipe.Version,
-                UserId = null,
                 Name = recipe.Name ?? "default",
                 Description = recipe.Description,
                 ImageURL = recipe.ImageURL,
@@ -83,6 +82,8 @@ namespace RecipesAPI.Mappers
                 PreparationDuration = recipe.PreparationTimeInSeconds,
                 Energy = recipe.EnergyInKCal,
                 Level = 0,
+                UserId = recipe.User.Id
+
             };
 
             return recipeDTO;

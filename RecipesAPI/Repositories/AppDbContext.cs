@@ -18,6 +18,12 @@ namespace RecipesAPI.Repositories
                 .HasMany(r => r.Ingredients)
                 .WithMany(i => i.Recipes)
                 .UsingEntity<RecipeIngredient>();
+
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Recipes)
+                .WithOne(r => r.User)
+                .HasForeignKey(r => r.UserId);
         }
 
         public DbContext Instance => this;

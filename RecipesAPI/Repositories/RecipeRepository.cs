@@ -28,25 +28,28 @@ namespace RecipesAPI.Repositories
         {
             var entity = await DbSet
                 .Include(r => r.RecipeIngredients)
-                .ThenInclude(ri => ri.Ingredient)
+                    .ThenInclude(ri => ri.Ingredient)
                 .Include(r => r.Steps)
+                .Include(r => r.User)  // Eagerly load the User
                 .FirstOrDefaultAsync(r => r.Id == (long)id);
 
             if (entity == null)
                 throw new NotImplementedException();
-            else return entity;
+            else
+                return entity;
         }
-		public async Task<Recipe> AddNewRecipe(Recipe recipe)
+
+        public async Task<Recipe> AddNewRecipe(Recipe recipe)
 		{
 			return await InsertAsync(recipe);
 		}
 
-		public override async Task<IEnumerable<Recipe>> GetAsync(
-       Expression<Func<Recipe, bool>>? filter = null,
-       Func<IQueryable<Recipe>, IOrderedQueryable<Recipe>>? orderBy = null,
-       int? itemsToSkip = null,
-       int? itemsToTake = null
-       )
+        public override async Task<IEnumerable<Recipe>> GetAsync(
+    Expression<Func<Recipe, bool>>? filter = null,
+    Func<IQueryable<Recipe>, IOrderedQueryable<Recipe>>? orderBy = null,
+    int? itemsToSkip = null,
+    int? itemsToTake = null
+)
         {
             IQueryable<Recipe> query = DbSet;
 
@@ -70,7 +73,11 @@ namespace RecipesAPI.Repositories
                 query = query.Take((int)itemsToTake);
             }
 
-            return await query.Include(item => item.Ingredients).ToListAsync();
+            return await query
+                .Include(r => r.Ingredients)
+                .Include(r => r.User)
+                .ToListAsync();
         }
+
     }
 }
