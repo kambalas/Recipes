@@ -25,13 +25,6 @@ namespace ApiCommons.DTOs
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or Sets UserId
-        /// </summary>
-        [Required]
-        [DataMember(Name = "userId")]
-        public long UserId { get; set; }
-
-        /// <summary>
         /// Gets or Sets Description
         /// </summary>
         [Required]
@@ -42,7 +35,7 @@ namespace ApiCommons.DTOs
         /// Gets or Sets ImageURL
         /// </summary>
         [DataMember(Name = "imageUrl")]
-        public string? ImageURL { get; set; }
+        public string? ImageEncoded { get; set; }
 
         /// <summary>
         /// Gets or Sets Ingredients
@@ -220,6 +213,31 @@ namespace ApiCommons.DTOs
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        [DataContract]
+        public class RecipeIngredient
+        {
+            [Required]
+
+            [DataMember(Name = "id")]
+            public long? Id { get; set; }
+            /// <summary>
+            /// Gets or Sets Measurement
+            /// </summary>
+            [Required]
+            [DataMember(Name = "measurement")]
+            public MeasurementEnum? Measurement { get; set; }
+
+            /// <summary>
+            /// Gets or Sets Amount
+            /// </summary>
+            [Required]
+            [DataMember(Name = "amount")]
+            public long? Amount { get; set; }
+        }
+
         #region Operators
 #pragma warning disable 1591
 
@@ -254,5 +272,10 @@ namespace ApiCommons.DTOs
         /// </summary>
         [DataMember(Name = "amount")]
         public int? Amount { get; set; }
+        /// <summary>
+        /// Gets or Sets Measurement
+        /// </summary>
+        [DataMember(Name = "measurement")]
+        public MeasurementEnum Measurement { get; set; }
     }
 }

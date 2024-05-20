@@ -15,5 +15,7 @@ namespace RecipesAPI.Filters
         /// </summary>
 
         public int[]? IngredientId { get; set; }
+
+        public int? UserId { get; set; }
     }
 }

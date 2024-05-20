@@ -18,14 +18,15 @@ namespace RecipesAPI.Mappers
             {
                 Version = 1,
                 Name = recipeRequest.Name ?? "default",
-                ImageURL = "https://google.com",
+                ImageURL = recipeRequest.ImageEncoded,
                 CreatedAt = defaultDateTime,
 				UpdatedAt = defaultDateTime,
-                RecipeIngredients = recipeRequest.Ingredients.ToList().Select(ingrDTO => 
+                RecipeIngredients = recipeRequest.Ingredients != null ? recipeRequest.Ingredients.ToList().Select(ingrDTO => 
                     new RecipeIngredient() {
-                        Amount = ingrDTO.Amount ?? 0,
+                        Amount = (int)(ingrDTO.Amount ?? 0),
                         IngredientId = ingrDTO.Id,
-                    }).ToList(),
+                        MeasurementType = ToMeasurementType(ingrDTO.Measurement)
+                    }).ToList() : new List<RecipeIngredient>(),
                 Description = recipeRequest.Description,
                 PreparationTimeInSeconds = recipeRequest.CookingDuration,
                 CookingTimeInSeconds = recipeRequest.CookingDuration,
@@ -33,6 +34,7 @@ namespace RecipesAPI.Mappers
                 EnergyInKCal = recipeRequest.Energy,
                 Level = 0,
                 Steps = recipeRequest.Steps.Select(stepDto => ToStep(stepDto)).ToList(),
+                UserId = 1
             };
             
             throw new NotImplementedException();
@@ -69,12 +71,11 @@ namespace RecipesAPI.Mappers
             {
                 Id = recipe.Id,
                 Version = recipe.Version,
-                UserId = null,
                 Name = recipe.Name ?? "default",
                 Description = recipe.Description,
                 ImageURL = recipe.ImageURL,
-                Ingredients = recipe.RecipeIngredients != null? recipe.RecipeIngredients.Select(ri => ToIngredientResponse(ri)).ToList() : null,
-                Steps = recipe.Steps != null ? recipe.Steps.Select(step => ToStepResponse(step)).ToList() : null,
+                Ingredients = recipe.RecipeIngredients != null ? recipe.RecipeIngredients.Select(ri => ToIngredientResponse(ri)).ToList() : new List<RecipeIngredientResponse>(),
+                Steps = recipe.Steps != null ? recipe.Steps.Select(step => ToStepResponse(step)).ToList() : new List<StepResponse>(),
                 CreatedAt = recipe.CreatedAt,
                 UpdatedAt = recipe.UpdatedAt,
                 Servings = recipe.Servings,
@@ -82,6 +83,8 @@ namespace RecipesAPI.Mappers
                 PreparationDuration = recipe.PreparationTimeInSeconds,
                 Energy = recipe.EnergyInKCal,
                 Level = 0,
+                UserId = recipe.User.Id
+
             };
 
             return recipeDTO;
@@ -98,8 +101,8 @@ namespace RecipesAPI.Mappers
                 Name = recipe.Name ?? "default",
                 Description = recipe.Description,
                 ImageURL = recipe.ImageURL,
-                Ingredients = recipe.RecipeIngredients != null ? recipe.RecipeIngredients.Select(ri => ToIngredientResponse(ri)).ToList() : null,
-                Steps = recipe.Steps != null ? recipe.Steps.Select(step => ToStepResponse(step)).ToList() : null,
+                Ingredients = recipe.RecipeIngredients != null ? recipe.RecipeIngredients.Select(ri => ToIngredientResponse(ri)).ToList() : new List<RecipeIngredientResponse>(),
+                Steps = recipe.Steps != null ? recipe.Steps.Select(step => ToStepResponse(step)).ToList() : new List<StepResponse>(),
                 CreatedAt = recipe.CreatedAt,
                 UpdatedAt = recipe.UpdatedAt,
                 Servings = recipe.Servings,
@@ -174,20 +177,60 @@ namespace RecipesAPI.Mappers
                     {
                         return MeasurementEnum.PieceEnum;
                     }
-                case MeasurementType.Teaspoon:
-                    {
-                        return MeasurementEnum.TspEnum;
-                    }
                 case MeasurementType.Tablespoon:
                     {
                         return MeasurementEnum.TbspEnum;
                     }
 
+                case MeasurementType.Teaspoon:
+                    {
+                        return MeasurementEnum.TspEnum;
+                    }
                 default: break;
             }
 
             throw new NotImplementedException();
         }
+
+        private MeasurementType ToMeasurementType(MeasurementEnum measurementEnum)
+        {
+            switch (measurementEnum)
+            {
+                case MeasurementEnum.GEnum:
+                    {
+                        return MeasurementType.Gram;
+                    }
+                case MeasurementEnum.KgEnum:
+                    {
+                        return MeasurementType.Kilogram;
+                    }
+                case MeasurementEnum.MlEnum:
+                    {
+                        return MeasurementType.MiliLitre;
+                    }
+                case MeasurementEnum.LEnum:
+                    {
+                        return MeasurementType.Litre;
+                    }
+                case MeasurementEnum.PieceEnum:
+                    {
+                        return MeasurementType.Piece;
+                    }
+                case MeasurementEnum.TbspEnum:
+                    {
+                        return MeasurementType.Tablespoon;
+                    }
+                case MeasurementEnum.TspEnum:
+                    {
+                        return MeasurementType.Teaspoon;
+                    }
+                default:
+                    break;
+            }
+
+            throw new NotImplementedException();
+        }
+
 
         public Ingredient ToIngredient(IngredientRequest ingredientRequest)
         {

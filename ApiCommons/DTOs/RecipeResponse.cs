@@ -131,6 +131,7 @@ namespace IO.Swagger.Models
         /// <summary>
         /// Gets or Sets Version
         /// </summary>
+        /// 
 
         [DataMember(Name="version")]
         public long? Version { get; set; }
