@@ -34,6 +34,7 @@ namespace RecipesAPI.Mappers
                 EnergyInKCal = recipeRequest.Energy,
                 Level = 0,
                 Steps = recipeRequest.Steps.Select(stepDto => ToStep(stepDto)).ToList(),
+                UserId = 1
             };
             
             throw new NotImplementedException();

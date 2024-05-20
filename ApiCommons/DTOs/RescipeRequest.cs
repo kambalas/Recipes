@@ -25,13 +25,6 @@ namespace ApiCommons.DTOs
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or Sets UserId
-        /// </summary>
-        [Required]
-        [DataMember(Name = "userId")]
-        public long UserId { get; set; }
-
-        /// <summary>
         /// Gets or Sets Description
         /// </summary>
         [Required]

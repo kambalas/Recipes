@@ -90,9 +90,10 @@ namespace RecipesAPI.Services
             return recipes;
         }
 
-        public Task<Recipe> UpdateRecipeByIdAsync(Recipe body, long id)
+        public async Task<Recipe> UpdateRecipeByIdAsync(Recipe body, long id)
         {
-            throw new NotImplementedException();
+            body.Id = id;
+            return await _recipeRepository.UpdateAsync(body);
         }
     }
 }

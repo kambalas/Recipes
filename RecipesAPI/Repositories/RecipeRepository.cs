@@ -6,6 +6,8 @@ using RecipesAPI.Repositories.Interfaces;
 using System.Linq.Expressions;
 using System.Linq;
 using System.ComponentModel.DataAnnotations;
+using NuGet.Protocol.Core.Types;
+using PoS.Core.Exceptions;
 
 namespace RecipesAPI.Repositories
 {
@@ -15,11 +17,80 @@ namespace RecipesAPI.Repositories
 
         public override async Task<Recipe> InsertAsync(Recipe entity)
         {
+
             DbSet.Add(entity);
             await Context.Instance.SaveChangesAsync();
 
             return await GetByIdAsync(entity.Id);
         }
+
+
+        /*        public override async Task<Recipe> UpdateAsync(Recipe updatedRecipe)
+                {
+                    var existingRecipe = await DbSet
+                        .Include(r => r.RecipeIngredients)
+                            .ThenInclude(ri => ri.Ingredient)
+                        .Include(r => r.Steps)
+                        .Include(r => r.User)  // Eagerly load the User
+                    .FirstOrDefaultAsync(r => r.Id == updatedRecipe.Id);
+                    if (existingRecipe == null)
+                    {
+                        throw new ApiException("Recipe not found", System.Net.HttpStatusCode.NotFound);
+                    }
+
+                    if (updatedRecipe.UserId == null)
+                    {
+                        updatedRecipe.UserId = existingRecipe.UserId;
+                    }
+                    Context.Entry(existingRecipe).CurrentValues.SetValues(updatedRecipe);
+
+                    await Context.SaveChangesAsync();
+
+                    return existingRecipe;
+                }
+        */
+        public override async Task<Recipe> UpdateAsync(Recipe updatedRecipe)
+        {
+            var existingRecipe = await DbSet
+                .Include(r => r.RecipeIngredients)
+                .Include(r => r.Steps)
+                .FirstOrDefaultAsync(r => r.Id == updatedRecipe.Id);
+
+            if (existingRecipe == null)
+            {
+                throw new ApiException("Recipe not found", System.Net.HttpStatusCode.NotFound);
+            }
+
+            if (updatedRecipe.UserId != null)
+            {
+                existingRecipe.UserId = updatedRecipe.UserId;
+            }
+
+            Context.Instance.Entry(existingRecipe).CurrentValues.SetValues(updatedRecipe);
+
+            Context.RecipeIngredient.RemoveRange(existingRecipe.RecipeIngredients);
+            if (updatedRecipe.RecipeIngredients != null && updatedRecipe.RecipeIngredients.Any())
+            {
+                existingRecipe.RecipeIngredients = updatedRecipe.RecipeIngredients.ToList();
+            }
+            Context.Steps.RemoveRange(existingRecipe.Steps);
+            if (updatedRecipe.Steps != null && updatedRecipe.Steps.Any())
+            {
+                existingRecipe.Steps = updatedRecipe.Steps.ToList();
+            }
+
+            await Context.Instance.SaveChangesAsync();
+
+            var updatedRecipeWithRelatedEntities = await DbSet
+                .Include(r => r.RecipeIngredients)
+                    .ThenInclude(ri => ri.Ingredient)
+                .Include(r => r.Steps)
+                .Include(r => r.User)
+                .FirstOrDefaultAsync(r => r.Id == updatedRecipe.Id);
+
+            return updatedRecipeWithRelatedEntities;
+        }
+
 
 
 

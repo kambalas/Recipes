@@ -82,20 +82,13 @@ using ApiCommons.DTOs;
         /// <response code="200">Recipe updated</response>
         [HttpPut]
         [Route("/v1/recipe/{id}")]
-        [Authorize(AuthenticationSchemes = BearerAuthenticationHandler.SchemeName)]
+        //[Authorize(AuthenticationSchemes = BearerAuthenticationHandler.SchemeName)]
         [SwaggerOperation("RecipeIdPut")]
         [SwaggerResponse(statusCode: 200, type: typeof(RecipeResponse), description: "Recipe updated")]
-        public virtual IActionResult RecipeIdPut([FromBody] RecipeRequest body, [FromRoute][Required] long? id)
+        public async Task<IActionResult> RecipeIdPut([FromBody] RecipeRequest body, [FromRoute][Required] long id)
         {
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(Recipe));
-            string exampleJson = null;
-            exampleJson = "{\n  \"level\" : \"easy\",\n  \"description\" : \"description\",\n  \"created_at\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"userId\" : 6,\n  \"steps\" : [ {\n    \"phase\" : \"prep\",\n    \"step_number\" : 2,\n    \"description\" : \"description\",\n    \"id\" : 5\n  }, {\n    \"phase\" : \"prep\",\n    \"step_number\" : 2,\n    \"description\" : \"description\",\n    \"id\" : 5\n  } ],\n  \"version\" : 2,\n  \"duration\" : 9,\n  \"servings\" : 7,\n  \"updated_at\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"name\" : \"name\",\n  \"ingredients\" : [ {\n    \"amount\" : 5,\n    \"name\" : \"name\",\n    \"id\" : 1,\n    \"measurement\" : \"kg\"\n  }, {\n    \"amount\" : 5,\n    \"name\" : \"name\",\n    \"id\" : 1,\n    \"measurement\" : \"kg\"\n  } ],\n  \"id\" : 0,\n  \"energy\" : 3\n}";
-
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<RecipeResponse>(exampleJson)
-            : default(RecipeResponse);            //TODO: Change the data returned
-            return new ObjectResult(example);
+            var recipe = await _recipeService.UpdateRecipeByIdAsync(_mappers.ToRecipe(body), id);
+            return Ok(_mappers.ToRecipeResponse(recipe));
         }
 
         /// <summary>

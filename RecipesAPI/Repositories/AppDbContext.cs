@@ -26,9 +26,12 @@ namespace RecipesAPI.Repositories
                 .HasForeignKey(r => r.UserId);
         }
 
+
         public DbContext Instance => this;
 
         public DbSet<Ingredient> Ingredients { get; set; }
+
+        public DbSet<RecipeIngredient> RecipeIngredient { get; set; }
 
         public DbSet<Recipe> Recipes { get; set; }
 
