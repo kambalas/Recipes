@@ -27,8 +27,8 @@ namespace RecipesAPI.Models
         public long? UserId { get; set; }
         public User? User { get; set; } 
 
-        public IEnumerable<Ingredient>? Ingredients { get; set; }
-        public IEnumerable<RecipeIngredient>? RecipeIngredients { get; set; }
+        public ICollection<Ingredient> Ingredients { get; set; }
+        public ICollection<RecipeIngredient> RecipeIngredients { get; set; }
 
         public string? Description { get; set; }
 
@@ -42,7 +42,7 @@ namespace RecipesAPI.Models
 
         public ComplexityLevel? Level { get; set; }
 
-        public IEnumerable<Step>? Steps { get; set; }
+        public ICollection<Step> Steps { get; set; }
 
     }
 }
