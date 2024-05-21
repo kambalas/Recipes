@@ -24,6 +24,12 @@ namespace ApiCommons.DTOs
         public long? Id { get; set; }
 
         /// <summary>
+        /// Gets or Sets Version
+        /// </summary>
+        [DataMember(Name = "version")]
+        public byte[] Version { get; set; }
+
+        /// <summary>
         /// Gets or Sets Username
         /// </summary>
         [Required]

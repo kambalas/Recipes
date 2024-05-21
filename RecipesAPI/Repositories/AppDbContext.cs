@@ -19,11 +19,18 @@ namespace RecipesAPI.Repositories
                 .WithMany(i => i.Recipes)
                 .UsingEntity<RecipeIngredient>();
 
-
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Recipes)
                 .WithOne(r => r.User)
                 .HasForeignKey(r => r.UserId);
+
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.Email)
+                .IsUnique();
+
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.Username)
+                .IsUnique();
         }
 
 

@@ -9,9 +9,6 @@ namespace RecipesAPI.Models
         [Required]
         public long? Id { get; set; }
 
-        [Required]
-        public long? Version { get; set; }
-
         public string Name { get; set; }
 
         public IEnumerable<Recipe> Recipes { get; set; }

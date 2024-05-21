@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RecipesAPI.Repositories;
@@ -11,15 +12,17 @@ using RecipesAPI.Repositories;
 namespace RecipesAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240519213445_test")]
-    partial class test
+    [Migration("20240521154207_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.29")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("RecipesAPI.Models.Ingredient", b =>
                 {
@@ -27,13 +30,11 @@ namespace RecipesAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"), 1L, 1);
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<long?>("Version")
-                        .IsRequired()
-                        .HasColumnType("bigint");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -46,28 +47,30 @@ namespace RecipesAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"), 1L, 1);
+
                     b.Property<long?>("CookingTimeInSeconds")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("CreatedAt")
                         .IsRequired()
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long?>("EnergyInKCal")
                         .HasColumnType("bigint");
 
                     b.Property<string>("ImageURL")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Level")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long?>("PreparationTimeInSeconds")
                         .HasColumnType("bigint");
@@ -77,14 +80,16 @@ namespace RecipesAPI.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .IsRequired()
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
-                    b.Property<long>("UserId")
+                    b.Property<long?>("UserId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("Version")
+                    b.Property<byte[]>("Version")
+                        .IsConcurrencyToken()
                         .IsRequired()
-                        .HasColumnType("bigint");
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.HasKey("Id");
 
@@ -120,8 +125,10 @@ namespace RecipesAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"), 1L, 1);
+
                     b.Property<string>("Description")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Index")
                         .HasColumnType("int");
@@ -129,7 +136,7 @@ namespace RecipesAPI.Migrations
                     b.Property<int>("Phase")
                         .HasColumnType("int");
 
-                    b.Property<long>("RecipeId")
+                    b.Property<long?>("RecipeId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -145,23 +152,33 @@ namespace RecipesAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"), 1L, 1);
+
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<long?>("Version")
+                    b.Property<byte[]>("Version")
+                        .IsConcurrencyToken()
                         .IsRequired()
-                        .HasColumnType("bigint");
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("Username")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -169,10 +186,8 @@ namespace RecipesAPI.Migrations
             modelBuilder.Entity("RecipesAPI.Models.Recipe", b =>
                 {
                     b.HasOne("RecipesAPI.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Recipes")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -185,22 +200,22 @@ namespace RecipesAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RecipesAPI.Models.Recipe", null)
+                    b.HasOne("RecipesAPI.Models.Recipe", "Recipe")
                         .WithMany("RecipeIngredients")
                         .HasForeignKey("RecipeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Ingredient");
+
+                    b.Navigation("Recipe");
                 });
 
             modelBuilder.Entity("RecipesAPI.Models.Step", b =>
                 {
                     b.HasOne("RecipesAPI.Models.Recipe", "Recipe")
                         .WithMany("Steps")
-                        .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RecipeId");
 
                     b.Navigation("Recipe");
                 });
@@ -210,6 +225,11 @@ namespace RecipesAPI.Migrations
                     b.Navigation("RecipeIngredients");
 
                     b.Navigation("Steps");
+                });
+
+            modelBuilder.Entity("RecipesAPI.Models.User", b =>
+                {
+                    b.Navigation("Recipes");
                 });
 #pragma warning restore 612, 618
         }

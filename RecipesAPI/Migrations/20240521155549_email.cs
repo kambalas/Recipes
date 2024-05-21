@@ -4,7 +4,7 @@
 
 namespace RecipesAPI.Migrations
 {
-    public partial class test : Migration
+    public partial class email : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

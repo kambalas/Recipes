@@ -35,6 +35,12 @@ namespace IO.Swagger.Models
         public long? Id { get; set; }
 
         /// <summary>
+        /// Gets or Sets Version
+        /// </summary>
+        [DataMember(Name = "version")]
+        public byte[] Version { get; set; }
+
+        /// <summary>
         /// Gets or Sets UserId
         /// </summary>
 
@@ -127,14 +133,6 @@ namespace IO.Swagger.Models
 
         [DataMember(Name="level")]
         public LevelEnum? Level { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Version
-        /// </summary>
-        /// 
-
-        [DataMember(Name="version")]
-        public long? Version { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

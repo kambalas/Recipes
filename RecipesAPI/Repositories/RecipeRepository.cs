@@ -51,7 +51,8 @@ namespace RecipesAPI.Repositories
         */
         public override async Task<Recipe> UpdateAsync(Recipe updatedRecipe)
         {
-            var existingRecipe = await DbSet
+            return updatedRecipe;
+            /*var existingRecipe = await DbSet
                 .Include(r => r.RecipeIngredients)
                 .Include(r => r.Steps)
                 .FirstOrDefaultAsync(r => r.Id == updatedRecipe.Id);
@@ -88,7 +89,7 @@ namespace RecipesAPI.Repositories
                 .Include(r => r.User)
                 .FirstOrDefaultAsync(r => r.Id == updatedRecipe.Id);
 
-            return updatedRecipeWithRelatedEntities;
+            return updatedRecipeWithRelatedEntities;*/
         }
 
 

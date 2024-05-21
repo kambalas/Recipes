@@ -16,7 +16,7 @@ namespace RecipesAPI.Mappers
 			var defaultDateTime = DateTime.UtcNow;
 			return new Recipe()
             {
-                Version = 1,
+                Version = new byte[] {},
                 Name = recipeRequest.Name ?? "default",
                 ImageURL = recipeRequest.ImageEncoded,
                 CreatedAt = defaultDateTime,
@@ -236,7 +236,6 @@ namespace RecipesAPI.Mappers
         {
             return new Ingredient()
             {
-                Version = 1,
 				Name = ingredientRequest.Name,     
                 //MeasurementType = MeasurementType.Gram
 			};
@@ -293,7 +292,7 @@ namespace RecipesAPI.Mappers
             return new User()
             {
                 Id = null,
-                Version = 1,
+                Version = new byte[] {},
                 Username = userRequest.Username,
                 Email = userRequest.Email,
                 Password = userRequest.Password,
@@ -305,6 +304,7 @@ namespace RecipesAPI.Mappers
             return new UserResponse()
             {
                 Id = user.Id,
+                Version = user.Version,
                 Username = user.Username,
                 Email = user.Email,
                 Password = user.Password,
