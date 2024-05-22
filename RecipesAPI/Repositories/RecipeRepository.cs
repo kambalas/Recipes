@@ -51,8 +51,7 @@ namespace RecipesAPI.Repositories
         */
         public override async Task<Recipe> UpdateAsync(Recipe updatedRecipe)
         {
-            return updatedRecipe;
-            /*var existingRecipe = await DbSet
+            var existingRecipe = await DbSet
                 .Include(r => r.RecipeIngredients)
                 .Include(r => r.Steps)
                 .FirstOrDefaultAsync(r => r.Id == updatedRecipe.Id);
@@ -66,18 +65,18 @@ namespace RecipesAPI.Repositories
             {
                 existingRecipe.UserId = updatedRecipe.UserId;
             }
+            existingRecipe.RecipeIngredients.Clear();
+            existingRecipe.Steps.Clear();
 
             Context.Instance.Entry(existingRecipe).CurrentValues.SetValues(updatedRecipe);
 
-            Context.RecipeIngredient.RemoveRange(existingRecipe.RecipeIngredients);
             if (updatedRecipe.RecipeIngredients != null && updatedRecipe.RecipeIngredients.Any())
             {
-                existingRecipe.RecipeIngredients = updatedRecipe.RecipeIngredients.ToList();
+                updatedRecipe.RecipeIngredients.ToList().ForEach(ri => existingRecipe.RecipeIngredients.Add(ri));
             }
-            Context.Steps.RemoveRange(existingRecipe.Steps);
             if (updatedRecipe.Steps != null && updatedRecipe.Steps.Any())
             {
-                existingRecipe.Steps = updatedRecipe.Steps.ToList();
+                updatedRecipe.Steps.ToList().ForEach(s => existingRecipe.Steps.Add(s));
             }
 
             await Context.Instance.SaveChangesAsync();
@@ -89,7 +88,7 @@ namespace RecipesAPI.Repositories
                 .Include(r => r.User)
                 .FirstOrDefaultAsync(r => r.Id == updatedRecipe.Id);
 
-            return updatedRecipeWithRelatedEntities;*/
+            return updatedRecipeWithRelatedEntities;
         }
 
 
