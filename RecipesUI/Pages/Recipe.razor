@@ -88,31 +88,31 @@
             </div>
             <div class="steps">
                 <h2>Steps</h2>
-                @if (recipe?.Steps != null)
-                {
-                    // var prepSteps = recipe.Steps.Where(s => s.Phase == StepResponse.PhaseEnum.PrepEnum).ToList();
-                    // var cookingSteps = recipe.Steps.Where(s => s.Phase == StepResponse.PhaseEnum.CookingEnum).ToList();
-                    @* if (recipe.) *@
-                    @* { *@
-                    @*     $1$ <h3>Prep Phase <span class="time-badge">@prepSteps.Sum(s => s.Duration) min</span></h3> #1# *@
-                    @*     $1$ <ol> #1# *@
-                    @*     $1$     @foreach (var step in prepSteps) #1# *@
-                    @*     $1$     { #1# *@
-                    @*     $1$         <li>@step.Description</li> #1# *@
-                    @*     $1$     } #1# *@
-                    @*     $1$ </ol> #1# *@
-                    @* } *@
-                    @* if (cookingSteps.Any()) *@
-                    @* { *@
-                    @*     <h3>Cooking Phase <span class="time-badge">@cookingSteps.Sum(s => s.Duration) min</span></h3> *@
-                    @*     <ol> *@
-                    @*         @foreach (var step in cookingSteps) *@
-                    @*         { *@
-                    @*             <li>@step.Description</li> *@
-                    @*         } *@
-                    @*     </ol> *@
-                    @* } *@
-                }
+                   @if (recipe != null && recipe.Steps != null)
+                       {
+                           <h3>Prep Phase <span class="time-badge">@recipe.PreparationDuration min</span></h3>
+                           <ol>
+                               @foreach (var step in recipe.Steps.Where(s => s.Phase == PhaseEnum.PrepEnum))
+                               {
+                                   <li>
+                                       <p><strong>Step @step.StepNumber:</strong> @step.Description</p>
+                                   </li>
+                               }
+                           </ol>
+                           <h3>Cooking Phase <span class="time-badge">@recipe.CookingDuration min</span></h3>
+                           <ol>
+                               @foreach (var step in recipe.Steps.Where(s => s.Phase == PhaseEnum.CookingEnum))
+                               {
+                                   <li>
+                                       <p><strong>Step @step.StepNumber:</strong> @step.Description</p>
+                                   </li>
+                               }
+                           </ol>
+                       }
+                       else
+                       {
+                           <p>Loading steps...</p>
+                       }
             </div>
         </div>
         <div class="browse-recipes">
