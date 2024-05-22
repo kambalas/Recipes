@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipesUI", "RecipesUI\Reci
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipesAPI", "RecipesAPI\RecipesAPI.csproj", "{7A1AD089-7851-4F4F-825E-FEDDC6A20071}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiCommons", "ApiCommons\ApiCommons.csproj", "{270203B2-1907-49CD-8536-47536DE48C1A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiCommons", "ApiCommons\ApiCommons.csproj", "{270203B2-1907-49CD-8536-47536DE48C1A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

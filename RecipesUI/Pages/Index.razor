@@ -4,29 +4,19 @@
 @using ApiCommons.DTOs
 @inject IRecipeService RecipeService
 @inject ILogger<Index> Logger
-@inject CustomAuthenticationStateProviderService AuthenticationStateProvider
 
-@attribute [Authorize]
-
-<AuthorizeView>
-    <Authorized>
-        <header>
-            <h1>Slogan</h1>
-            <div class="search-container">
-                <div class="search-input">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="11" cy="11" r="7" stroke="#ffffff" stroke-width="1.5" />
-                        <path d="M16.5303 15.4697L16 14.9393L14.9393 16L15.4697 16.5303L16.5303 15.4697ZM18.9697 20.0303C19.2626 20.3232 19.7374 20.3232 20.0303 20.0303C20.3232 19.7374 20.3232 19.2626 20.0303 18.9697L18.9697 20.0303ZM15.4697 16.5303L18.9697 20.0303L20.0303 18.9697L16.5303 15.4697L15.4697 16.5303Z" fill="#ffffff" />
-                    </svg>
-                    <input type="text" placeholder="Search...">
-                </div>
-            </div>
-        </header>
-    </Authorized>
-    <NotAuthorized>
-        <p>You are not authorized to view this content. Please <NavLink href="login">login</NavLink>.</p>
-    </NotAuthorized>
-</AuthorizeView>
+<header>
+    <h1>Slogan</h1>
+    <div class="search-container">
+        <div class="search-input">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="11" cy="11" r="7" stroke="#ffffff" stroke-width="1.5"/>
+                <path d="M16.5303 15.4697L16 14.9393L14.9393 16L15.4697 16.5303L16.5303 15.4697ZM18.9697 20.0303C19.2626 20.3232 19.7374 20.3232 20.0303 20.0303C20.3232 19.7374 20.3232 19.2626 20.0303 18.9697L18.9697 20.0303ZM15.4697 16.5303L18.9697 20.0303L20.0303 18.9697L16.5303 15.4697L15.4697 16.5303Z" fill="#ffffff"/>
+            </svg>
+            <input type="text" placeholder="Search...">
+        </div>
+    </div>
+</header>
 
 <main>
     <div class="main-items">
@@ -51,7 +41,7 @@
                         <div class="recipe-card">
                             <div class="placeholder">
                                 <svg width="89" height="89" viewBox="0 0 89 89" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M0 33.375C0 27.2389 4.98887 22.25 11.125 22.25C11.2119 22.25 11.3162 22.25 11.4031 22.25C12.6895 15.9053 18.3041 11.125 25.0312 11.125C27.6387 11.125 30.0723 11.8377 32.1408 13.0719C34.4527 8.62187 39.1287 5.5625 44.5 5.5625C49.8713 5.5625 54.5473 8.62187 56.8592 13.0719C58.9277 11.8377 61.3613 11.125 63.9688 11.125C70.6959 11.125 76.3105 15.9053 77.5969 22.25C77.6838 22.25 77.7881 22.25 77.875 22.25C84.0111 22.25 89 27.2389 89 33.375C89 35.4088 88.4611 37.3035 87.5051 38.9375H1.49492C0.538867 37.3035 0 35.4088 0 33.375ZM0 49.2629C0 46.6381 2.13809 44.5 4.76289 44.5H84.2371C86.8619 44.5 89 46.6381 89 49.2629C89 61.5178 81.282 71.9822 70.4525 76.0498L70.1396 78.5703C69.792 81.3516 67.4279 83.4375 64.6119 83.4375H24.3707C21.5721 83.4375 19.1906 81.3516 18.843 78.5703L18.5301 76.0672C7.71797 71.9822 0 61.5178 0 49.2629Z" fill="#EEEEEE" />
+                                    <path d="M0 33.375C0 27.2389 4.98887 22.25 11.125 22.25C11.2119 22.25 11.3162 22.25 11.4031 22.25C12.6895 15.9053 18.3041 11.125 25.0312 11.125C27.6387 11.125 30.0723 11.8377 32.1408 13.0719C34.4527 8.62187 39.1287 5.5625 44.5 5.5625C49.8713 5.5625 54.5473 8.62187 56.8592 13.0719C58.9277 11.8377 61.3613 11.125 63.9688 11.125C70.6959 11.125 76.3105 15.9053 77.5969 22.25C77.6838 22.25 77.7881 22.25 77.875 22.25C84.0111 22.25 89 27.2389 89 33.375C89 35.4088 88.4611 37.3035 87.5051 38.9375H1.49492C0.538867 37.3035 0 35.4088 0 33.375ZM0 49.2629C0 46.6381 2.13809 44.5 4.76289 44.5H84.2371C86.8619 44.5 89 46.6381 89 49.2629C89 61.5178 81.282 71.9822 70.4525 76.0498L70.1396 78.5703C69.792 81.3516 67.4279 83.4375 64.6119 83.4375H24.3707C21.5721 83.4375 19.1906 81.3516 18.843 78.5703L18.5301 76.0672C7.71797 71.9822 0 61.5178 0 49.2629Z" fill="#EEEEEE"/>
                                 </svg>
                             </div>
                             <div class="time-badge">@recipe.PreparationDuration min</div>
@@ -67,7 +57,7 @@
         <div class="pagination">
             <button @onclick="async () => await GoToPage(currentPage - 1)" disabled="@(currentPage == 1)">&lt;</button>
             <button>@currentPage</button>
-            <button @onclick="async () => await GoToPage(currentPage + 1)">&gt;</button>
+            <button @onclick="async () => await GoToPage(currentPage + 1)" >&gt;</button>
             @* disabled="@(recipes.Count <= pageSize) *@
         </div>
     </div>
@@ -79,35 +69,30 @@
     private int totalRecipes;
     private int pageSize = 9;
     private int totalPages;
-    private bool isInitialized = false;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnInitializedAsync()
     {
-        if (firstRender)
-        {
-            await AuthenticationStateProvider.CheckAuthenticationState(); // Ensure authentication state is checked after first render
-            await LoadRecipes();
-            isInitialized = true;
-            StateHasChanged();
-        }
+        await LoadRecipes();
     }
-
+    
     private async Task LoadRecipes()
     {
         try
         {
             Logger.LogInformation("Fetching recipes for page {currentPage}.", currentPage);
-            recipes = await RecipeService.GetRecipes(page: currentPage, pageSize: pageSize) ?? new List<RecipeResponse>();
+            recipes = await RecipeService.GetRecipes(page : currentPage, pageSize : pageSize) ?? new List<RecipeResponse>();
             Logger.LogInformation("Recipes fetched successfully.");
             totalRecipes = recipes.Count;
-            totalPages = (int)Math.Ceiling((double)totalRecipes / pageSize) + 1;
+            totalPages = (int)Math.Ceiling((double)totalRecipes / pageSize)  + 1;
+
+            StateHasChanged(); // Ensures the component is re-rendered
         }
         catch (Exception ex)
         {
             Logger.LogError(ex, "Error fetching recipes.");
         }
     }
-
+    
     private async Task GoToPage(int pageNumber)
     {
         if (pageNumber < 1 || pageNumber > totalPages)
@@ -116,4 +101,5 @@
         currentPage = pageNumber;
         await LoadRecipes();
     }
-}
+
+}   

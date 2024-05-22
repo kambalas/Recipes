@@ -5,8 +5,7 @@
 @using ApiCommons.DTOs
 @using IO.Swagger.Models
 @using RecipesUI.Services
-<AuthorizeView>
-    <Authorized>
+
 <header class="recipe-header">
     @* <img src="@recipe?.ImageURL" alt="Recipe Photo" class="recipe-photo" onerror="this.onerror=null; this.src='path-to-placeholder.svg';" /> *@
 </header>
@@ -141,9 +140,6 @@
         </div>
     </div>
 </main>
-
-    </Authorized>
-</AuthorizeView>
 
 @code {
     [Parameter]
