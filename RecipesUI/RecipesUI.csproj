@@ -8,16 +8,14 @@
 	<PropertyGroup>
 		<UseRazorSourceGenerator>false</UseRazorSourceGenerator>
 	</PropertyGroup>
-
-	<PropertyGroup>
-		<UseRazorSourceGenerator>false</UseRazorSourceGenerator>
-	</PropertyGroup>
-  <ItemGroup>
-    <Content Remove="Pages\Component.razor" />
-  </ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
+	  <PackageReference Include="Blazored.SessionStorage" Version="2.4.0" />
+	</ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ApiCommons\ApiCommons.csproj" />
   </ItemGroup>
+	
 
 </Project>
