@@ -1,29 +1,31 @@
-﻿@page "/login"
+﻿@page "/register"
 @inject HttpClient Http
-@inject RecipesUI.Services.CustomAuthenticationStateProviderService AuthenticationStateProvider
-@inject Blazored.SessionStorage.ISessionStorageService SessionStorage
 
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="text-center">Login</h3>
+                    <h3 class="text-center">Register</h3>
                 </div>
                 <div class="card-body">
-                    <EditForm Model="loginModel" OnValidSubmit="HandleLogin">
+                    <EditForm Model="registerModel" OnValidSubmit="HandleRegister">
                         <DataAnnotationsValidator />
                         <ValidationSummary />
 
                         <div class="form-group">
+                            <label for="username">Username:</label>
+                            <InputText id="username" class="form-control" @bind-Value="registerModel.Username" />
+                        </div>
+                        <div class="form-group">
                             <label for="email">Email:</label>
-                            <InputText id="email" class="form-control" @bind-Value="loginModel.Email" />
+                            <InputText id="email" class="form-control" @bind-Value="registerModel.Email" />
                         </div>
                         <div class="form-group">
                             <label for="password">Password:</label>
-                            <InputText id="password" class="form-control" @bind-Value="loginModel.Password" type="password" />
+                            <InputText id="password" class="form-control" @bind-Value="registerModel.Password" type="password" />
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block mt-3">Login</button>
+                        <button type="submit" class="btn btn-primary btn-block mt-3">Register</button>
                     </EditForm>
 
                     @if (!string.IsNullOrEmpty(errorMessage))
@@ -36,38 +38,33 @@
                     }
                 </div>
             </div>
-            <div class="mt-3 text-center">
-                <p>If you don't have an account, please <NavLink href="register">register</NavLink>.</p>
-            </div>
         </div>
     </div>
 </div>
 
 @code {
-    private LogInRequest loginModel = new LogInRequest();
+    private RegisterRequest registerModel = new RegisterRequest();
     private string errorMessage;
     private string successMessage;
 
-    private async Task HandleLogin()
+    private async Task HandleRegister()
     {
-        var response = await Http.PostAsJsonAsync("/v1/auth/login", loginModel);
+        var response = await Http.PostAsJsonAsync("/v1/user", registerModel);
         if (response.IsSuccessStatusCode)
         {
-            var token = await response.Content.ReadAsStringAsync();
-            await SessionStorage.SetItemAsync("authToken", token);
-            AuthenticationStateProvider.MarkUserAsAuthenticated(token);
-            successMessage = "Login successful";
+            successMessage = "Registration successful";
             errorMessage = string.Empty;
         }
         else
         {
-            errorMessage = "Login failed. Please check your credentials.";
+            errorMessage = "Registration failed. Please check your details.";
             successMessage = string.Empty;
         }
     }
 
-    public class LogInRequest
+    public class RegisterRequest
     {
+        public string Username { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
     }

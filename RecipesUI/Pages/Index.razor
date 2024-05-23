@@ -22,11 +22,8 @@
                 </div>
             </div>
         </header>
-    </Authorized>
-    <NotAuthorized>
-        <p>You are not authorized to view this content. Please <NavLink href="login">login</NavLink>.</p>
-    </NotAuthorized>
-</AuthorizeView>
+    
+
 
 <main>
     <div class="main-items">
@@ -72,6 +69,11 @@
         </div>
     </div>
 </main>
+</Authorized>
+    <NotAuthorized>
+        <p>You are not authorized to view this content. Please <NavLink href="login">login</NavLink>.</p>
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
     private List<RecipeResponse> recipes;
