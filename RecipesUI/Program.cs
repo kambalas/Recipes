@@ -12,6 +12,13 @@ builder.Services.AddSingleton<WeatherForecastService>();
 
 builder.Services.AddScoped(typeof(IApiService<>), typeof(ApiService<>));
 builder.Services.AddScoped<IRecipeService, RecipeService>();
+builder.Services.AddScoped<HttpClient>(sp =>
+{
+	var navigationManager = sp.GetRequiredService<NavigationManager>();
+	return new HttpClient { BaseAddress = new Uri(navigationManager.BaseUri) };
+});
+
+builder.Services.AddScoped<IngredientService>();
 
 
 builder.Services.AddLogging();
