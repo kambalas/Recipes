@@ -14,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using ILogger = Serilog.ILogger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
+using RecipesAPI.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -92,6 +93,7 @@ builder.Services.AddScoped<IIngredientService, IngredientService>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.Decorate<IUserRepository, UserRepositoryDecorator>();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 
