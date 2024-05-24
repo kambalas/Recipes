@@ -18,4 +18,17 @@ namespace RecipesAPI.Filters
 
         public int? UserId { get; set; }
     }
+
+    public enum RecipeOrderBy
+    {
+        Name,
+        CreatedAt,
+        UpdatedAt,
+        PreparationTimeInSeconds,
+        CookingTimeInSeconds,
+        Servings,
+        EnergyInKCal,
+        Level
+    }
+
 }
