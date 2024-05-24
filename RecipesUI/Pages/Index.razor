@@ -148,7 +148,7 @@
     private async Task SortRecipes(string order)
     {
         string sorting = order == "newest" ? "dsc" : "asc";
-        await LoadRecipes("createdAt", sorting);
+        await LoadRecipes("CreatedAt", sorting);
         StateHasChanged();
     }
 
