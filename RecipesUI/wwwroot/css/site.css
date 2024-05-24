@@ -89,3 +89,83 @@ body {
     border-radius: 5px;
 }
 
+
+.button-container{
+    display: flex;
+    flex-wrap:nowrap;
+    justify-content:flex-end;
+    gap:15px;
+}
+
+
+
+
+
+
+
+.main-page .dropdown-container {
+    position: relative;
+    background: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.main-page .dropdown {
+    width: 170px;
+    user-select: none;
+}
+
+
+.main-page .dropdown-button {
+    background: white;
+    border: 1px solid grey;
+    text-align: left;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 160px; /* Adjust as needed */
+}
+
+.main-page .dropdown-menu {
+    background: white;
+    border-radius: 20px;
+    padding: 0;
+    position: absolute;
+    width: 20px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px;
+    border: 0.1px solid #eee;
+    z-index: 1;
+    display: none;
+    margin-top: 5px;
+    top: 10px;
+}
+
+.main-page .dropdown-item {
+    padding: 15px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+}
+
+.main-page .dropdown-item:hover {
+    background-color: #f0f0f0; /* Light grey background on hover */
+}
+
+.main-page .dropdown-item:first-child {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.main-page .dropdown-item:last-child {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+
+
