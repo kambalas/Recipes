@@ -1,39 +1,51 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">RecipesUI</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+﻿<div class="sidebar" id="desktopNav">
+  <a href="/" class="logo">
+    <div class="logo-container">
+      <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g clip-path="url(#clip0_30_547)">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M30.0926 19.425C30.0926 22.4927 29.0133 25.112 26.8517 27.2736C24.687 29.4384 22.0708 30.5207 19.0031 30.5207C15.9478 30.5207 13.3315 29.4414 11.1637 27.2736C8.99902 25.112 7.91048 22.4927 7.91048 19.425C7.91048 16.3666 8.99593 13.7596 11.1637 11.5887C13.3377 9.42403 15.9508 8.33549 19.0031 8.33549C22.0708 8.33549 24.687 9.42094 26.8517 11.5887C29.0103 13.7596 30.0926 16.3666 30.0926 19.425ZM5.06234 17.3809C6.03646 16.716 6.52506 15.847 6.44157 13.8586V8.74679C6.43229 8.03243 5.13656 7.94584 5.07161 8.74679L5.02214 12.8938C5.01904 13.67 3.85319 13.6947 3.85628 12.8938L3.90576 8.60453C3.8903 7.83761 2.65332 7.7603 2.63786 8.60453C2.63786 9.79513 2.58838 11.7032 2.58838 12.8938C2.65023 13.6452 1.56787 13.7442 1.5957 12.8938L1.64518 8.63237C1.61735 8.05408 0.980306 7.84688 0.547363 8.11902C0.0865885 8.4128 0.179362 9.00346 0.160807 9.50134L0 14.3936C0.0247396 15.8161 0.398926 16.9727 1.51221 17.4644C1.68229 17.5386 1.91732 17.5974 2.18945 17.6376L1.80599 29.5682C1.78434 30.2764 2.36263 30.8547 3.03988 30.8547H3.1945C3.95833 30.8547 4.60465 30.2022 4.58301 29.4074L4.24593 17.6345C4.60156 17.5788 4.89535 17.4953 5.06234 17.3809ZM33.0088 29.2095L32.9902 18.4942C29.2329 16.3233 30.4297 7.95821 34.1901 8.0046C38.7607 8.05717 39.3019 17.4304 35.3714 18.4602L35.6621 29.2528C35.7178 31.2938 33.0119 31.4825 33.0088 29.2095ZM25.4601 19.4157C25.4601 21.2032 24.8324 22.7277 23.5675 23.9926C22.3058 25.2512 20.7812 25.8851 18.9938 25.8851C17.2187 25.8851 15.6942 25.2512 14.4325 23.9926C13.1707 22.7277 12.5399 21.2032 12.5399 19.4157C12.5399 17.6407 13.1707 16.1161 14.4325 14.8575C15.6973 13.5988 17.2187 12.9649 18.9938 12.9649C22.5841 12.968 25.4601 15.8223 25.4601 19.4157ZM26.9723 19.4157C26.9723 17.2201 26.1992 15.343 24.6437 13.7875C23.0882 12.232 21.2049 11.4589 18.9938 11.4589C16.7889 11.4589 14.9118 12.232 13.3656 13.7875C11.8101 15.343 11.0277 17.2201 11.0277 19.4157C11.0277 21.6176 11.8101 23.4947 13.3656 25.0564C14.9118 26.615 16.7889 27.3973 18.9938 27.3973C21.2018 27.3973 23.0851 26.615 24.6437 25.0564C26.1961 23.4916 26.9723 21.6145 26.9723 19.4157Z" fill="white" />
+        </g>
+        <defs>
+          <clipPath id="clip0_30_547">
+            <rect width="38" height="38" fill="white" />
+          </clipPath>
+        </defs>
+      </svg>
     </div>
+    <span>Recipes</span>
+  </a>
+  <div class="search-container">
+    <div class="search-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="11" cy="11" r="7" stroke="#ffffff" stroke-width="1.5" />
+        <path d="M16.5303 15.4697L16 14.9393L14.9393 16L15.4697 16.5303L16.5303 15.4697ZM18.9697 20.0303C19.2626 20.3232 19.7374 20.3232 20.0303 20.0303C20.3232 19.7374 20.3232 19.2626 20.0303 18.9697L18.9697 20.0303ZM15.4697 16.5303L18.9697 20.0303L20.0303 18.9697L16.5303 15.4697L15.4697 16.5303Z" fill="#ffffff" />
+      </svg>
+    </div>
+    <div class="search-input">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="11" cy="11" r="7" stroke="#fff" stroke-width="1.5" />
+        <path d="M16.5303 15.4697L16 14.9393L14.9393 16L15.4697 16.5303L16.5303 15.4697ZM18.9697 20.0303C19.2626 20.3232 19.7374 20.3232 20.0303 20.0303C20.3232 19.7374 20.3232 19.2626 20.0303 18.9697L18.9697 20.0303ZM15.4697 16.5303L18.9697 20.0303L20.0303 18.9697L16.5303 15.4697L15.4697 16.5303Z" fill="#fff" />
+      </svg>
+      <input type="text" placeholder="Search">
+    </div>
+  </div>
+  <a href="/" class="menu-item">
+    <svg width="19" height="23" viewBox="0 0 19 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16.1706 18.2056L17.2455 2.07836C17.2738 1.65349 16.7907 1.38444 16.4482 1.63438L4.12575 10.6281M16.1706 18.2056L15.9722 21.03C15.9544 21.2837 15.7481 21.4823 15.4933 21.481C9.84059 21.4529 4.53588 17.8094 1.67648 13.0037C1.54808 12.7879 1.60549 12.5135 1.80442 12.3647L4.12575 10.6281M16.1706 18.2056C10.6686 17.5122 7.94484 16.0702 4.12575 10.6281" stroke="#333" stroke-width="1.5" />
+      <circle cx="11.6496" cy="12.2223" r="1.89777" transform="rotate(-122.005 11.6496 12.2223)" stroke="#333" stroke-width="1.5" />
+      <circle cx="13.7283" cy="7.19287" r="1.26518" transform="rotate(-122.005 13.7283 7.19287)" fill="#333" />
+    </svg>
+    <span>Browse Recipes</span>
+  </a>
+
+  <a href="/create" class="menu-item">
+
+    <svg width="26" height="23" viewBox="0 0 26 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M24.52 22H1" stroke="#333" stroke-width="1.5" stroke-linecap="round" />
+      <path d="M6.84645 13.7344L6.04004 16.96L9.26568 16.1536C9.3536 16.1316 9.43389 16.0862 9.49797 16.0221L21.6465 3.87355C21.8417 3.67829 21.8417 3.36171 21.6465 3.16645L19.8336 1.35355C19.6383 1.15829 19.3217 1.15829 19.1265 1.35355L6.97797 13.5021C6.91389 13.5662 6.86843 13.6464 6.84645 13.7344Z" stroke="#333" stroke-width="1.5" stroke-linejoin="round" />
+    </svg>
+    <span>Create Recipe</span>
+
+  </a>
+
 </div>
-
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
-        </div>
-    </nav>
-</div>
-
-@code {
-    private bool collapseNavMenu = true;
-
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-}

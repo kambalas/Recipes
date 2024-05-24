@@ -1,0 +1,28 @@
+@page "/d"
+@using RecipesUI.Pages.RecipeManagementElements
+@inject IJSRuntime JSRuntime
+
+<TopBarSection />
+<ImageSection /> 
+<div class="form-wrapper">
+    <FormGeneralSection />
+    <IngredientsSection />
+    <StepsSection />
+</div>
+@code {
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // multiple calls to JSInterop
+
+            
+            
+        }
+    }
+    
+    
+    
+}
+
