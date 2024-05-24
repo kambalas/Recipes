@@ -157,7 +157,7 @@
         try
         {
             Logger.LogInformation("Fetching recipes for page {currentPage}.", currentPage);
-            recipes = await RecipeService.GetRecipes(page: currentPage, pageSize: pageSize, orderBy: orderBy, sorting: sorting) ?? new List<RecipeResponse>();
+            recipes = await RecipeService.GetRecipes(page: currentPage, pageSize: pageSize, orderBy: orderBy, sorting: sorting, search: searchQuery) ?? new List<RecipeResponse>();
             Logger.LogInformation("Recipes fetched successfully.");
             totalRecipes = recipes.Count;
             totalPages = (int)Math.Ceiling((double)totalRecipes / pageSize) + 1;
