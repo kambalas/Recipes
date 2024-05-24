@@ -18,19 +18,36 @@ window.provideSortDropdownListeners = function() {
             const value = this.getAttribute('data-value');
             sortRecipes(value);
             dropdownMenu.style.display = 'none';
-            arrowIcon.style.transform = 'translateY(-50%) rotate(0)';
+            // arrowIcon.style.transform = 'translateY(-50%) rotate(0)';
         });
     });
 
     document.addEventListener('click', function (event) {
         if (!event.target.closest('.dropdown-container')) {
             dropdownMenu.style.display = 'none';
-            // arrowIcon.style.transform = 'translateY(-50%) rotate(0)';
+            // -arrowIcon.style.transform = 'translateY(-50%) rotate(0)';
         }
     });
 };
 
-function sortRecipes(order) {
-    // Logic to sort recipes based on the 'order' parameter
-    console.log('Sorting recipes by:', order);
-}
+
+// window.sortRecipes = {
+//
+//
+//     sortRecipes : function (order) {
+//         console.log('Sorting recipes by:', order);
+//         DotNet.invokeMethodAsync('Recipes', 'SortRecipes', order) 
+//
+//         //HERE WE WILL NEED TO DECIDE ON A CONCRETE PROJECT NAME IN ORDER TO CALL THE JS METHOD
+//
+//    
+//         .then(() => {
+//             console.log('Successfully sorted recipes by:', order);
+//         })
+//             .catch(error => {
+//                 console.error('Error sorting recipes:', error);
+//             });
+//
+//     }
+
+// };

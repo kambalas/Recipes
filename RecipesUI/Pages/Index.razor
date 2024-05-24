@@ -8,7 +8,7 @@
 @inject CustomAuthenticationStateProviderService AuthenticationStateProvider
 @inject IJSRuntime JSRuntime
 
-@attribute [Authorize]
+@* @attribute [Authorize] *@
 
 <AuthorizeView>
     <Authorized>
@@ -31,7 +31,7 @@
 
         <main>
     <div class="main-items main-page">
-        <div class="header-row">
+        <div class="header-row">-
             <h2>Browse Recipes</h2>
             <div class="button-container">
                 <div class="dropdown-container">
@@ -43,8 +43,10 @@
                     </button>
                     <div style="position:relative;">
                         <div class="dropdown-menu">
-                            <div class="dropdown-item" data-value="newest">Newest Recipes</div>
-                            <div class="dropdown-item" data-value="oldest">Oldest Recipes</div>
+                            <div class="dropdown-item" data-value="newest" @onclick='async () => await SortRecipes("newest")'>Newest Recipes</div>
+                            <div class="dropdown-item" data-value="oldest" @onclick='async () => await SortRecipes("oldest")'>Oldest Recipes</div>
+                            @* <div class="dropdown-item" data-value="newest">Newest Recipes</div> *@
+                            @* <div class="dropdown-item" data-value="oldest">Oldest Recipes</div> *@
                         </div>
                     </div>
                 </div>
@@ -141,4 +143,29 @@
         currentPage = pageNumber;
         await LoadRecipes();
     }
+    
+    
+    private async Task SortRecipes(string order)
+    {
+        string sorting = order == "newest" ? "dsc" : "asc";
+        await LoadRecipes("createdAt", sorting);
+        StateHasChanged();
+    }
+
+    private async Task LoadRecipes(string orderBy, string sorting)
+    {
+        try
+        {
+            Logger.LogInformation("Fetching recipes for page {currentPage}.", currentPage);
+            recipes = await RecipeService.GetRecipes(page: currentPage, pageSize: pageSize, orderBy: orderBy, sorting: sorting) ?? new List<RecipeResponse>();
+            Logger.LogInformation("Recipes fetched successfully.");
+            totalRecipes = recipes.Count;
+            totalPages = (int)Math.Ceiling((double)totalRecipes / pageSize) + 1;
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error fetching recipes.");
+        }
+    }
+
 }
