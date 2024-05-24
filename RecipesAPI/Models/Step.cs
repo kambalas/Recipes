@@ -11,6 +11,7 @@ namespace RecipesAPI.Models
 
         public Recipe Recipe { get; set; }
 
+        public long? RecipeId { get; set; }
         public string? Description { get; set; }
 
         public StepPhase Phase { get; set; }

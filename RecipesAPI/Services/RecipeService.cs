@@ -1,14 +1,16 @@
-﻿using IO.Swagger.Models;
+﻿using Autofac.Extras.DynamicProxy;
+using IO.Swagger.Models;
 using Microsoft.EntityFrameworkCore;
 using PoS.Application.Filters;
 using RecipesAPI.Filters;
+using RecipesAPI.Interceptor;
 using RecipesAPI.Models;
 using RecipesAPI.Repositories;
 using RecipesAPI.Repositories.Interfaces;
 using RecipesAPI.Services.Interfaces;
 using System.Linq;
 
-namespace PoS.Application.Services
+namespace RecipesAPI.Services
 {
     public class RecipeService : IRecipeService
     {
@@ -19,7 +21,7 @@ namespace PoS.Application.Services
             _recipeRepository = recipeRepository;
         }
 
-        public async Task<Recipe> CreateRecipeAsync(Recipe recipe)
+        public async Task<Recipe> CreateRecipesAsync(Recipe recipe)
         {
             return await _recipeRepository.InsertAsync(recipe);
         }
@@ -42,7 +44,8 @@ namespace PoS.Application.Services
 
             if (filter.Search != null)
             {
-                recipeFilter = recipeFilter.And(x => x.Description != null && x.Description.Contains(filter.Search) || x.Name.Contains(filter.Search));
+                recipeFilter = recipeFilter.And(
+                    x => (x.Description != null && x.Description.Contains(filter.Search)) || ( x.Name != null &&  x.Name.Contains(filter.Search)));
             }
 
             if (filter.IngredientId != null && filter.IngredientId.Length > 0)
@@ -53,6 +56,11 @@ namespace PoS.Application.Services
                     var id = ingredientId;
                     recipeFilter = recipeFilter.And(x => x.Ingredients.Any(i => i.Id == id));
                 }
+            }
+
+            if (filter.UserId != null)
+            {
+                recipeFilter = recipeFilter.And(x => x.User.Id == filter.UserId);
             }
 
             var validProperties = typeof(Recipe).GetProperties().Select(p => p.Name);
@@ -82,9 +90,10 @@ namespace PoS.Application.Services
             return recipes;
         }
 
-        public Task<Recipe> UpdateRecipeByIdAsync(Recipe body, long id)
+        public async Task<Recipe> UpdateRecipeByIdAsync(Recipe body, long id)
         {
-            throw new NotImplementedException();
+            body.Id = id;
+            return await _recipeRepository.UpdateAsync(body);
         }
     }
 }

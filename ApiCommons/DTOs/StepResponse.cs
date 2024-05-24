@@ -17,6 +17,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using ApiCommons.DTOs;
 
 namespace IO.Swagger.Models
 {
@@ -24,7 +25,7 @@ namespace IO.Swagger.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class Step : IEquatable<Step>
+    public partial class StepResponse : IEquatable<StepResponse>
     { 
         /// <summary>
         /// Gets or Sets Id
@@ -40,23 +41,6 @@ namespace IO.Swagger.Models
 
         [DataMember(Name="description")]
         public string? Description { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Phase
-        /// </summary>
-        [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public enum PhaseEnum
-        {
-            /// <summary>
-            /// Enum PrepEnum for prep
-            /// </summary>
-            [EnumMember(Value = "prep")]
-            PrepEnum = 0,
-            /// <summary>
-            /// Enum CookingEnum for cooking
-            /// </summary>
-            [EnumMember(Value = "cooking")]
-            CookingEnum = 1        }
 
         /// <summary>
         /// Gets or Sets Phase
@@ -108,7 +92,7 @@ namespace IO.Swagger.Models
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((Step)obj);
+            return obj.GetType() == GetType() && Equals((StepResponse)obj);
         }
 
         /// <summary>
@@ -116,7 +100,7 @@ namespace IO.Swagger.Models
         /// </summary>
         /// <param name="other">Instance of Step to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Step other)
+        public bool Equals(StepResponse other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -169,12 +153,12 @@ namespace IO.Swagger.Models
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(Step left, Step right)
+        public static bool operator ==(StepResponse left, StepResponse right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(Step left, Step right)
+        public static bool operator !=(StepResponse left, StepResponse right)
         {
             return !Equals(left, right);
         }

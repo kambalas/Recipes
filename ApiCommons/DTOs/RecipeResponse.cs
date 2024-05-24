@@ -17,6 +17,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using ApiCommons.DTOs;
 
 namespace IO.Swagger.Models
 {
@@ -24,7 +25,7 @@ namespace IO.Swagger.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class RecipeDTO : IEquatable<RecipeDTO>
+    public partial class RecipeResponse : IEquatable<RecipeResponse>
     { 
         /// <summary>
         /// Gets or Sets Id
@@ -32,6 +33,12 @@ namespace IO.Swagger.Models
 
         [DataMember(Name="id")]
         public long? Id { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Version
+        /// </summary>
+        [DataMember(Name = "version")]
+        public byte[] Version { get; set; }
 
         /// <summary>
         /// Gets or Sets UserId
@@ -56,13 +63,17 @@ namespace IO.Swagger.Models
         [DataMember(Name="description")]
         public string? Description { get; set; }
 
+
+        [DataMember(Name = "imageURL")]
+        public string? ImageURL { get; set; }
+
         /// <summary>
         /// Gets or Sets Ingredients
         /// </summary>
         [Required]
 
         [DataMember(Name="ingredients")]
-        public List<Ingredient> Ingredients { get; set; }
+        public List<RecipeIngredientResponse> Ingredients { get; set; }
 
         /// <summary>
         /// Gets or Sets Steps
@@ -70,7 +81,7 @@ namespace IO.Swagger.Models
         [Required]
 
         [DataMember(Name="steps")]
-        public List<Step> Steps { get; set; }
+        public List<StepResponse> Steps { get; set; }
 
         /// <summary>
         /// Gets or Sets CreatedAt
@@ -97,8 +108,15 @@ namespace IO.Swagger.Models
         /// Gets or Sets Duration
         /// </summary>
 
-        [DataMember(Name="duration")]
-        public long? Duration { get; set; }
+        [DataMember(Name="cooking_duration")]
+        public long? CookingDuration { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Duration
+        /// </summary>
+
+        [DataMember(Name = "preparation_duration")]
+        public long? PreparationDuration { get; set; }
 
         /// <summary>
         /// Gets or Sets Energy
@@ -107,27 +125,7 @@ namespace IO.Swagger.Models
         [DataMember(Name="energy")]
         public long? Energy { get; set; }
 
-        /// <summary>
-        /// Gets or Sets Level
-        /// </summary>
-        [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public enum LevelEnum
-        {
-            /// <summary>
-            /// Enum EasyEnum for easy
-            /// </summary>
-            [EnumMember(Value = "easy")]
-            EasyEnum = 0,
-            /// <summary>
-            /// Enum MediumEnum for medium
-            /// </summary>
-            [EnumMember(Value = "medium")]
-            MediumEnum = 1,
-            /// <summary>
-            /// Enum HardEnum for hard
-            /// </summary>
-            [EnumMember(Value = "hard")]
-            HardEnum = 2        }
+
 
         /// <summary>
         /// Gets or Sets Level
@@ -135,13 +133,6 @@ namespace IO.Swagger.Models
 
         [DataMember(Name="level")]
         public LevelEnum? Level { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Version
-        /// </summary>
-
-        [DataMember(Name="version")]
-        public long? Version { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -160,7 +151,8 @@ namespace IO.Swagger.Models
             sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
             sb.Append("  UpdatedAt: ").Append(UpdatedAt).Append("\n");
             sb.Append("  Servings: ").Append(Servings).Append("\n");
-            sb.Append("  Duration: ").Append(Duration).Append("\n");
+            sb.Append("  CookingDuration: ").Append(CookingDuration).Append("\n");
+            sb.Append("  PreparationDuration: ").Append(PreparationDuration).Append("\n");
             sb.Append("  Energy: ").Append(Energy).Append("\n");
             sb.Append("  Level: ").Append(Level).Append("\n");
             sb.Append("  Version: ").Append(Version).Append("\n");
@@ -186,7 +178,7 @@ namespace IO.Swagger.Models
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((RecipeDTO)obj);
+            return obj.GetType() == GetType() && Equals((RecipeResponse)obj);
         }
 
         /// <summary>
@@ -194,7 +186,7 @@ namespace IO.Swagger.Models
         /// </summary>
         /// <param name="other">Instance of Recipe to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(RecipeDTO other)
+        public bool Equals(RecipeResponse other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -246,10 +238,15 @@ namespace IO.Swagger.Models
                     Servings.Equals(other.Servings)
                 ) && 
                 (
-                    Duration == other.Duration ||
-                    Duration != null &&
-                    Duration.Equals(other.Duration)
-                ) && 
+                    CookingDuration == other.CookingDuration ||
+                    CookingDuration != null &&
+                    CookingDuration.Equals(other.CookingDuration)
+                ) &&
+                (
+                    PreparationDuration == other.PreparationDuration ||
+                    PreparationDuration != null &&
+                    PreparationDuration.Equals(other.PreparationDuration)
+                ) &&
                 (
                     Energy == other.Energy ||
                     Energy != null &&
@@ -295,8 +292,10 @@ namespace IO.Swagger.Models
                     hashCode = hashCode * 59 + UpdatedAt.GetHashCode();
                     if (Servings != null)
                     hashCode = hashCode * 59 + Servings.GetHashCode();
-                    if (Duration != null)
-                    hashCode = hashCode * 59 + Duration.GetHashCode();
+                    if (CookingDuration != null)
+                    hashCode = hashCode * 59 + CookingDuration.GetHashCode();
+                    if (PreparationDuration != null)
+                    hashCode = hashCode * 59 + PreparationDuration.GetHashCode();
                     if (Energy != null)
                     hashCode = hashCode * 59 + Energy.GetHashCode();
                     if (Level != null)
@@ -310,12 +309,12 @@ namespace IO.Swagger.Models
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(RecipeDTO left, RecipeDTO right)
+        public static bool operator ==(RecipeResponse left, RecipeResponse right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(RecipeDTO left, RecipeDTO right)
+        public static bool operator !=(RecipeResponse left, RecipeResponse right)
         {
             return !Equals(left, right);
         }

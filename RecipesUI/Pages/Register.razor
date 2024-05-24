@@ -1,0 +1,71 @@
+﻿@page "/register"
+@inject HttpClient Http
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center">Register</h3>
+                </div>
+                <div class="card-body">
+                    <EditForm Model="registerModel" OnValidSubmit="HandleRegister">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <InputText id="username" class="form-control" @bind-Value="registerModel.Username" />
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <InputText id="email" class="form-control" @bind-Value="registerModel.Email" />
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <InputText id="password" class="form-control" @bind-Value="registerModel.Password" type="password" />
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block mt-3">Register</button>
+                    </EditForm>
+
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div class="alert alert-danger mt-3">@errorMessage</div>
+                    }
+                    @if (!string.IsNullOrEmpty(successMessage))
+                    {
+                        <div class="alert alert-success mt-3">@successMessage</div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private RegisterRequest registerModel = new RegisterRequest();
+    private string errorMessage;
+    private string successMessage;
+
+    private async Task HandleRegister()
+    {
+        var response = await Http.PostAsJsonAsync("/v1/user", registerModel);
+        if (response.IsSuccessStatusCode)
+        {
+            successMessage = "Registration successful";
+            errorMessage = string.Empty;
+        }
+        else
+        {
+            errorMessage = "Registration failed. Please check your details.";
+            successMessage = string.Empty;
+        }
+    }
+
+    public class RegisterRequest
+    {
+        public string Username { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+    }
+}

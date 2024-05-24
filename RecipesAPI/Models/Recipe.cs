@@ -11,10 +11,12 @@ namespace RecipesAPI.Models
         [Required]
         public long? Id { get; set; }
 
-        [Required]
-        public long? Version { get; set; }
+        [Timestamp]
+        public byte[] Version { get; set; }
 
         public string Name { get; set; }
+
+        public string? ImageURL { get; set; }
 
         [Required]
         public DateTime? CreatedAt { get; set; }
@@ -22,7 +24,11 @@ namespace RecipesAPI.Models
         [Required]
         public DateTime? UpdatedAt { get; set; }
 
-        public IEnumerable<Ingredient> Ingredients { get; set; }
+        public long? UserId { get; set; }
+        public User? User { get; set; } 
+
+        public ICollection<Ingredient> Ingredients { get; set; }
+        public ICollection<RecipeIngredient> RecipeIngredients { get; set; }
 
         public string? Description { get; set; }
 
@@ -36,7 +42,7 @@ namespace RecipesAPI.Models
 
         public ComplexityLevel? Level { get; set; }
 
-        public IEnumerable<Step> Steps { get; set; } = Enumerable.Empty<Step>();
+        public ICollection<Step> Steps { get; set; }
 
     }
 }
