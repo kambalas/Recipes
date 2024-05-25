@@ -49,7 +49,7 @@ namespace IO.Swagger.Controllers
         [HttpGet]
         [Route("/v1/user/{id}")]
         //[Authorize(AuthenticationSchemes = BearerAuthenticationHandler.SchemeName)]
-        [SwaggerOperation("UserIdGet")]
+        [SwaggerOperation("Login")]
         [SwaggerResponse(statusCode: 200, type: typeof(UserResponse), description: "A user")]
         public async Task<IActionResult> UserIdGet([FromRoute][Required] long id)
         {
