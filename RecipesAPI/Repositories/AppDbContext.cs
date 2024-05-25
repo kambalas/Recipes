@@ -19,6 +19,11 @@ namespace RecipesAPI.Repositories
                 .WithMany(i => i.Recipes)
                 .UsingEntity<RecipeIngredient>();
 
+            modelBuilder.Entity<Recipe>()
+                .Property(p => p.Version)
+                .IsConcurrencyToken()
+                .IsRowVersion();
+
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Recipes)
                 .WithOne(r => r.User)
