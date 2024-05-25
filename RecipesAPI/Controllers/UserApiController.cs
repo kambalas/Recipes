@@ -16,7 +16,6 @@ using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using IO.Swagger.Security;
 using Microsoft.AspNetCore.Authorization;
-using IO.Swagger.Models;
 using RecipesAPI.Filters;
 using RecipesAPI.Services.Interfaces;
 using RecipesAPI.Mappers;

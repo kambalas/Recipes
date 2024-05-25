@@ -1,5 +1,4 @@
 ﻿using ApiCommons.DTOs;
-using IO.Swagger.Models;
 using RecipesAPI.Models;
 
 namespace RecipesAPI.Mappers

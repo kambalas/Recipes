@@ -20,7 +20,7 @@ using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using ApiCommons.DTOs;
 
-namespace IO.Swagger.Models
+namespace ApiCommons.DTOs
 {
     /// <summary>
     /// 

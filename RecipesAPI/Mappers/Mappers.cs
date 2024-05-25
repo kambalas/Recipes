@@ -1,7 +1,5 @@
-﻿using IO.Swagger.Models;
-using RecipesAPI.Models;
+﻿using RecipesAPI.Models;
 using Ingredient = RecipesAPI.Models.Ingredient;
-using static IO.Swagger.Models.StepResponse;
 using ApiCommons.DTOs;
 using static ApiCommons.DTOs.LevelEnum;
 using Microsoft.AspNetCore.Http;
