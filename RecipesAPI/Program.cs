@@ -15,7 +15,7 @@ using ILogger = Serilog.ILogger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using RecipesAPI.Models;
-
+using RecipesAPI.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -121,6 +121,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 
