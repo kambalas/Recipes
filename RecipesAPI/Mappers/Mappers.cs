@@ -14,7 +14,7 @@ namespace RecipesAPI.Mappers
 			var defaultDateTime = DateTime.UtcNow;
 			return new Recipe()
             {
-                Version = new byte[] {},
+                Version = recipeRequest.Version ?? new byte[] {},
                 Name = recipeRequest.Name ?? "default",
                 ImageURL = recipeRequest.ImageEncoded,
                 CreatedAt = defaultDateTime,

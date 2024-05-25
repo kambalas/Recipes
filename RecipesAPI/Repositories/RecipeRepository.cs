@@ -7,6 +7,7 @@ using System.Linq;
 using System.ComponentModel.DataAnnotations;
 using NuGet.Protocol.Core.Types;
 using PoS.Core.Exceptions;
+using System.Data.Common;
 
 namespace RecipesAPI.Repositories
 {
@@ -77,6 +78,8 @@ namespace RecipesAPI.Repositories
             {
                 updatedRecipe.Steps.ToList().ForEach(s => existingRecipe.Steps.Add(s));
             }
+
+            Context.Instance.Entry(existingRecipe).OriginalValues["Version"] = updatedRecipe.Version;
 
             await Context.Instance.SaveChangesAsync();
 

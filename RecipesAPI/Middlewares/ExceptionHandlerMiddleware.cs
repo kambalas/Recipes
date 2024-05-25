@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PoS.Core.Exceptions;
 using System.Net;
 using System.Text.Json;
@@ -30,6 +31,11 @@ namespace RecipesAPI.Middlewares
         {
             HttpStatusCode statusCode = HttpStatusCode.InternalServerError;
             string message = "Unexpected internal server error";
+
+            if(ex is DbUpdateConcurrencyException)
+            {
+                message = "Entity was not updated, because the version is outdated";
+            }
 
             if (ex is ApiException)
             {
