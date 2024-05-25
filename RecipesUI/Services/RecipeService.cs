@@ -206,7 +206,7 @@ public class RecipeService : ApiService<RecipeResponse>, IRecipeService
             },
             Servings = 4,
             Energy = 500,
-            Level = LevelEnum.EasyEnum
+            Level = LevelEnum.Easy
         };
         
         
