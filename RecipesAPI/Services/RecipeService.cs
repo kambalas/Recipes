@@ -1,5 +1,4 @@
 ﻿using Autofac.Extras.DynamicProxy;
-using IO.Swagger.Models;
 using Microsoft.EntityFrameworkCore;
 using PoS.Application.Filters;
 using RecipesAPI.Filters;

@@ -1,5 +1,4 @@
-﻿using IO.Swagger.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PoS.Infrastructure.Repositories;
 using RecipesAPI.Models;
 using RecipesAPI.Repositories.Interfaces;
