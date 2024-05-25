@@ -132,6 +132,7 @@ app.UseAuthorization();
 app.Use(async (context, next) =>
 {
     var userIdentity = context.User.Identity;
+    var sd = context.User.Claims;
 
     var interceptor = app.Services.GetRequiredService<AsyncLogger>();
     interceptor.identity = userIdentity;

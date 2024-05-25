@@ -3,15 +3,18 @@ using Ingredient = RecipesAPI.Models.Ingredient;
 using ApiCommons.DTOs;
 using static ApiCommons.DTOs.LevelEnum;
 using Microsoft.AspNetCore.Http;
+using System.Security.Principal;
+using System.Net.Http;
+using System.Security.Claims;
 
 namespace RecipesAPI.Mappers
 {
     public class Mappers : IMappers
     {
-        public Recipe ToRecipe(RecipeRequest recipeRequest)
+        public Recipe ToRecipe(RecipeRequest recipeRequest, long userId)
         {
-
-			var defaultDateTime = DateTime.UtcNow;
+            
+            var defaultDateTime = DateTime.UtcNow;
 			return new Recipe()
             {
                 Version = recipeRequest.Version ?? new byte[] {},
@@ -30,9 +33,9 @@ namespace RecipesAPI.Mappers
                 CookingTimeInSeconds = recipeRequest.CookingDuration,
                 Servings = recipeRequest.Servings,
                 EnergyInKCal = recipeRequest.Energy,
-                Level = 0,
+                Level = ToLevel((LevelEnum)recipeRequest.Level),
                 Steps = recipeRequest.Steps.Select(stepDto => ToStep(stepDto)).ToList(),
-                UserId = 1
+                UserId = userId
             };
             
             throw new NotImplementedException();
@@ -40,27 +43,43 @@ namespace RecipesAPI.Mappers
 
 
 
-        private LevelEnum ToLevel(ComplexityLevel level)
+        private LevelEnum ToDTOLevel(ComplexityLevel level)
         {
             switch (level)
             {
                 case ComplexityLevel.Easy:
                     {
-                        return EasyEnum;
+                        return Easy;
                     }
                 case ComplexityLevel.Medium:
                     {
-                        return MediumEnum;
+                        return Medium;
                     }
-                case ComplexityLevel.HardEnum:
+                case ComplexityLevel.Hard:
                     {
-                        return HardEnum;
+                        return Hard;
                     }
                 default: break;
             }
 
             throw new NotImplementedException();
         }
+
+        private ComplexityLevel ToLevel(LevelEnum levelEnum)
+        {
+            switch (levelEnum)
+            {
+                case Easy:
+                    return ComplexityLevel.Easy;
+                case Medium:
+                    return ComplexityLevel.Medium;
+                case Hard:
+                    return ComplexityLevel.Hard;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
 
         public RecipeResponse ToRecipeResponse(Recipe recipe)
         {
