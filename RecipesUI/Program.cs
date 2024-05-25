@@ -20,6 +20,8 @@ builder.Services.AddBlazoredSessionStorage();
 builder.Services.AddScoped<CustomAuthenticationStateProviderService>();
 builder.Services.AddScoped<AuthenticationStateProvider>(provider => provider.GetRequiredService<CustomAuthenticationStateProviderService>());
 builder.Services.AddAuthorizationCore();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 
 
 
