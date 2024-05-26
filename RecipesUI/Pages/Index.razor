@@ -111,12 +111,13 @@
     {
         if (firstRender)
         {
-            await AuthenticationStateProvider.CheckAuthenticationState(); // Ensure authentication state is checked after first render
+            await AuthenticationStateProvider.CheckAuthenticationStateAsync(); // Ensure authentication state is checked after first render
             await LoadRecipes();
             isInitialized = true;
             StateHasChanged();
             
             await JSRuntime.InvokeVoidAsync("provideSortDropdownListeners");
+            await JSRuntime.InvokeVoidAsync("initializeDropdown");
         }
     }
 

@@ -1,7 +1,10 @@
 ﻿@page "/login"
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
 @inject HttpClient Http
 @inject RecipesUI.Services.CustomAuthenticationStateProviderService AuthenticationStateProvider
 @inject Blazored.SessionStorage.ISessionStorageService SessionStorage
+@inject NavigationManager Navigation
+@inject ILogger<Login> Logger
 
 <div class="container mt-5">
     <div class="row justify-content-center">
@@ -55,13 +58,16 @@
         {
             var token = await response.Content.ReadAsStringAsync();
             await SessionStorage.SetItemAsync("authToken", token);
-            AuthenticationStateProvider.MarkUserAsAuthenticated(token);
+            AuthenticationStateProvider.MarkUserAsAuthenticatedAsync(token);
             successMessage = "Login successful";
             errorMessage = string.Empty;
+            Navigation.NavigateTo("/");
         }
         else
         {
             errorMessage = "Login failed. Please check your credentials.";
+            var error = await response.Content.ReadAsStringAsync();
+            Logger.LogError("Error logging in: {error}", error);
             successMessage = string.Empty;
         }
     }
