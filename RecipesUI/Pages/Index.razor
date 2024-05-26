@@ -7,10 +7,10 @@
 @inject CustomAuthenticationStateProviderService AuthenticationStateProvider
 @inject IJSRuntime JSRuntime
 
-@* @attribute [Authorize] *@
+@attribute [Authorize]
 
-<AuthorizeView>
-    <Authorized>
+@* <AuthorizeView> *@
+@*     <Authorized> *@
         <header>
             <h1>Slogan</h1>
             <div class="search-container">
@@ -44,8 +44,6 @@
                         <div class="dropdown-menu">
                             <div class="dropdown-item" data-value="newest" @onclick='async () => await SortRecipes("newest")'>Newest Recipes</div>
                             <div class="dropdown-item" data-value="oldest" @onclick='async () => await SortRecipes("oldest")'>Oldest Recipes</div>
-                            @* <div class="dropdown-item" data-value="newest">Newest Recipes</div> *@
-                            @* <div class="dropdown-item" data-value="oldest">Oldest Recipes</div> *@
                         </div>
                     </div>
                 </div>
@@ -91,11 +89,11 @@
         </div>
     </div>
 </main>
-</Authorized>
-    <NotAuthorized>
-        <p>You are not authorized to view this content. Please <NavLink href="login">login</NavLink>.</p>
-    </NotAuthorized>
-</AuthorizeView>
+@* </Authorized> *@
+@*     <NotAuthorized> *@
+@*         <p>You are not authorized to view this content. Please <NavLink href="login">login</NavLink>.</p> *@
+@*     </NotAuthorized> *@
+@* </AuthorizeView> *@
 
 @code {
     private List<RecipeResponse> recipes;
@@ -110,11 +108,11 @@
     {
         if (firstRender)
         {
-            await AuthenticationStateProvider.CheckAuthenticationState(); // Ensure authentication state is checked after first render
+            await AuthenticationStateProvider.CheckAuthenticationStateAsync(); // Ensure authentication state is checked after first render
             await LoadRecipes();
             isInitialized = true;
             StateHasChanged();
-            
+
             await JSRuntime.InvokeVoidAsync("provideSortDropdownListeners");
         }
     }
@@ -156,7 +154,7 @@
         try
         {
             Logger.LogInformation("Fetching recipes for page {currentPage}.", currentPage);
-            recipes = await RecipeService.GetRecipes(page: currentPage, pageSize: pageSize, orderBy: orderBy, sorting: sorting, search: searchQuery) ?? new List<RecipeResponse>();
+            recipes = await RecipeService.GetRecipes(page : currentPage, pageSize: pageSize, orderBy: orderBy, sorting: sorting, search: searchQuery) ?? new List<RecipeResponse>();
             Logger.LogInformation("Recipes fetched successfully.");
             totalRecipes = recipes.Count;
             totalPages = (int)Math.Ceiling((double)totalRecipes / pageSize) + 1;

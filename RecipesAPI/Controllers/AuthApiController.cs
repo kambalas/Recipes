@@ -48,12 +48,43 @@ namespace IO.Swagger.Controllers
         [HttpPost]
         [Route("/v1/auth/login")]
         //[Authorize(AuthenticationSchemes = BearerAuthenticationHandler.SchemeName)]
-        [SwaggerOperation("UserIdGet")]
+        [SwaggerOperation("Login")]
         [SwaggerResponse(statusCode: 200, type: typeof(UserResponse), description: "A user")]
-        public async Task<IActionResult> UserIdGet([FromBody] LogInRequest logInDTO)
+        public async Task<IActionResult> Login([FromBody] LogInRequest logInDTO)
         {
             var token = await _authService.LogInAsync(logInDTO.Email, logInDTO.Password);
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return Unauthorized(new { message = "Invalid credentials" });
+            }
+
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true, // Ensure to use HTTPS in production
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddHours(1)
+            };
+
+            Response.Cookies.Append("authToken", token, cookieOptions);
+
             return Ok(_mappers.ToLogInResponse(token));
         }
+        
+        /// <summary>
+        /// Logout
+        /// </summary>
+        /// <response code="200">Logout successful</response>
+        [HttpPost]
+        [Route("/v1/auth/logout")]
+        [SwaggerOperation("LogOut")]
+        [SwaggerResponse(statusCode: 200, description: "Logout successful")]
+        public IActionResult LogOut()
+        {
+            Response.Cookies.Delete("authToken");
+            return Ok(new { message = "Logout successful" });
+        } 
+        
     }
 }

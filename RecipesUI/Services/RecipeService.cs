@@ -21,14 +21,20 @@ public class RecipeService : ApiService<RecipeResponse>, IRecipeService
     }
     
     public async Task<List<RecipeResponse>> GetRecipes(
-        string search = null,
-        List<int> ingredientIds = null,
+        string? userId =  null,
+        string? search = null,
+        List<int>? ingredientIds = null,
         int page = 1,
         int pageSize = 9,
-        string orderBy = null,
+        string? orderBy = null,
         string sorting = "asc")
     {
         var queryParams = new List<string>();
+        
+        if (!string.IsNullOrEmpty(userId))
+        {
+            queryParams.Add($"UserId={Uri.EscapeDataString(userId)}");
+        }
 
         if (!string.IsNullOrEmpty(search))
         {
