@@ -6,44 +6,40 @@
 @inject NavigationManager Navigation
 @inject ILogger<Login> Logger
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="text-center">Login</h3>
-                </div>
-                <div class="card-body">
-                    <EditForm Model="loginModel" OnValidSubmit="HandleLogin">
-                        <DataAnnotationsValidator />
-                        <ValidationSummary />
+<div class="login-page">
+    <main>
+        <div class="left-side">
+            <EditForm Model="loginModel" OnValidSubmit="HandleLogin">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
 
-                        <div class="form-group">
-                            <label for="email">Email:</label>
-                            <InputText id="email" class="form-control" @bind-Value="loginModel.Email" />
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password:</label>
-                            <InputText id="password" class="form-control" @bind-Value="loginModel.Password" type="password" />
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block mt-3">Login</button>
-                    </EditForm>
+                <label for="email">Email</label>
+                <InputText id="email" class="form-control" @bind-Value="loginModel.Email" placeholder="Enter your email" />
 
-                    @if (!string.IsNullOrEmpty(errorMessage))
-                    {
-                        <div class="alert alert-danger mt-3">@errorMessage</div>
-                    }
-                    @if (!string.IsNullOrEmpty(successMessage))
-                    {
-                        <div class="alert alert-success mt-3">@successMessage</div>
-                    }
+                <label for="password">Password</label>
+                <InputText id="password" class="form-control" @bind-Value="loginModel.Password" type="password" placeholder="Enter your password" />
+                <div class="btn-group">
+                <button type="submit" class="login-btn">Sign in</button>
                 </div>
-            </div>
-            <div class="mt-3 text-center">
-                <p>If you don't have an account, please <NavLink href="register">register</NavLink>.</p>
-            </div>
+
+                <div class="links">
+                    <a href="register">Do not have an account?</a>
+                </div>
+            </EditForm>
+                <div class="alert-container">
+                @if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    <div class="alert alert-danger">@errorMessage</div>
+                }
+                @if (!string.IsNullOrEmpty(successMessage))
+                {
+                    <div class="alert alert-success">@successMessage</div>
+                }
+                </div>
         </div>
-    </div>
+
+        <div class="right-side"></div>
+    </main>
 </div>
 
 @code {
