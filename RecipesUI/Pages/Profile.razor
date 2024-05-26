@@ -115,7 +115,12 @@
         try
         {
             Logger.LogInformation("Fetching recipes for page {currentPage}.", currentPage);
-            recipes = await RecipeService.GetRecipes(page: currentPage, pageSize: pageSize, search: searchQuery) ?? new List<RecipeResponse>();            Logger.LogInformation("Recipes fetched successfully.");
+            
+            var token = await JSRuntime.InvokeAsync<string>("cookieHelper.getCookie", "authToken");
+            var userId = AuthenticationStateProvider.GetUserIdFromToken(token);
+            
+            recipes = await RecipeService.GetRecipes(userId: userId,page: currentPage, pageSize: pageSize, search: searchQuery) ?? new List<RecipeResponse>();
+            Logger.LogInformation("Recipes fetched successfully.");
             totalRecipes = recipes.Count;
             totalPages = (int)Math.Ceiling((double)totalRecipes / pageSize) + 1;
         }
@@ -135,34 +140,34 @@
     }
     
     
-    private async Task SortRecipes(string order)
-    {
-        string sorting = order == "newest" ? "dsc" : "asc";
-        await LoadRecipes("CreatedAt", sorting);
-        StateHasChanged();
-    }
+    // private async Task SortRecipes(string order)
+    // {
+    //     string sorting = order == "newest" ? "dsc" : "asc";
+    //     await LoadRecipes("CreatedAt", sorting);
+    //     StateHasChanged();
+    // }
 
-    private async Task LoadRecipes(string orderBy, string sorting)
-    {
-        try
-        {
-            Logger.LogInformation("Fetching recipes for page {currentPage}.", currentPage);
-            recipes = await RecipeService.GetRecipes(page: currentPage, pageSize: pageSize, orderBy: orderBy, sorting: sorting, search: searchQuery) ?? new List<RecipeResponse>();
-            Logger.LogInformation("Recipes fetched successfully.");
-            totalRecipes = recipes.Count;
-            totalPages = (int)Math.Ceiling((double)totalRecipes / pageSize) + 1;
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex, "Error fetching recipes.");
-        }
-    }
+    // private async Task LoadRecipes(string orderBy, string sorting)
+    // {
+    //     try
+    //     {
+    //         Logger.LogInformation("Fetching recipes for page {currentPage}.", currentPage);
+    //         recipes = await RecipeService.GetRecipes(page: currentPage, pageSize: pageSize, orderBy: orderBy, sorting: sorting, search: searchQuery) ?? new List<RecipeResponse>();
+    //         Logger.LogInformation("Recipes fetched successfully.");
+    //         totalRecipes = recipes.Count;
+    //         totalPages = (int)Math.Ceiling((double)totalRecipes / pageSize) + 1;
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         Logger.LogError(ex, "Error fetching recipes.");
+    //     }
+    // }
     
-    private async Task OnSearchInput(ChangeEventArgs e)
-    {
-        searchQuery = e.Value.ToString();
-        await LoadRecipes();
-        StateHasChanged();
-    }
+    // private async Task OnSearchInput(ChangeEventArgs e)
+    // {
+    //     searchQuery = e.Value.ToString();
+    //     await LoadRecipes();
+    //     StateHasChanged();
+    // }
 
 }
