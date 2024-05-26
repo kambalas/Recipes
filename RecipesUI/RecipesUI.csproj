@@ -16,6 +16,10 @@
   <ItemGroup>
     <ProjectReference Include="..\ApiCommons\ApiCommons.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\css\images\" />
+  </ItemGroup>
 	
 
 </Project>

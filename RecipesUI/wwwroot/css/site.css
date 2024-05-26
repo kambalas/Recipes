@@ -169,3 +169,197 @@ body {
 
 
 
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+    width: 100%;
+    background: #f8f9fa;
+    padding: 30px 20px;
+}
+
+    .login-page main {
+        display: grid;
+        grid-template-columns: 50% 50%;
+        align-items: center;
+        background: #fff;
+        width: min(1000px, 95%);
+        border-radius: 10px;
+    }
+
+    .login-page .left-side {
+        height: 600px;
+        padding: 100px;
+    }
+
+    .login-page .right-side {
+        height: 100%;
+        background-image: url('images/background.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        border-radius: 0 20px 20px 0;
+        background-color: red; /* Fallback color to check visibility */
+    }
+
+    .login-page .btn-group {
+        display: flex;
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically (if needed) */
+        width: 100%;
+    }
+
+        .login-page .btn-group .btn {
+            display: flex;
+            align-items: center;
+            column-gap: 4px;
+            width: max-content;
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 8px 6px;
+            border: 2px solid #6b7280;
+            border-radius: 5px;
+            background-color: #f6f6f6;
+            transform: scale(1);
+            cursor: pointer;
+            transition: transform 0.1s ease, background-color 0.5s, color 0.5s;
+        }
+
+            .login-page .btn-group .btn:focus {
+                transform: scale(0.97);
+            }
+
+            .login-page .btn-group .btn:hover {
+                background-color: #000;
+                color: #eee;
+            }
+
+    .login-page .btn img {
+        width: 16px;
+        height: 16px;
+    }
+
+    .login-page .logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f6f6f6;
+        border-radius: 50%;
+        padding: 2px;
+    }
+
+    .login-page .or {
+        position: relative;
+        text-align: center;
+        margin-bottom: 24px;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+        .login-page .or::before,
+        .login-page .or::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background: #000;
+        }
+
+        .login-page .or::before {
+            left: 0;
+        }
+
+        .login-page .or::after {
+            right: 0;
+        }
+
+    .login-page input {
+        width: 100%;
+        padding: 12px 20px;
+        border: 2px solid #ccc;
+        outline: 0;
+        border-radius: 5px;
+        background-color: transparent;
+        margin: 4px 0 18px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        transition: all 0.5s;
+    }
+
+        .login-page input:focus {
+            border: 2px solid #000;
+        }
+
+        .login-page input:-webkit-autofill,
+        .login-page input:-webkit-autofill:hover,
+        .login-page input:-webkit-autofill:focus,
+        .login-page input:-webkit-autofill:active {
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: #000;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+
+    .login-page label {
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .login-page .login-btn {
+
+        width: 50%;
+        font-size: 0.9rem;
+        font-weight: 600;
+        padding: 8px 24px;
+        margin: 12px 0 24px;
+        transition: all 0.5s;
+        height: 3rem;
+        border-radius: 1.5rem;
+        background: #3d3a4e;
+        background-size: 400%;
+        color: #fff;
+        cursor: pointer;
+
+    }
+
+        .login-page .login-btn:hover {
+            background-color: #000;
+            color: #eee;
+        }
+
+    .login-page .links {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: underline;
+    }
+
+    .login-page a:link,
+    .login-page a:visited,
+    .login-page a:hover,
+    .login-page a:active {
+        text-decoration: dotted;
+    }
+
+    .login-page a {
+        color: #000;
+        font-size: 0.88rem;
+        font-weight: 600;
+        letter-spacing: -1px;
+        transition: all 0.4s ease;
+    }
+
+    .login-page a:hover {
+            color: rgb(13, 133, 185);
+    }
+    .login-page .alert-container {
+        height: 100px;
+        overflow: hidden;
+        margin-top: 5px;
+        font-size: 0.8rem;
+    }
+
+
+
+

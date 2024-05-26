@@ -1,13 +1,17 @@
-window.provideSortDropdownListeners = function() {
+window.provideSortDropdownListeners = function () {
     const dropdownButton = document.querySelector('.dropdown-button.sort-button');
     const dropdownMenu = document.querySelector('.dropdown-menu');
+
+    if (!dropdownButton || !dropdownMenu) {
+        console.error('Dropdown button or menu not found');
+        return;
+    }
 
     dropdownButton.addEventListener('click', function () {
         if (dropdownMenu.style.display === 'block') {
             dropdownMenu.style.display = 'none';
         } else {
             dropdownMenu.style.display = 'block';
-
         }
     });
 
@@ -24,5 +28,3 @@ window.provideSortDropdownListeners = function() {
         }
     });
 };
-
-
