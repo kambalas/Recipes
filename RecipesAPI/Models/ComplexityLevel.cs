@@ -7,6 +7,6 @@ namespace RecipesAPI.Models
     {
         Easy = 0,
         Medium = 1,
-        HardEnum = 2
+        Hard = 2
     }
 }

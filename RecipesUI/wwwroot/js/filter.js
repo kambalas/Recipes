@@ -7,7 +7,6 @@ window.provideSortDropdownListeners = function() {
             dropdownMenu.style.display = 'none';
         } else {
             dropdownMenu.style.display = 'block';
-
         }
     });
 
@@ -26,5 +25,3 @@ window.provideSortDropdownListeners = function() {
     
     
 };
-
-

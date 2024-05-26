@@ -1,5 +1,4 @@
 using ApiCommons.DTOs;
-using IO.Swagger.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
@@ -213,7 +212,7 @@ public class RecipeService : ApiService<RecipeResponse>, IRecipeService
             },
             Servings = 4,
             Energy = 500,
-            Level = LevelEnum.EasyEnum
+            Level = LevelEnum.Easy
         };
         
         

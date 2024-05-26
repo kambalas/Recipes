@@ -1,8 +1,6 @@
-using IO.Swagger.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ApiCommons.DTOs;
-using IO.Swagger.Models;
 
 namespace RecipesUI.Services;
 

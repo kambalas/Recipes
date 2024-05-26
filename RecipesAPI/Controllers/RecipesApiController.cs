@@ -16,15 +16,15 @@ using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using IO.Swagger.Security;
 using Microsoft.AspNetCore.Authorization;
-using IO.Swagger.Models;
 using RecipesAPI.Filters;
 using RecipesAPI.Services.Interfaces;
 using RecipesAPI.Services;
 using RecipesAPI.Mappers;
 using RecipesAPI.Models;
 using ApiCommons.DTOs;
+using System.Security.Claims;
 
-    namespace IO.Swagger.Controllers
+namespace IO.Swagger.Controllers
     {
         /// <summary>
         /// 
@@ -87,7 +87,8 @@ using ApiCommons.DTOs;
         [SwaggerResponse(statusCode: 200, type: typeof(RecipeResponse), description: "Recipe updated")]
         public async Task<IActionResult> RecipeIdPut([FromBody] RecipeRequest body, [FromRoute][Required] long id)
         {
-            var recipe = await _recipeService.UpdateRecipeByIdAsync(_mappers.ToRecipe(body), id);
+            var userId = User?.Identity?.IsAuthenticated == true && long.TryParse(User.FindFirst("Id")?.Value, out long userIdLocal) ? userIdLocal : 0;
+            var recipe = await _recipeService.UpdateRecipeByIdAsync(_mappers.ToRecipe(body, userId), id);
             return Ok(_mappers.ToRecipeResponse(recipe));
         }
 
@@ -103,7 +104,8 @@ using ApiCommons.DTOs;
         [SwaggerResponse(statusCode: 201, type: typeof(RecipeResponse), description: "Recipe created")]
         public async Task<IActionResult> RecipePost([FromBody] RecipeRequest recipeDTO)
         {
-            var recipe = await _recipeService.CreateRecipesAsync(_mappers.ToRecipe(recipeDTO));
+            var userId = User?.Identity?.IsAuthenticated == true && long.TryParse(User.FindFirst("Id")?.Value, out long userIdLocal) ? userIdLocal : 0;
+            var recipe = await _recipeService.CreateRecipesAsync(_mappers.ToRecipe(recipeDTO, userId));
             return Ok(_mappers.ToRecipeResponseOnCreate(recipe));
         }
 

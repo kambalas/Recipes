@@ -1,9 +1,9 @@
 ﻿// Services/IngredientService.cs
+using ApiCommons.DTOs;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using IO.Swagger.Models;
 
 public class IngredientService
 {

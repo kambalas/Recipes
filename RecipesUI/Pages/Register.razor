@@ -37,6 +37,7 @@
                     <div class="alert alert-success">@successMessage</div>
                 }
                 </div>
+            </div>
         </div>
         <div class="right-side"></div>
     </main>
@@ -46,6 +47,7 @@
     private RegisterRequest registerModel = new RegisterRequest();
     private string errorMessage;
     private string successMessage;
+    @inject NavigationManager Navigation
 
 
     private async Task HandleRegister()
