@@ -8,10 +8,10 @@
 @inject CustomAuthenticationStateProviderService AuthenticationStateProvider
 @inject IJSRuntime JSRuntime
 
-@* @attribute [Authorize] *@
+@attribute [Authorize]
 
-<AuthorizeView>
-    <Authorized>
+@* <AuthorizeView> *@
+@*     <Authorized> *@
         <header>
             <h1>Slogan</h1>
             <div class="search-container">
@@ -90,11 +90,11 @@
         </div>
     </div>
 </main>
-</Authorized>
-    <NotAuthorized>
-        <p>You are not authorized to view this content. Please <NavLink href="login">login</NavLink>.</p>
-    </NotAuthorized>
-</AuthorizeView>
+@* </Authorized> *@
+@*     <NotAuthorized> *@
+@*         <p>You are not authorized to view this content. Please <NavLink href="login">login</NavLink>.</p> *@
+@*     </NotAuthorized> *@
+@* </AuthorizeView> *@
 
 @code {
     private List<RecipeResponse> recipes;
@@ -113,9 +113,8 @@
             await LoadRecipes();
             isInitialized = true;
             StateHasChanged();
-            
+
             await JSRuntime.InvokeVoidAsync("provideSortDropdownListeners");
-            await JSRuntime.InvokeVoidAsync("initializeDropdown");
         }
     }
 

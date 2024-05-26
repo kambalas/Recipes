@@ -57,7 +57,6 @@
         if (response.IsSuccessStatusCode)
         {
             var token = await response.Content.ReadAsStringAsync();
-            await SessionStorage.SetItemAsync("authToken", token);
             AuthenticationStateProvider.MarkUserAsAuthenticatedAsync(token);
             successMessage = "Login successful";
             errorMessage = string.Empty;

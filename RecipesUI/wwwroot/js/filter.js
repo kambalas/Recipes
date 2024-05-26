@@ -23,6 +23,8 @@ window.provideSortDropdownListeners = function() {
             dropdownMenu.style.display = 'none';
         }
     });
+    
+    
 };
 
 
