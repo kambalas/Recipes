@@ -173,10 +173,11 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 50vh;
     width: 100%;
+    height: 100%;
     background: #f8f9fa;
-    padding: 30px 20px;
+    padding: 0;
+    margin: 0;
 }
 
     .login-page main {
@@ -184,13 +185,15 @@ body {
         grid-template-columns: 50% 50%;
         align-items: center;
         background: #fff;
-        width: min(1000px, 95%);
-        border-radius: 10px;
+        width: min(1300px, 100%);
+        border-radius: 0px;
+        overflow: hidden;
     }
 
     .login-page .left-side {
-        height: 600px;
-        padding: 100px;
+        height: 620px;
+        padding: 130px;
+        box-sizing: border-box;
     }
 
     .login-page .right-side {
@@ -199,14 +202,14 @@ body {
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
-        border-radius: 0 20px 20px 0;
-        background-color: red; /* Fallback color to check visibility */
+        border-radius: 0 0px 0px 0;
+        background-color: red;
     }
 
     .login-page .btn-group {
         display: flex;
-        justify-content: center; /* Center horizontally */
-        align-items: center; /* Center vertically (if needed) */
+        justify-content: center;
+        align-items: center;
         width: 100%;
     }
 
