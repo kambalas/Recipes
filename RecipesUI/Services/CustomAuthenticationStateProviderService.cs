@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Components.Authorization;
+﻿using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http;
 using Blazored.SessionStorage;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
+using Newtonsoft.Json;
 
 namespace RecipesUI.Services
 {
@@ -68,6 +71,47 @@ namespace RecipesUI.Services
             _logger.LogInformation("Auth token cookie deleted. User logged out.");
 
             NotifyAuthenticationStateChanged(authState);
+        }
+        
+        public string GetUserIdFromToken(string token)
+        {
+            try
+            {
+                var parts = token.Split('.');
+                if (parts.Length != 3)
+                {
+                    throw new ArgumentException("Token is not in the correct format");
+                }
+                
+                var payload = parts[1];
+                var jsonBytes = ParseBase64WithoutPadding(payload);
+                var jsonString = Encoding.UTF8.GetString(jsonBytes);
+                var keyValuePairs = JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonString);
+
+
+                if (keyValuePairs.TryGetValue("UserId", out var userId))
+                {
+                    return userId.ToString();
+                }
+
+                _logger.LogWarning("UserId claim not found in token.");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error decoding JWT token.");
+                throw;
+            }
+        }
+
+        private static byte[] ParseBase64WithoutPadding(string base64)
+        {
+            switch (base64.Length % 4)
+            {
+                case 2: base64 += "=="; break;
+                case 3: base64 += "="; break;
+            }
+            return Convert.FromBase64String(base64);
         }
         
 

@@ -1,0 +1,14 @@
+@page "/logout"
+@using RecipesUI.Services
+@inject CustomAuthenticationStateProviderService AuthService
+@inject NavigationManager Navigation
+
+<h3>Logging out...</h3>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await AuthService.MarkUserAsLoggedOutAsync();
+        Navigation.NavigateTo("/");
+    }
+}
