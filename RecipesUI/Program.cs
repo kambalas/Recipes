@@ -12,12 +12,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
-
+builder.Services.AddHttpClient("ApiClient", client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["ApiBaseUrl"]);
+});
 builder.Services.AddScoped(typeof(IApiService<>), typeof(ApiService<>));
 builder.Services.AddScoped<IRecipeService, RecipeService>();
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7087/") });
-// builder.Services.AddBlazoredSessionStorage();
 builder.Services.AddScoped<CustomAuthenticationStateProviderService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<AuthenticationStateProvider>(provider => provider.GetRequiredService<CustomAuthenticationStateProviderService>());
 builder.Services.AddAuthorizationCore();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

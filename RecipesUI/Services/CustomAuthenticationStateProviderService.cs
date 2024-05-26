@@ -1,5 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Components.Authorization;
+using ApiCommons.DTOs;
 using Microsoft.AspNetCore.Http;
 using Blazored.SessionStorage;
 using System.Security.Claims;
@@ -13,16 +14,15 @@ namespace RecipesUI.Services
     public class CustomAuthenticationStateProviderService : AuthenticationStateProvider
     {
         private readonly IJSRuntime _jsRuntime;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IHttpClientFactory _httpClientFactory;
         private readonly ILogger<CustomAuthenticationStateProviderService> _logger;
 
         private AuthenticationState _anonymous => new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
         
-
-
-        public CustomAuthenticationStateProviderService(IHttpContextAccessor httpContextAccessor, ILogger<CustomAuthenticationStateProviderService> logger, IJSRuntime jsRuntime)
+        public CustomAuthenticationStateProviderService(IHttpClientFactory httpClientFactory, ILogger<CustomAuthenticationStateProviderService> logger, IJSRuntime jsRuntime)
         {
-            _httpContextAccessor = httpContextAccessor;
+            // _httpContextAccessor = httpContextAccessor
+            _httpClientFactory = httpClientFactory;
             _logger = logger;
             _jsRuntime = jsRuntime;
         }
@@ -113,6 +113,37 @@ namespace RecipesUI.Services
             }
             return Convert.FromBase64String(base64);
         }
+        
+        public async Task<string> LoginAsync(LogInRequest loginRequest)
+        {
+            try
+            {
+                var httpClient = _httpClientFactory.CreateClient();
+                httpClient.BaseAddress = new Uri("https://localhost:7087/v1/");
+        
+                _logger.LogInformation("Submitting login request to {Uri} with payload: {Payload}", httpClient.BaseAddress + "auth/login", loginRequest);
+
+                var response = await httpClient.PostAsJsonAsync("auth/login", loginRequest);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var token = await response.Content.ReadAsStringAsync();
+                    _logger.LogInformation("Login successful. Token received: {Token}", token);
+                    await MarkUserAsAuthenticatedAsync(token);
+                    return token;
+                }
+
+                var error = await response.Content.ReadAsStringAsync();
+                _logger.LogError("Error logging in: {Error}. Response status: {Status}", error, response.StatusCode);
+                return null;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while logging in.");
+                return null;
+            }
+        }
+
         
 
         // public override async Task<AuthenticationState> GetAuthenticationStateAsync()

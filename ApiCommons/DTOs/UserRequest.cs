@@ -20,7 +20,7 @@ namespace ApiCommons.DTOs
         /// </summary>
         [Required]
         [DataMember(Name = "username")]
-        public string Username { get; set; }
+        public string? Username { get; set; }
 
         /// <summary>
         /// Gets or Sets Email

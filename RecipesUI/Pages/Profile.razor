@@ -6,6 +6,7 @@
 @inject ILogger<Index> Logger
 @inject CustomAuthenticationStateProviderService AuthenticationStateProvider
 @inject IJSRuntime JSRuntime
+@inject IUserService UserService
 
 @attribute [Authorize]
 
@@ -24,8 +25,8 @@
         </div>
         
         <div class="account-text-info">
-            <p class="username">@@username</p>
-            <p class="email">user.email@example.com</p>
+            <p class="username">@user.Username</p>
+            <p class="email">@user.Email</p>
         </div>
     </div>
     
@@ -97,12 +98,15 @@
     private int totalPages;
     private bool isInitialized = false;
     private string searchQuery = string.Empty;
+    private UserResponse? user = new UserResponse();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
+            var token = await JSRuntime.InvokeAsync<string>("cookieHelper.getCookie", "authToken");
             await AuthenticationStateProvider.CheckAuthenticationStateAsync(); // Ensure authentication state is checked after first render
+            user = await UserService.GetUserById(AuthenticationStateProvider.GetUserIdFromToken(token));
             await LoadRecipes();
             isInitialized = true;
             StateHasChanged();

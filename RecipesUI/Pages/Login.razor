@@ -1,23 +1,24 @@
 ﻿@page "/login"
 @using Microsoft.EntityFrameworkCore.Metadata.Internal
+@using ApiCommons.DTOs
 @inject HttpClient Http
 @inject RecipesUI.Services.CustomAuthenticationStateProviderService AuthenticationStateProvider
-@* @inject Blazored.SessionStorage.ISessionStorageService SessionStorage *@
 @inject NavigationManager Navigation
 @inject ILogger<Login> Logger
+@inject IJSRuntime JSRuntime
 
 <div class="login-page">
     <main>
         <div class="left-side">
-            <EditForm Model="loginModel" OnValidSubmit="HandleLogin">
+            <EditForm Model="loginRequest" OnValidSubmit="HandleLogin">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
 
                 <label for="email">Email</label>
-                <InputText id="email" class="form-control" @bind-Value="loginModel.Email" placeholder="Enter your email" />
+                <InputText id="email" class="form-control" @bind-Value="loginRequest.Email" placeholder="Enter your email" />
 
                 <label for="password">Password</label>
-                <InputText id="password" class="form-control" @bind-Value="loginModel.Password" type="password" placeholder="Enter your password" />
+                <InputText id="password" class="form-control" @bind-Value="loginRequest.Password" type="password" placeholder="Enter your password" />
                 <div class="btn-group">
                 <button type="submit" class="login-btn">Sign in</button>
                 </div>
@@ -43,33 +44,45 @@
 </div>
 
 @code {
-    private LogInRequest loginModel = new LogInRequest();
+    // private LogInRequest loginModel = new LogInRequest();
     private string errorMessage;
     private string successMessage;
+    private LogInRequest loginRequest = new LogInRequest();
+
+    
+    
 
     private async Task HandleLogin()
     {
-        var response = await Http.PostAsJsonAsync("/v1/auth/login", loginModel);
-        if (response.IsSuccessStatusCode)
+        try
         {
-            var token = await response.Content.ReadAsStringAsync();
-            AuthenticationStateProvider.MarkUserAsAuthenticatedAsync(token);
-            successMessage = "Login successful";
-            errorMessage = string.Empty;
-            Navigation.NavigateTo("/");
-        }
-        else
+            var response = await AuthenticationStateProvider.LoginAsync(loginRequest);
+                if (response != null)
+                {
+                    var token = response;
+                    
+                    await AuthenticationStateProvider.MarkUserAsAuthenticatedAsync(token);
+                    await JSRuntime.InvokeVoidAsync("cookieHelper.setCookie", "authToken", token, 1);
+
+                    successMessage = "Login successful";
+                    errorMessage = string.Empty;
+                    Navigation.NavigateTo("/");
+                }
+                else
+                {
+                    errorMessage = "Login failed. Please check your credentials.";
+                    Logger.LogError("Error logging in: {error}", errorMessage);
+                    successMessage = string.Empty;
+                }
+        }catch (Exception ex)
         {
-            errorMessage = "Login failed. Please check your credentials.";
-            var error = await response.Content.ReadAsStringAsync();
-            Logger.LogError("Error logging in: {error}", error);
+            Logger.LogError(ex, "An error occurred while logging in.");
+            errorMessage = "An unexpected error occurred. Please try again later.";
             successMessage = string.Empty;
         }
+        
+        
     }
 
-    public class LogInRequest
-    {
-        public string Email { get; set; }
-        public string Password { get; set; }
-    }
+    
 }
