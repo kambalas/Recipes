@@ -11,8 +11,8 @@
 
 @attribute [Authorize]
 
-@* <AuthorizeView> *@
-@*     <Authorized> *@
+ <AuthorizeView> 
+    <Authorized> 
 <header>
     <h1>Slogan</h1>
     <div class="search-container">
@@ -77,6 +77,7 @@
                                     </svg>
                                 }
                                 
+                                
                             </div>
                             <div class="time-badge">@TotalDuration(recipe.PreparationDuration,recipe.CookingDuration) min</div>
                             <div class="title">
@@ -95,11 +96,11 @@
     </div>
 </main>
 
-@* </Authorized> *@
-@*     <NotAuthorized> *@
-@*         <p>You are not authorized to view this content. Please <NavLink href="login">login</NavLink>.</p> *@
-@*     </NotAuthorized> *@
-@* </AuthorizeView> *@
+ </Authorized> 
+     <NotAuthorized> 
+        <p>You are not authorized to view this content. Please <NavLink href="login">login</NavLink>.</p>
+     </NotAuthorized> 
+ </AuthorizeView> 
 
 @code {
     private List<RecipeResponse> recipes;
