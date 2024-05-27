@@ -48,7 +48,7 @@ namespace IO.Swagger.Controllers
             /// <response code="204">Recipe deleted</response>
             [HttpDelete]
             [Route("/v1/recipe/{id}")]
-            [Authorize(AuthenticationSchemes = BearerAuthenticationHandler.SchemeName)]
+            //[Authorize(AuthenticationSchemes = BearerAuthenticationHandler.SchemeName)]
             [SwaggerOperation("RecipeIdDelete")]
             public virtual IActionResult RecipeIdDelete([FromRoute][Required] long? id)
             {
@@ -87,7 +87,7 @@ namespace IO.Swagger.Controllers
         [SwaggerResponse(statusCode: 200, type: typeof(RecipeResponse), description: "Recipe updated")]
         public async Task<IActionResult> RecipeIdPut([FromBody] RecipeRequest body, [FromRoute][Required] long id)
         {
-            var userId = User?.Identity?.IsAuthenticated == true && long.TryParse(User.FindFirst("Id")?.Value, out long userIdLocal) ? userIdLocal : 0;
+            var userId = User?.Identity?.IsAuthenticated == true && long.TryParse(User.FindFirst("Id")?.Value, out long userIdLocal) ? userIdLocal : 1;
             var recipe = await _recipeService.UpdateRecipeByIdAsync(_mappers.ToRecipe(body, userId), id);
             return Ok(_mappers.ToRecipeResponse(recipe));
         }
@@ -104,7 +104,7 @@ namespace IO.Swagger.Controllers
         [SwaggerResponse(statusCode: 201, type: typeof(RecipeResponse), description: "Recipe created")]
         public async Task<IActionResult> RecipePost([FromBody] RecipeRequest recipeDTO)
         {
-            var userId = User?.Identity?.IsAuthenticated == true && long.TryParse(User.FindFirst("Id")?.Value, out long userIdLocal) ? userIdLocal : 0;
+            var userId = User?.Identity?.IsAuthenticated == true && long.TryParse(User.FindFirst("Id")?.Value, out long userIdLocal) ? userIdLocal : 1;
             var recipe = await _recipeService.CreateRecipesAsync(_mappers.ToRecipe(recipeDTO, userId));
             return Ok(_mappers.ToRecipeResponseOnCreate(recipe));
         }

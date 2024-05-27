@@ -24,6 +24,13 @@ namespace RecipesAPI.Repositories
                 .IsConcurrencyToken()
                 .IsRowVersion();
 
+            modelBuilder.Entity<Recipe>()
+                .HasMany(r => r.Steps)
+                .WithOne(s => s.Recipe)
+                .HasForeignKey(s => s.RecipeId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Recipes)
                 .WithOne(r => r.User)
