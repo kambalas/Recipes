@@ -26,7 +26,6 @@ namespace ApiCommons.DTOs
         /// <summary>
         /// Gets or Sets Version
         /// </summary>
-        [Required]
         [DataMember(Name = "version")]
         public byte[]? Version { get; set; }
 
