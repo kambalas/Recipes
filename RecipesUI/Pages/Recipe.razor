@@ -99,7 +99,7 @@
                        {
                            <h3>Prep Phase <span class="time-badge">@recipe.PreparationDuration min</span></h3>
                            <ol>
-                               @foreach (var step in recipe.Steps.Where(s => s.Phase == PhaseEnum.PrepEnum))
+                               @foreach (var step in recipe.Steps.Where(s => s.Phase == PhaseEnum.Prep))
                                {
                                    <li>
                                        <p class="step-text"><strong>Step @step.StepNumber:</strong> @step.Description</p>
@@ -108,7 +108,7 @@
                            </ol>
                            <h3>Cooking Phase <span class="time-badge">@recipe.CookingDuration min</span></h3>
                            <ol>
-                               @foreach (var step in recipe.Steps.Where(s => s.Phase == PhaseEnum.CookingEnum))
+                               @foreach (var step in recipe.Steps.Where(s => s.Phase == PhaseEnum.Cooking))
                                {
                                    <li>
                                        <p class="step-text"><strong>Step @step.StepNumber:</strong> @step.Description</p>

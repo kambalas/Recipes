@@ -30,13 +30,13 @@
             </div>
         </div>
         <div class="difficulty-buttons">
-            <button type="button" class="difficulty-button @(Recipe.Level == LevelEnum.EasyEnum ? "active" : "")" @onclick='() => SetDifficulty("EasyEnum")'>Easy</button>
-            <button type="button" class="difficulty-button @(Recipe.Level == LevelEnum.MediumEnum ? "active" : "")" @onclick='() => SetDifficulty("MediumEnum")'>Medium</button>
-            <button type="button" class="difficulty-button @(Recipe.Level == LevelEnum.HardEnum ? "active" : "")" @onclick='() => SetDifficulty("HardEnum")'>Hard</button>
+            <button type="button" class="difficulty-button @(Recipe.Level == LevelEnum.Easy ? "active" : "")" @onclick='() => SetDifficulty("Easy")'>Easy</button>
+            <button type="button" class="difficulty-button @(Recipe.Level == LevelEnum.Medium ? "active" : "")" @onclick='() => SetDifficulty("Medium")'>Medium</button>
+            <button type="button" class="difficulty-button @(Recipe.Level == LevelEnum.Hard ? "active" : "")" @onclick='() => SetDifficulty("Hard")'>Hard</button>
         </div>
     </EditForm>
 </div>
-
+ 
 
 @code {
     [Parameter]

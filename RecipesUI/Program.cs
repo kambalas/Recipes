@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -24,6 +25,10 @@ builder.Services.AddScoped<AuthenticationStateProvider>(provider => provider.Get
 builder.Services.AddAuthorizationCore();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+var options = new JsonSerializerOptions
+{
+    PropertyNameCaseInsensitive = true
+};
 
 
 

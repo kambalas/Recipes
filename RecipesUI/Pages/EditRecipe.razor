@@ -2,7 +2,6 @@
 @using RecipesUI.Pages.RecipeManagementElements
 @using RecipesUI.Services
 @using ApiCommons.DTOs
-@using IO.Swagger.Models
 @using RecipesUI.Models
 @using System.Net
 @inject IJSRuntime JSRuntime
@@ -52,7 +51,7 @@
             {
                 Id = i.Id,
                 Amount = (int)(i.Amount ?? 0L),
-                Measurement = i.Measurement ?? MeasurementEnum.PieceEnum
+                Measurement = i.Measurement ?? MeasurementEnum.piece
             }).ToList(),
             Steps  = recipeResponse.Steps.Select(s => new StepRequest()
             {

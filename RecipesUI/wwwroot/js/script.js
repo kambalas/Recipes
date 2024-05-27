@@ -396,7 +396,7 @@ window.provideStepsListeners = function() {
                 return;
             }
 
-            const list = (phase === "prep") ? document.getElementById("prep-steps") : document.getElementById("cooking-steps");
+            const list = (phase === "Prep") ? document.getElementById("prep-steps") : document.getElementById("cooking-steps");
             const item = document.createElement("div");
             item.className = "step-item";
             item.dataset.description = description;
@@ -433,7 +433,7 @@ window.provideStepsListeners = function() {
             descriptionInput.value = item.dataset.description;
             var parentId = item.parentNode.id;
 
-            var phase = parentId === "prep-steps" ? "prep" : "cooking";
+            var phase = parentId === "prep-steps" ? "Prep" : "Cooking";
             document.getElementById("step-phase").value = phase;
             let dropdown = document.querySelector('#phase-dropdown');
 
@@ -467,13 +467,13 @@ window.provideStepsListeners = function() {
 
         const prepSteps = Array.from(prepItems).map((item, index) => ({
             description: item.dataset.description,
-            phase: "PrepEnum",
+            phase: "Prep",
             stepNumber: index + 1
         }));
 
         const cookingSteps = Array.from(cookingItems).map((item, index) => ({
             description: item.dataset.description,
-            phase: "CookingEnum",
+            phase: "Cooking",
             stepNumber: prepSteps.length + index + 1
         }));
         
@@ -484,8 +484,8 @@ window.provideStepsListeners = function() {
     
     function loadSteps(steps) {
         
-        const prepSteps = steps.filter(step => step.phase === "prep");
-        const cookingSteps = steps.filter(step => step.phase === "cooking");
+        const prepSteps = steps.filter(step => step.phase === "Prep");
+        const cookingSteps = steps.filter(step => step.phase === "Cooking");
         const prepList = document.getElementById("prep-steps");
         const cookingList = document.getElementById("cooking-steps");
 

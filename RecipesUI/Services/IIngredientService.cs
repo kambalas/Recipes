@@ -1,4 +1,4 @@
-using IO.Swagger.Models;
+using ApiCommons.DTOs;
 
 namespace RecipesUI.Services;
 

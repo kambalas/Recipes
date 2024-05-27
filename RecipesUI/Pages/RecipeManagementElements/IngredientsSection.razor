@@ -145,7 +145,7 @@
 
             ingredients.Add(ingredient);
 
-            var measurementString = ingredient.Measurement + "Enum";
+            var measurementString = ingredient.Measurement;
             if (Enum.TryParse<MeasurementEnum>(measurementString, true, out var measurementEnum))
             {
                 if (Ingredients == null) Ingredients = new List<IngredientOnCreateRequest>();

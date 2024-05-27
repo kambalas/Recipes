@@ -1,7 +1,7 @@
 using ApiCommons.DTOs;
-using IO.Swagger.Models;
 using System.Text.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
+using System.Net;
 
 namespace RecipesUI.Services;
 

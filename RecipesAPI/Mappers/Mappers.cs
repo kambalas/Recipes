@@ -176,32 +176,32 @@ namespace RecipesAPI.Mappers
             {
                 case MeasurementType.Gram:
                     {
-                        return MeasurementEnum.GEnum;
+                        return MeasurementEnum.g;
                     }
                 case MeasurementType.Kilogram:
                     {
-                        return MeasurementEnum.KgEnum;
+                        return MeasurementEnum.kg;
                     }
                 case MeasurementType.MiliLitre:
                     {
-                        return MeasurementEnum.MlEnum;
+                        return MeasurementEnum.ml;
                     }
                 case MeasurementType.Litre:
                     {
-                        return MeasurementEnum.LEnum;
+                        return MeasurementEnum.l;
                     }
                 case MeasurementType.Piece:
                     {
-                        return MeasurementEnum.PieceEnum;
+                        return MeasurementEnum.piece;
                     }
                 case MeasurementType.Tablespoon:
                     {
-                        return MeasurementEnum.TbspEnum;
+                        return MeasurementEnum.tbsp;
                     }
 
                 case MeasurementType.Teaspoon:
                     {
-                        return MeasurementEnum.TspEnum;
+                        return MeasurementEnum.tsp;
                     }
                 default: break;
             }
@@ -213,31 +213,31 @@ namespace RecipesAPI.Mappers
         {
             switch (measurementEnum)
             {
-                case MeasurementEnum.GEnum:
+                case MeasurementEnum.g:
                     {
                         return MeasurementType.Gram;
                     }
-                case MeasurementEnum.KgEnum:
+                case MeasurementEnum.kg:
                     {
                         return MeasurementType.Kilogram;
                     }
-                case MeasurementEnum.MlEnum:
+                case MeasurementEnum.ml:
                     {
                         return MeasurementType.MiliLitre;
                     }
-                case MeasurementEnum.LEnum:
+                case MeasurementEnum.l:
                     {
                         return MeasurementType.Litre;
                     }
-                case MeasurementEnum.PieceEnum:
+                case MeasurementEnum.piece:
                     {
                         return MeasurementType.Piece;
                     }
-                case MeasurementEnum.TbspEnum:
+                case MeasurementEnum.tbsp:
                     {
                         return MeasurementType.Tablespoon;
                     }
-                case MeasurementEnum.TspEnum:
+                case MeasurementEnum.tsp:
                     {
                         return MeasurementType.Teaspoon;
                     }
@@ -274,11 +274,11 @@ namespace RecipesAPI.Mappers
         {
             switch (phase)
             {
-                case PhaseEnum.PrepEnum:
+                case PhaseEnum.Prep:
                     {
                         return StepPhase.Preparation;
                     }
-                case PhaseEnum.CookingEnum:
+                case PhaseEnum.Cooking:
                     {
                         return StepPhase.Cooking;
                     }
@@ -293,11 +293,11 @@ namespace RecipesAPI.Mappers
             {
                 case StepPhase.Preparation:
                     {
-                        return PhaseEnum.PrepEnum;
+                        return PhaseEnum.Prep;
                     }
                 case StepPhase.Cooking:
                     {
-                        return PhaseEnum.CookingEnum;
+                        return PhaseEnum.Cooking;
                     }
             }
 
