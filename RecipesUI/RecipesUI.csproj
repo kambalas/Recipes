@@ -25,4 +25,13 @@
   </ItemGroup>
 	
 
+  <ItemGroup>
+    <PackageReference Include="mudblazor" Version="6.19.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Interop\" />
+    <Folder Include="wwwroot\assets\icons\" />
+  </ItemGroup>
+
 </Project>

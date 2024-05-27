@@ -1,22 +1,32 @@
-﻿// Services/IngredientService.cs
 using ApiCommons.DTOs;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
+using RecipesUI.Services;
 
-public class IngredientService
+public class IngredientService : ApiService<IngredientResponse>, IIngredientService
 {
-	private readonly HttpClient _httpClient;
 
-	public IngredientService(HttpClient httpClient)
+	public IngredientService(IConfiguration configuration, ILogger<IngredientService> logger) : base(configuration, logger)
 	{
-		_httpClient = httpClient;
 	}
 
-	public async Task<List<IngredientResponse>> GetIngredientsAsync(string search = "", string orderBy = "0", string sorting = "asc", int pageSize = 0)
+	public async Task<List<IngredientResponse>> GetIngredientsAsync(string search = "")
 	{
-		var response = await _httpClient.GetFromJsonAsync<List<IngredientResponse>>($"https://localhost:7087/v1/ingredients?&orderBy={orderBy}");
-		return response ?? new List<IngredientResponse>();
+		try
+		{
+			if (search != "")
+			{
+				search = "Search=" + search;
+			}
+			
+			var requestUri = $"{_httpClient.BaseAddress}ingredients?{search}&OrderBy=1&Sorting=asc&PageSize=50&Page=1";
+			_logger.LogInformation(requestUri);
+			var response = await _httpClient.GetFromJsonAsync<List<IngredientResponse>>(requestUri);
+			return response ?? new List<IngredientResponse>();
+		}
+		catch (HttpRequestException ex)
+		{
+			_logger.LogError("Failed to fetch ingredients: {Message}", ex.Message);
+			return new List<IngredientResponse>();
+		}
 	}
+
 }

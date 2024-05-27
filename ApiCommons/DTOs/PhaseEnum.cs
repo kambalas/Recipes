@@ -12,14 +12,14 @@ namespace ApiCommons.DTOs
     public enum PhaseEnum
     {
         /// <summary>
-        /// Enum PrepEnum for prep
+        /// Enum Prep for prep
         /// </summary>
-        [EnumMember(Value = "prep")]
-        PrepEnum = 0,
+        [EnumMember(Value = "Prep")]
+        Prep = 0,
         /// <summary>
-        /// Enum CookingEnum for cooking
+        /// Enum Cooking for cooking
         /// </summary>
-        [EnumMember(Value = "cooking")]
-        CookingEnum = 1
+        [EnumMember(Value = "Cooking")]
+        Cooking = 1
     }
 }

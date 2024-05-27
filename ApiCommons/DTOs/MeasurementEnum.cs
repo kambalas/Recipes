@@ -10,40 +10,40 @@ namespace ApiCommons.DTOs
     public enum MeasurementEnum
     {
         /// <summary>
-        /// Enum KgEnum for kg
+        /// Enum kg for kg
         /// </summary>
         [EnumMember(Value = "kg")]
-        KgEnum = 0,
+        kg = 0,
         /// <summary>
-        /// Enum GEnum for g
+        /// Enum g for g
         /// </summary>
         [EnumMember(Value = "g")]
-        GEnum = 1,
+        g = 1,
         /// <summary>
-        /// Enum LEnum for l
+        /// Enum l for l
         /// </summary>
         [EnumMember(Value = "l")]
-        LEnum = 2,
+        l = 2,
         /// <summary>
-        /// Enum MlEnum for ml
+        /// Enum ml for ml
         /// </summary>
         [EnumMember(Value = "ml")]
-        MlEnum = 3,
+        ml = 3,
         /// <summary>
-        /// Enum TspEnum for tsp
+        /// Enum tsp for tsp
         /// </summary>
         [EnumMember(Value = "tsp")]
-        TspEnum = 4,
+        tsp = 4,
         /// <summary>
-        /// Enum TbspEnum for tbsp
+        /// Enum tbsp for tbsp
         /// </summary>
         [EnumMember(Value = "tbsp")]
-        TbspEnum = 5,
+        tbsp = 5,
         /// <summary>
-        /// Enum PieceEnum for piece
+        /// Enum piece for piece
         /// </summary>
         [EnumMember(Value = "piece")]
-        PieceEnum = 6
+        piece = 6
     }
     
     

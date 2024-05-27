@@ -1,0 +1,219 @@
+@using ApiCommons.DTOs
+@using RecipesUI.Models
+@using RecipesUI.Services
+@using System.Text.Json
+@inject IJSRuntime JSRuntime
+@inject IIngredientService IngredientService
+@inject ILogger<IngredientsSection> Logger
+
+
+<div class="full-width">
+
+    <div class="container">
+        <h2>Ingredients</h2>
+        <h3>Add Ingredients</h3>
+        
+        
+        <div class="ingredient-form-wrapper">
+            
+            <div class="search-ingredient">
+                <div class="label">Ingredient Name</div>
+                <input id="autoComplete" type="text" placeholder="Enter ingredient" @oninput="HandleInput">
+            </div>
+            
+            <div class="amount-input-wrapper">
+                <input type='text' id='ingredient-amount' required>
+                <label for='ingredient-amount' class='amountPlaceholder'>
+                    Amount
+                </label>
+            </div>
+            
+            <div class="inline">
+                <div class="dropdown">
+                    <select id="ingredient-measurement" style="display: none;">
+
+                        @foreach (var measurement in Enum.GetValues<MeasurementEnum>())  {
+                            <option value="@measurement.RemoveEnums().ToLower()">@measurement.RemoveEnums().ToLower()</option>
+                        }
+                    </select>
+
+                    <div class="dropdown-container" id="measurement-dropdown">
+                        <div class="dropdown-button">
+                            <div class="label">Measurement</div>
+
+                            <span class="arrow-icon">
+                                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0 16c0 8.837 7.163 16 16 16s16-7.163 16-16c0-8.836-7.163-16-16-16S0 7.163 0 16zm30.032 0c0 7.72-6.312 14-14.032 14S2 23.72 2 16 8.28 2 16 2s14.032 6.28 14.032 14zM14.989 8.99v11.264l-3.617-3.617a1 1 0 0 0-1.414 1.414l6.063 5.907 6.063-5.907a.997.997 0 0 0 0-1.414 1 1 0 0 0-1.414 0l-3.68 3.68V8.991a1 1 0 1 0-2.001 0z" />
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="dropdown-menu">
+
+                            @foreach (var measurement in Enum.GetValues<MeasurementEnum>())  {
+                                <div class="dropdown-item" data-value="@measurement.RemoveEnums().ToLower()">@measurement.RemoveEnums().ToLower()</div>
+                            }
+                            
+                        </div>
+                    </div>
+                </div>
+                <button class="add-ingredient-btn" @onclick="AddIngredient">
+                    <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12.5 2L12.5 23" stroke="#333" stroke-width="1.1" stroke-linecap="round"/>
+                        <path d="M23 12.5L2 12.5" stroke="#333" stroke-width="1.1" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+    <div id="ingredients-list" class="ingredients"></div>
+</div>
+
+
+@code {
+
+    private DotNetObjectReference<IngredientsSection> objRef;
+    
+    [Parameter]
+    public List<Ingredient>? IngredientsOnEdit { get; set; }
+
+    [Parameter]
+    public EventCallback<List<Ingredient>> IngredientsOnEditChanged { get; set; }
+
+    [Parameter] public List<IngredientOnCreateRequest> Ingredients { get; set; }
+    [Parameter] public EventCallback<List<IngredientOnCreateRequest>> IngredientsChanged { get; set; }
+
+
+    private List<Ingredient> ingredients = new List<Ingredient>();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        
+        if (IngredientsOnEdit != null && IngredientsOnEdit.Count > 0)
+        {
+            await LoadIngredients();
+        }
+        
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        ingredients = new List<Ingredient>(); 
+        objRef = DotNetObjectReference.Create(this);
+
+    }
+    
+    private async Task UpdateIngredientsOnEdit(List<Ingredient> newIngredients)
+    {
+        IngredientsOnEdit = newIngredients;
+        await IngredientsOnEditChanged.InvokeAsync(newIngredients);
+    }
+
+    private async Task LoadIngredients()
+    {
+        await JSRuntime.InvokeVoidAsync("loadIngredients", IngredientsOnEdit);
+        IngredientsOnEdit = new List<Ingredient>();
+        await UpdateIngredientsOnEdit(IngredientsOnEdit);
+    }
+    
+    private async Task HandleInput(ChangeEventArgs e)
+    {
+        var searchQuery = e.Value.ToString();
+        var ingredientsData = await IngredientService.GetIngredientsAsync(search: searchQuery);
+        await JSRuntime.InvokeVoidAsync("updateAutoCompleteData", ingredientsData);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("provideIngredientsListeners");
+            await JSRuntime.InvokeVoidAsync("provideAutoComplete");
+            await JSRuntime.InvokeVoidAsync("ingredientsFunctions", objRef);
+        }
+    }
+    
+
+    private async Task AddIngredient()
+    {
+        var ingredient = await JSRuntime.InvokeAsync<Ingredient>("addIngredient");
+
+        if (ingredient != null)
+        {
+            if (ingredients == null) ingredients = new List<Ingredient>();
+
+            ingredients.Add(ingredient);
+
+            var measurementString = ingredient.Measurement;
+            if (Enum.TryParse<MeasurementEnum>(measurementString, true, out var measurementEnum))
+            {
+                if (Ingredients == null) Ingredients = new List<IngredientOnCreateRequest>();
+
+                var ingredientOnCreateRequest = new IngredientOnCreateRequest
+                {
+                    Id = ingredient.Id,
+                    Amount = ingredient.Amount,
+                    Measurement = measurementEnum,
+                };
+
+                Ingredients.Add(ingredientOnCreateRequest);
+                await IngredientsChanged.InvokeAsync(Ingredients);
+
+                StateHasChanged();
+            }
+            else
+            {
+                Logger.LogError("Invalid measurement enum value: {MeasurementString}", measurementString);
+            }
+        }
+        else
+        {
+            Logger.LogError("Failed to add ingredient. Ingredient object is null.");
+        }
+    }
+
+    [JSInvokable]
+    public async Task EditIngredient(Ingredient ingredient)
+    {
+        if (ingredient != null)
+        {
+            ingredients.Remove(ingredients.Find(i => (i.Id == ingredient.Id)));
+            
+            Ingredients.Remove(Ingredients.Find(i => (i.Id == ingredient.Id) ));
+            await IngredientsChanged.InvokeAsync(Ingredients);
+            
+            StateHasChanged();
+            
+        }
+    }
+    
+    [JSInvokable]
+    public async Task DeleteIngredient(Ingredient ingredient)
+    {
+        
+        if (ingredient != null)
+        {
+            ingredients.Remove(ingredients.Find(i => (i.Id == ingredient.Id)));
+            
+            Ingredients.Remove(Ingredients.Find(i => (i.Id == ingredient.Id) ));
+            await IngredientsChanged.InvokeAsync(Ingredients);
+            
+            StateHasChanged();
+            
+            foreach (var i in Ingredients)
+            {
+                Console.WriteLine("D" + i.Amount + " " + i.Measurement + " " + i.Id);
+            }
+            
+        }
+        
+    }
+    
+    public void Dispose()
+    {
+        objRef?.Dispose();
+    }
+    
+    
+}

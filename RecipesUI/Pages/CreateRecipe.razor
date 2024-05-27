@@ -1,0 +1,94 @@
+@page "/create"
+@using RecipesUI.Pages.RecipeManagementElements
+@using RecipesUI.Services
+@using ApiCommons.DTOs
+@using RecipesUI.Models
+@inject IJSRuntime JSRuntime
+@inject IRecipeService RecipeService
+@inject NavigationManager NavigationManager
+
+
+<TopBarSection OnPublishClicked="@SubmitRecipe" />
+<ImageSection UploadedImageChanged="@((newImage) => recipe.ImageEncoded = newImage)"/>
+<div class="form-wrapper">
+    <FormGeneralSection @bind-Recipe="recipe"/>
+    <IngredientsSection @bind-Ingredients="recipe.Ingredients"  />
+    <StepsSection/>
+    
+    <div class="submit-section">
+        <button class="submit-recipe-form-btn" @onclick="SubmitRecipe">Submit</button>
+    </div>
+    
+</div>
+
+@code {
+    private RecipeRequest recipe = new RecipeRequest();
+
+
+    public async Task SubmitRecipe()
+    {
+        
+        await UpdateIngredientsOrder();
+        
+        await AddStepsList();
+        
+        var response = await RecipeService.CreateRecipe(recipe);
+        
+        
+        if (response.Equals(true))
+        {
+            await JSRuntime.InvokeVoidAsync("alert", "Recipe created successfully");
+        }
+        else
+        {
+            await JSRuntime.InvokeVoidAsync("alert", "Failed to create recipe");
+        }
+        
+        NavigationManager.NavigateTo("/");
+        
+    }
+    
+    
+    public async Task UpdateIngredientsOrder()
+    {
+        List<Ingredient> orderedIngredients = await JSRuntime.InvokeAsync<List<Ingredient>>("correctOrder");
+
+        
+        List<IngredientOnCreateRequest> newIngredients = new List<IngredientOnCreateRequest>();
+        if (recipe.Ingredients == null || recipe.Ingredients.Count == 0)
+        {
+            return;
+        }
+        foreach (var ingredient in orderedIngredients)
+        {
+            newIngredients.Add(recipe.Ingredients.Find(i => i.Id == ingredient.Id));
+        }
+        
+        recipe.Ingredients = newIngredients;
+        
+    }
+    
+    public async Task AddStepsList()
+    {
+        
+        var orderedSteps = await JSRuntime.InvokeAsync<List<Step>>("getStepsJson");
+        if (orderedSteps == null)
+        {
+            return;
+        }
+        List<StepRequest> newSteps = new List<StepRequest>();
+        foreach (var step in orderedSteps)
+        {
+            newSteps.Add(new StepRequest()
+            {
+                Description = step.Description,
+                StepNumber = step.StepNumber,
+                Phase = Enum.Parse<PhaseEnum>(step.Phase)
+            });
+        }
+        
+        recipe.Steps = newSteps;
+        
+    }
+
+}

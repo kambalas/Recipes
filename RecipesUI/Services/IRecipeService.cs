@@ -1,5 +1,4 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Net;
 using ApiCommons.DTOs;
 
 namespace RecipesUI.Services;
@@ -19,6 +18,7 @@ public interface IRecipeService : IApiService<RecipeResponse>
 
 public Task<RecipeResponse> GetRecipeById(long id);
     public Task<bool> CreateRecipe(RecipeRequest recipe);
+    public Task<HttpStatusCode> UpdateRecipe(long id, RecipeRequest recipeRequest = null);
 
 
 }

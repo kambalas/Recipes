@@ -1,0 +1,53 @@
+@using Microsoft.AspNetCore.Components.Forms
+@using ApiCommons.DTOs
+
+<div class="form-container">
+    <EditForm Model="@Recipe">
+        <div class="input-wrapper">
+            <input id="recipe-title" @bind="Recipe.Name" @bind:event="oninput" required placeholder=" " />
+            <label for="recipe-title">Recipe Title</label>
+        </div>
+        <div class="input-wrapper">
+            <textarea id="description" @bind="Recipe.Description" @bind:event="oninput" required placeholder=" "></textarea>
+            <label for="description">Description</label>
+        </div>
+        <div class="form-grid">
+            <div class="input-wrapper">
+                <input id="prep-time" @bind="Recipe.PreparationDuration" @bind:event="oninput" required placeholder=" " />
+                <label for="prep-time">Prep Time (Min)</label>
+            </div>
+            <div class="input-wrapper">
+                <input id="cooking-time" @bind="Recipe.CookingDuration" @bind:event="oninput" required placeholder=" " />
+                <label for="cooking-time">Cooking Time (Min)</label>
+            </div>
+            <div class="input-wrapper">
+                <input id="servings" @bind="Recipe.Servings" @bind:event="oninput" required placeholder=" " />
+                <label for="servings">Servings (people)</label>
+            </div>
+            <div class="input-wrapper">
+                <input id="energy-per-serving" @bind="Recipe.Energy" @bind:event="oninput" required placeholder=" " />
+                <label for="energy-per-serving">Energy per serving (kcal)</label>
+            </div>
+        </div>
+        <div class="difficulty-buttons">
+            <button type="button" class="difficulty-button @(Recipe.Level == LevelEnum.Easy ? "active" : "")" @onclick='() => SetDifficulty("Easy")'>Easy</button>
+            <button type="button" class="difficulty-button @(Recipe.Level == LevelEnum.Medium ? "active" : "")" @onclick='() => SetDifficulty("Medium")'>Medium</button>
+            <button type="button" class="difficulty-button @(Recipe.Level == LevelEnum.Hard ? "active" : "")" @onclick='() => SetDifficulty("Hard")'>Hard</button>
+        </div>
+    </EditForm>
+</div>
+ 
+
+@code {
+    [Parameter]
+    public RecipeRequest Recipe { get; set; }
+
+    [Parameter]
+    public EventCallback<RecipeRequest> RecipeChanged { get; set; }
+
+    private void SetDifficulty(string level)
+    {
+        Recipe.Level = Enum.Parse<LevelEnum>(level, true);
+        RecipeChanged.InvokeAsync(Recipe);
+    }
+}

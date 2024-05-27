@@ -29,12 +29,12 @@ namespace ApiCommons.DTOs
         [DataMember(Name = "measurement")]
         public MeasurementEnum? Measurement { get; set; }
 
- /*       /// <summary>
-        /// Gets or Sets Amount
-        /// </summary>
-        [Required]
-        [DataMember(Name = "amount")]
-        public long? Amount { get; set; }*/
+ // /*       /// <summary>
+ //        /// Gets or Sets Amount
+ //        /// </summary>
+ //        [Required]
+ //        [DataMember(Name = "amount")]
+ //        public long? Amount { get; set; }*/
 
         /// <summary>
         /// Returns the string presentation of the object

@@ -1,0 +1,23 @@
+@inject NavigationManager NavigationManager
+
+<div class="top-bar">
+    <span class="top-bar-message">You are currently preparing a new recipe post.</span>
+    <div class="top-bar-buttons">
+        <button class="top-bar-button quit-button"  @onclick="GoToIndex">Quit</button>
+        <button class="top-bar-button save-button" @onclick="() => OnPublishClicked.InvokeAsync()">Publish</button>
+    </div>
+</div>
+
+@code {
+    
+    [Parameter]
+    public EventCallback OnPublishClicked { get; set; }
+    
+    private void GoToIndex()
+    {
+        
+        NavigationManager.NavigateTo("/");
+        
+    }
+    
+}

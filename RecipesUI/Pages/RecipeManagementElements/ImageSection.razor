@@ -1,0 +1,111 @@
+@using MudBlazor
+
+<div style="background-color: #d9d9d9; width: 100%; height: 400px; justify-content: center;">
+    @if (uploadedImage == null)
+    {
+        <div style="display: flex; justify-content: center; align-items: center; height: 400px;">
+            <svg width="125" height="125" viewBox="0 0 125 125" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 46.875C0 38.2568 7.00684 31.25 15.625 31.25C15.7471 31.25 15.8936 31.25 16.0156 31.25C17.8223 22.3389 25.708 15.625 35.1562 15.625C38.8184 15.625 42.2363 16.626 45.1416 18.3594C48.3887 12.1094 54.9561 7.8125 62.5 7.8125C70.0439 7.8125 76.6113 12.1094 79.8584 18.3594C82.7637 16.626 86.1816 15.625 89.8438 15.625C99.292 15.625 107.178 22.3389 108.984 31.25C109.106 31.25 109.253 31.25 109.375 31.25C117.993 31.25 125 38.2568 125 46.875C125 49.7314 124.243 52.3926 122.9 54.6875H2.09961C0.756836 52.3926 0 49.7314 0 46.875ZM0 69.1895C0 65.5029 3.00293 62.5 6.68945 62.5H118.311C121.997 62.5 125 65.5029 125 69.1895C125 86.4014 114.16 101.099 98.9502 106.812L98.5107 110.352C98.0225 114.258 94.7021 117.188 90.7471 117.188H34.2285C30.2979 117.188 26.9531 114.258 26.4648 110.352L26.0254 106.836C10.8398 101.099 0 86.4014 0 69.1895Z" fill="#EEEEEE"/>
+            </svg>
+            
+             @if (!string.IsNullOrWhiteSpace(errorMessage))
+             {
+                <p class="error-message">@errorMessage</p>
+             }
+             
+        </div>
+    }
+    else
+    {
+        <div style="position: relative; width: 100%; height: 100%;" class="image-preview">
+            <img src="@uploadedImage" alt="Recipe Image" style="width: 100%; height: auto;"/>
+        </div>
+    }
+    @if (uploadedImage != null)
+    {
+        
+        <ButtonTemplate>
+            <MudButton HtmlTag="label" 
+                       OnClick="@RemoveImage"
+                       class="delete-image-button absolute object-right-bottom">
+                Delete Image
+            </MudButton>
+        </ButtonTemplate>
+        
+    }
+    else
+    {
+
+        <MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles" Class="button-container">
+            <ButtonTemplate>
+                <MudButton HtmlTag="label"
+                           for="@context.Id"
+                           class="upload-button absolute object-right-bottom">
+                    Upload Image
+                </MudButton>
+            </ButtonTemplate>
+        </MudFileUpload>
+    }
+</div>
+
+
+@code {
+    
+    [Parameter]
+    public EventCallback<string> UploadedImageChanged { get; set; }
+    
+    [Parameter]
+    public string? InitialImage { get; set; }
+    
+    [Parameter]
+    public EventCallback<string> InitialImageChanged { get; set; }
+    
+
+    string? uploadedImage;
+    string? errorMessage;
+
+
+    private string deleteSVG = "<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path d=\"M6.09375 16.75L4.875 7L4.5 4H19.5L19 7L17.375 16.75M6.09375 16.75L6.69525 21.562C6.72653 21.8122 6.93923 22 7.19139 22H16.0764C16.3209 22 16.5295 21.8233 16.5696 21.5822L17.375 16.75M6.09375 16.75H17.375\" stroke=\"white\" stroke-width=\"1.5\"/>\n<rect x=\"3\" y=\"1\" width=\"18\" height=\"3\" rx=\"1.5\" stroke=\"white\" stroke-width=\"1.5\"/>\n</svg>\n";
+
+    protected override void OnParametersSet()
+    {
+        if (InitialImage != null && uploadedImage == null)
+        {
+            uploadedImage = InitialImage;
+        }
+    }
+    
+    private async Task UploadFiles(IBrowserFile file)
+    {
+        var imageFormats = new[] { "image/jpeg", "image/png", "image/gif" };
+        if (!imageFormats.Contains(file.ContentType.ToLower()))
+        {
+            errorMessage = "Unsupported file format.";
+            return;
+        }
+
+        var maxAllowedSize = 10 * 1024 * 1024; 
+        if (file.Size > maxAllowedSize)
+        {
+            errorMessage = "File size exceeds maximum limit.";
+            return;
+        }
+
+
+        using (var stream = new MemoryStream())
+        {
+            await file.OpenReadStream(maxAllowedSize).CopyToAsync(stream);
+            uploadedImage = $"data:{file.ContentType};base64,{Convert.ToBase64String(stream.ToArray())}";
+            await UploadedImageChanged.InvokeAsync(uploadedImage);
+            StateHasChanged();
+        }
+    }
+
+    void RemoveImage()
+    {
+        uploadedImage = null;
+        UploadedImageChanged.InvokeAsync(null);
+    }
+
+    
+}

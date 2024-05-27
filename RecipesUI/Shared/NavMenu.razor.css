@@ -1,62 +1,154 @@
-.navbar-toggler {
-    background-color: rgba(255, 255, 255, 0.1);
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    background-color: #f4f4f4;
 }
 
-.top-row {
-    height: 3.5rem;
-    background-color: rgba(0,0,0,0.4);
+a {
+    text-decoration: none;
+    color: #333;
 }
 
-.navbar-brand {
-    font-size: 1.1rem;
+.sidebar {
+    width: 90px;
+    height: 100vh;
+    background-color: #fff;
+    color: #333;
+    transition: width 0.3s ease-out;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    left: 0;
+    top: 0;
+    box-shadow: rgba(0, 0, 0, 0.1) 1px 0 5px;
+    z-index: 10001;
 }
 
-.oi {
-    width: 2rem;
-    font-size: 1.1rem;
-    vertical-align: text-top;
-    top: -2px;
+.sidebar:hover {
+    width: 250px;
 }
 
-.nav-item {
-    font-size: 0.9rem;
-    padding-bottom: 0.5rem;
+.sidebar .logo,
+.sidebar .menu-item,
+.sidebar .search-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 15px 20px;
+    box-sizing: border-box;
 }
 
-    .nav-item:first-of-type {
-        padding-top: 1rem;
-    }
-
-    .nav-item:last-of-type {
-        padding-bottom: 1rem;
-    }
-
-    .nav-item ::deep a {
-        color: #d7d7d7;
-        border-radius: 4px;
-        height: 3rem;
-        display: flex;
-        align-items: center;
-        line-height: 3rem;
-    }
-
-.nav-item ::deep a.active {
-    background-color: rgba(255,255,255,0.25);
-    color: white;
+.sidebar .logo {
+    justify-content: center;
 }
 
-.nav-item ::deep a:hover {
-    background-color: rgba(255,255,255,0.1);
-    color: white;
+.sidebar .logo .logo-container {
+    background-color: #555;
+    border-radius: 20px;
+    height: 60px;
+    width: 60px;
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
-@media (min-width: 641px) {
-    .navbar-toggler {
-        display: none;
-    }
-
-    .collapse {
-        /* Never collapse the sidebar for wide screens */
-        display: block;
-    }
+.sidebar .logo .logo-container svg {
+    margin-left: 11px;
+    margin-top: 10px;
 }
+
+.sidebar .logo svg,
+.sidebar .menu-item svg,
+.sidebar .search-container svg {
+    flex-shrink: 0;
+    margin-right: 15px;
+    transition: margin 0.3s ease-out;
+}
+
+.sidebar .menu-item svg {
+    margin-left: 11px;
+}
+
+.sidebar:hover .logo svg,
+.sidebar:hover .menu-item svg,
+.sidebar:hover .search-container svg {
+    margin-right: 20px;
+}
+
+.sidebar .logo span {
+    display: none;
+}
+
+.sidebar:hover .logo span {
+    display: inline;
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+.sidebar .search-container {
+    position: relative;
+}
+
+.sidebar .search-icon svg {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.sidebar .search-icon,
+.sidebar .search-input {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    background: #aaa;
+    border-radius: 18px;
+    margin-bottom: 10px;
+}
+
+.sidebar .search-input input::placeholder {
+    color: #ddd;
+}
+
+.sidebar .search-icon {
+    justify-content: center;
+}
+
+.sidebar .search-input {
+    display: none;
+    justify-content: flex-start;
+    transition: right 0.3s ease-out;
+}
+
+.sidebar:hover .search-icon {
+    display: none;
+}
+
+.sidebar:hover .search-input {
+    display: flex;
+}
+
+.sidebar .search-input input {
+    border: none;
+    background: none;
+    color: #fff;
+    width: 100%;
+    margin-left: 10px;
+    outline: none;
+    font-size: 16px;
+}
+
+.sidebar .menu-item span {
+    display: none;
+}
+
+.sidebar:hover .menu-item span {
+    display: inline;
+    margin-left: 10px;
+    font-size: 16px;
+    text-wrap: nowrap;
+}
+
+

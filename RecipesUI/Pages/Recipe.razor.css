@@ -70,8 +70,8 @@ main {
     border-radius: 50px;
     padding: 4px 2px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    width: 60px;
-    max-height: 101px;
+    width: 63px;
+    max-height: 105px;
 }
 
 .tag-icon {
@@ -105,8 +105,10 @@ main {
 }
 
 .browse-recipes {
-    flex: 0 1 300px;
     margin-left: 20px;
+    padding: 30px;
+    align-items: center;
+    justify-content: center;
 }
 
 .browse-recipes h2 {
@@ -125,14 +127,24 @@ main {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     position: relative;
-    min-width: 320px;
+    min-width: 300px;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease-out;
+    
 
 }
+
+.recipe-card:hover {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+}
+
+
 
 .recipe-card img, .recipe-card .placeholder {
     width: 100%;
     height: 200px;
     object-fit: cover;
+    cursor: pointer;
 }
 
 .recipe-card .placeholder {
@@ -146,17 +158,23 @@ main {
     position: absolute;
     top: 15px;
     left: 15px;
-    background-color: #aaa;
-    color: #fff;
-    padding: 5px 10px;
+    background-color: #fff;
+    color: #333;
+    padding: 6px 12px;
     border-radius: 50px;
     font-size: 14px;
+    opacity: 0.7;
+    border: 0.1px solid #eee;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    
+    
 }
 
 .recipe-card .title {
     padding: 15px;
     font-size: 18px;
     font-weight: bold;
+    border-top: 0.1px solid #eee;
 }
 
 
@@ -164,23 +182,86 @@ main {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-    justify-content: space-between;
+    height: min-content;
+    
 }
 
 .ingredients, .steps {
     flex: 1;
     min-width: 300px;
+    max-width: 900px;
     margin: 20px 0;
+    
+}
+
+.ingredient-list-element {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 19px;
+    
+}
+
+.check-box-input {
+    display: none;
+}
+
+.custom-checkbox {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 17px;
+    margin-bottom: 14px;
+    gap: 10px;
+    
+    
+}
+
+.custom-checkbox .icon {
+    width: 23px;
+    height: 23px;
+    display:inline-block;
+    border: 2px solid #aaa;
+    text-align: center;
+    line-height: 17px;
+    margin-right: 6px;
+    border-radius: 5px;
+    cursor: pointer;
+
+}
+
+.custom-checkbox i { 
+    font-size:12px; 
+    opacity:0;
+    margin-top: 3px;
+    margin-left: 1px;
+    color: #444;
+    
+}
+.custom-checkbox:hover .icon{ background:#fff; }
+.check-box-input:checked+.custom-checkbox i{ opacity:1; }
+.check-box-input:checked+.custom-checkbox .icon{ background:#eee; }
+
+
+.step-text {
+    font-size: 17px;
+    line-height: 1.5;
+    margin-bottom: 10px;
 }
 
 .ingredients h2, .steps h2 {
     margin-top: 0;
+    font-size: 30px;
+    margin-bottom: 23px;
+    
 }
 
 .steps h3 {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
+    font-size: 25px;
 }
 
 .steps .time-badge {
@@ -200,9 +281,72 @@ main {
     .browse-recipes {
         margin-left: 0;
         margin-top: 20px;
+        width: 100%;
     }
 
     .recipe-steps {
         flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    main {
+        padding: 20px;
+    }
+
+    .recipe-details {
+        margin-right: 0;
+    }
+
+    .tags {
+        justify-content: center;
+    }
+
+    .tag {
+        width: 50px;
+    }
+
+    .tag-icon {
+        padding: 8px;
+    }
+
+    .tag-title {
+        font-size: 10px;
+    }
+
+    .tag-subtitle {
+        font-size: 8px;
+    }
+
+    .recipe-card {
+        min-width: 100%;
+    }
+
+    .recipe-card .title {
+        font-size: 16px;
+    }
+
+    .recipe-card .time-badge {
+        font-size: 12px;
+    }
+
+    .ingredients h2, .steps h2 {
+        font-size: 25px;
+    }
+
+    .steps h3 {
+        font-size: 20px;
+    }
+
+    .step-text {
+        font-size: 15px;
+    }
+
+    .ingredient-list-element {
+        font-size: 16px;
+    }
+    
+    .browse-recipes {
+        width: 100%;
     }
 }

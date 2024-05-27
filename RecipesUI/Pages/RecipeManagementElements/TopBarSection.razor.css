@@ -1,0 +1,76 @@
+/* Top Bar Section */
+
+#desktopNav:hover + .main-content .top-bar {
+    left: 250px!important;
+}
+
+.top-bar {
+    background-color: #f5f5f5;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    position: fixed;
+    left: 90px;
+    right: 0;
+    z-index: 9999;
+    transition: left 0.3s ease-out;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+}
+
+.top-bar-message {
+    margin: 10px;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+    font-size: 17px;
+}
+
+.top-bar-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.top-bar-button {
+    margin: 5px;
+    border-radius: 20px;
+    min-width: 100px;
+    padding: 10px 20px;
+    box-shadow: 0px 3px 6px #00000029;
+    border: 0.1px solid #eee;
+    color: #666;
+    background-color: #fff;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.top-bar-button:hover {
+    background-color: #eee;
+}
+
+@media (max-width: 720px) {
+    .top-bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .top-bar-message {
+        font-size: 14px;
+        margin-bottom: 10px;
+        width: 100%;
+        white-space: normal;
+    }
+
+    .top-bar-button {
+        min-width: 80px;
+        font-size: 12px;
+    }
+
+    .top-bar-buttons {
+        display: none;
+    }
+}
+

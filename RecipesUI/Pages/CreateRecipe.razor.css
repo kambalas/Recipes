@@ -1,0 +1,51 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.form-wrapper {
+    width: 65%;
+    margin: 0 auto;
+    padding: 40px 0;
+    transition: left 0.3s ease-out;
+}
+
+.form-wrapper .submit-section {
+    margin-top: 50px;
+    display: flex;
+    justify-content: right;
+    width: 100%;
+    align-items: center;
+}
+
+
+.form-wrapper .submit-section .submit-recipe-form-btn {
+    background-color: #FFF;
+    color: #333;
+    padding: 15px 25px;
+    border: 0.1px solid #eee;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px;
+    border-radius: 6px;
+}
+
+.form-wrapper .submit-section .submit-recipe-form-btn:hover {
+    background-color: #eee;
+    color: #000;
+}
+
+@media (max-width: 768px) {
+    .form-wrapper {
+        width: 90%;
+        padding: 35px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-wrapper {
+        width: 100%;
+        padding: 25px 15px;
+    }
+}

@@ -1,0 +1,126 @@
+@using ApiCommons.DTOs
+@using RecipesUI.Models
+@inject IJSRuntime JSRuntime
+
+<div class="full-width">
+  <div class="container">
+    <h2>Steps</h2>
+    <h3>Add Step</h3>
+    <div class="search-step">
+      <div class="label">Step Description</div>
+      <textarea id="stepDescription" type="text" placeholder="Enter step description"></textarea>
+
+      <div class="inline placed">
+        <div class="dropdown">
+          <select id="step-phase" style="display: none;">
+            <option value="Prep">Prep</option>
+            <option value="Cooking">Cooking</option>
+          </select>
+
+          <div class="dropdown-container" id="phase-dropdown">
+            <div class="dropdown-button">
+              <div class="label">Phase</div>
+
+              <span class="arrow-icon">
+                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M0 16c0 8.837 7.163 16 16 16s16-7.163 16-16c0-8.836-7.163-16-16-16S0 7.163 0 16zm30.032 0c0 7.72-6.312 14-14.032 14S2 23.72 2 16 8.28 2 16 2s14.032 6.28 14.032 14zM14.989 8.99v11.264l-3.617-3.617a1 1 0 0 0-1.414 1.414l6.063 5.907 6.063-5.907a.997.997 0 0 0 0-1.414 1 1 0 0 0-1.414 0l-3.68 3.68V8.991a1 1 0 1 0-2.001 0z" />
+                </svg>
+              </span>
+            </div>
+            <div class="dropdown-menu">
+              <div class="dropdown-item" data-value="Prep">Prep</div>
+              <div class="dropdown-item" data-value="Cooking">Cooking</div>
+            </div>
+          </div>
+        </div>
+
+        <button class="add-step-btn" @onclick="AddStep">
+          <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.5 2L12.5 23" stroke="#333" stroke-width="1.1" stroke-linecap="round" />
+            <path d="M23 12.5L2 12.5" stroke="#333" stroke-width="1.1" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="steps-container">
+    <h3>Prep Phase</h3>
+    <div id="prep-steps" class="steps"></div>
+
+    <h3>Cooking Phase</h3>
+    <div id="cooking-steps" class="steps"></div>
+  
+  </div>
+</div>
+
+
+@code {
+  
+  [Parameter]
+  public List<Step>? StepsOnEdit { get; set; }
+
+  [Parameter]
+  public EventCallback<List<Step>> StepsOnEditChanged { get; set; }
+  
+  
+  protected override async Task OnParametersSetAsync()
+  {
+        
+    if (StepsOnEdit != null && StepsOnEdit.Count > 0)
+    {
+      await LoadSteps();
+    }
+        
+  }
+  
+  protected override async Task OnInitializedAsync()
+  {
+    
+    if (StepsOnEdit != null && StepsOnEdit.Count > 0)
+    {
+      await LoadSteps();
+    }
+    
+  }
+
+  private async Task LoadSteps()
+  {
+    await JSRuntime.InvokeVoidAsync("loadSteps", StepsOnEdit);
+    StepsOnEdit = new List<Step>();
+    await UpdateStepsOnEdit(StepsOnEdit);
+  }
+  
+  private async Task UpdateStepsOnEdit(List<Step> newSteps)
+  {
+    StepsOnEdit = newSteps;
+    await StepsOnEditChanged.InvokeAsync(newSteps);
+  }
+  
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (firstRender)
+    {
+      await JSRuntime.InvokeVoidAsync("provideStepsListeners");
+    }
+  }
+
+  private async Task AddStep()
+  {
+    await JSRuntime.InvokeVoidAsync("stepsManagement.addStep");
+  }
+
+  private async Task EditStep()
+  {
+    await JSRuntime.InvokeVoidAsync("stepsManagement.editStep");
+
+  }
+
+  private async Task DeleteStep()
+  {
+    await JSRuntime.InvokeVoidAsync("stepsManagement.deleteStep");
+
+  }
+
+}
+

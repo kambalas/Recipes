@@ -1,5 +1,4 @@
 ﻿@page "/login"
-@using Microsoft.EntityFrameworkCore.Metadata.Internal
 @using ApiCommons.DTOs
 @inject HttpClient Http
 @inject RecipesUI.Services.CustomAuthenticationStateProviderService AuthenticationStateProvider
@@ -44,14 +43,10 @@
 </div>
 
 @code {
-    // private LogInRequest loginModel = new LogInRequest();
     private string errorMessage;
     private string successMessage;
     private LogInRequest loginRequest = new LogInRequest();
-
     
-    
-
     private async Task HandleLogin()
     {
         try
