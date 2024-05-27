@@ -97,9 +97,23 @@
 </main>
 
  </Authorized> 
-     <NotAuthorized> 
-        <p>You are not authorized to view this content. Please <NavLink href="login">login</NavLink>.</p>
-     </NotAuthorized> 
+    <NotAuthorized>
+        <MudPaper Class="pa-4">
+            <MudText Typo="Typo.h6">You are not authorized to view this content.</MudText>
+            <MudText Typo="Typo.body1">Please sign in or sign up to continue.</MudText>
+
+            <MudDivider Class="my-4" />
+            <MudGrid>
+                <MudItem xs="12" Class="my-4">
+                    <MudDivider />
+                </MudItem>
+                <MudItem xs="12">
+                    <MudButton Variant=Variant.Filled Color=Color.Primary OnClick="@(e => NavigationManager.NavigateTo("login"))">Login</MudButton>
+                    <MudButton Class="ml-2" Variant=Variant.Filled Color=Color.Secondary OnClick="@(e => NavigationManager.NavigateTo("register"))">Register</MudButton>
+                </MudItem>
+            </MudGrid>
+        </MudPaper>
+    </NotAuthorized>
  </AuthorizeView> 
 
 @code {
