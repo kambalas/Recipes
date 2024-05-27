@@ -1,5 +1,6 @@
+@using ApiCommons.DTOs
+@using RecipesUI.Models
 @inject IJSRuntime JSRuntime
-@* Steps Section *@
 
 <div class="full-width">
   <div class="container">
@@ -41,7 +42,6 @@
         </button>
       </div>
     </div>
-
   </div>
 
   <div class="steps-container">
@@ -49,45 +49,59 @@
     <div id="prep-steps" class="steps"></div>
 
     <h3>Cooking Phase</h3>
-    <div id="cooking-steps" class="steps">
-
-      @* <div class="step-item"> *@
-      @* *@
-      @*   <div class="wrapper"> *@
-      @*     <div clas="left-wrapper" style="display: flex; align-items: center;"> *@
-      @*       <svg style="min-width: 40px; margin-right: 10; margin-left: 0px;" width="40" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"> *@
-      @*         <path fill-rule="evenodd" clip-rule="evenodd" d="M17.88 15.76C18.6438 15.76 19.3764 15.4566 19.9165 14.9165C20.4566 14.3764 20.76 13.6438 20.76 12.88C20.76 12.1162 20.4566 11.3836 19.9165 10.8435C19.3764 10.3034 18.6438 10 17.88 10C17.1162 10 16.3836 10.3034 15.8435 10.8435C15.3034 11.3836 15 12.1162 15 12.88C15 13.6438 15.3034 14.3764 15.8435 14.9165C16.3836 15.4566 17.1162 15.76 17.88 15.76ZM17.88 27.28C18.2582 27.28 18.6327 27.2055 18.9821 27.0608C19.3315 26.916 19.649 26.7039 19.9165 26.4365C20.1839 26.169 20.396 25.8515 20.5408 25.5021C20.6855 25.1527 20.76 24.7782 20.76 24.4C20.76 24.0218 20.6855 23.6473 20.5408 23.2979C20.396 22.9485 20.1839 22.631 19.9165 22.3635C19.649 22.0961 19.3315 21.884 18.9821 21.7392C18.6327 21.5945 18.2582 21.52 17.88 21.52C17.1162 21.52 16.3836 21.8234 15.8435 22.3635C15.3034 22.9036 15 23.6362 15 24.4C15 25.1638 15.3034 25.8964 15.8435 26.4365C16.3836 26.9766 17.1162 27.28 17.88 27.28ZM20.76 35.92C20.76 36.6838 20.4566 37.4164 19.9165 37.9565C19.3764 38.4966 18.6438 38.8 17.88 38.8C17.1162 38.8 16.3836 38.4966 15.8435 37.9565C15.3034 37.4164 15 36.6838 15 35.92C15 35.1562 15.3034 34.4236 15.8435 33.8835C16.3836 33.3434 17.1162 33.04 17.88 33.04C18.6438 33.04 19.3764 33.3434 19.9165 33.8835C20.4566 34.4236 20.76 35.1562 20.76 35.92ZM29.4 15.76C30.1638 15.76 30.8964 15.4566 31.4365 14.9165C31.9766 14.3764 32.28 13.6438 32.28 12.88C32.28 12.1162 31.9766 11.3836 31.4365 10.8435C30.8964 10.3034 30.1638 10 29.4 10C28.6362 10 27.9036 10.3034 27.3635 10.8435C26.8234 11.3836 26.52 12.1162 26.52 12.88C26.52 13.6438 26.8234 14.3764 27.3635 14.9165C27.9036 15.4566 28.6362 15.76 29.4 15.76ZM32.28 24.4C32.28 25.1638 31.9766 25.8964 31.4365 26.4365C30.8964 26.9766 30.1638 27.28 29.4 27.28C28.6362 27.28 27.9036 26.9766 27.3635 26.4365C26.8234 25.8964 26.52 25.1638 26.52 24.4C26.52 23.6362 26.8234 22.9036 27.3635 22.3635C27.9036 21.8234 28.6362 21.52 29.4 21.52C30.1638 21.52 30.8964 21.8234 31.4365 22.3635C31.9766 22.9036 32.28 23.6362 32.28 24.4ZM29.4 38.8C30.1638 38.8 30.8964 38.4966 31.4365 37.9565C31.9766 37.4164 32.28 36.6838 32.28 35.92C32.28 35.1562 31.9766 34.4236 31.4365 33.8835C30.8964 33.3434 30.1638 33.04 29.4 33.04C28.6362 33.04 27.9036 33.3434 27.3635 33.8835C26.8234 34.4236 26.52 35.1562 26.52 35.92C26.52 36.6838 26.8234 37.4164 27.3635 37.9565C27.9036 38.4966 28.6362 38.8 29.4 38.8Z" fill="#AAAAAA" /> *@
-      @*       </svg> *@
-      @* *@
-      @*       <div class="name" style="width: 90%">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</div> *@
-      @*     </div> *@
-      @*     <div class="step-buttons" style="display: flex; justify-content: flex-end; width: 100%;"> *@
-      @*       <button class="edit-button" style="display: flex; border: 1px solid #333; padding: 15px; border-radius: 6px; background-color: #fff;"><svg width="23" height="20" viewBox="0 0 26 23" fill="none" xmlns="http://www.w3.org/2000/svg"> *@
-      @*         <path d="M24.52 21.9999H1" stroke="#333" stroke-width="1.5" stroke-linecap="round" /> *@
-      @*         <path d="M6.84645 13.7344L6.04004 16.96L9.26568 16.1536C9.3536 16.1316 9.43389 16.0862 9.49797 16.0221L21.6465 3.87355C21.8417 3.67829 21.8417 3.36171 21.6465 3.16645L19.8336 1.35355C19.6383 1.15829 19.3217 1.15829 19.1265 1.35355L6.97797 13.5021C6.91389 13.5662 6.86843 13.6464 6.84645 13.7344Z" stroke="#333" stroke-width="1.5" stroke-linejoin="round" /> *@
-      @*       </svg></button> *@
-      @*       <button class="delete-button" style="display: flex; border: 1px solid #333; padding: 15px; border-radius: 6px; background-color: #fff; margin-left: 10px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> *@
-      @*         <path d="M6.09375 16.75L4.875 7L4.5 4H19.5L19 7L17.375 16.75M6.09375 16.75L6.69525 21.562C6.72653 21.8122 6.93923 22 7.19139 22H16.0764C16.3209 22 16.5295 21.8233 16.5696 21.5822L17.375 16.75M6.09375 16.75H17.375" stroke="#333" stroke-width="1.5" /> *@
-      @*         <rect x="3" y="1" width="18" height="3" rx="1.5" stroke="#333" stroke-width="1.5" /> *@
-      @*       </svg></button> *@
-      @*     </div> *@
-      @*   </div> *@
-      @* *@
-      @* </div>  *@
-
-    </div>
+    <div id="cooking-steps" class="steps"></div>
+  
   </div>
-
 </div>
 
 
 @code {
+  
+  [Parameter]
+  public List<Step>? StepsOnEdit { get; set; }
+
+  [Parameter]
+  public EventCallback<List<Step>> StepsOnEditChanged { get; set; }
+  
+  
+  protected override async Task OnParametersSetAsync()
+  {
+        
+    if (StepsOnEdit != null && StepsOnEdit.Count > 0)
+    {
+      await LoadSteps();
+    }
+        
+  }
+  
+  protected override async Task OnInitializedAsync()
+  {
     
+    if (StepsOnEdit != null && StepsOnEdit.Count > 0)
+    {
+      await LoadSteps();
+    }
+    
+  }
+
+  private async Task LoadSteps()
+  {
+    await JSRuntime.InvokeVoidAsync("loadSteps", StepsOnEdit);
+    StepsOnEdit = new List<Step>();
+    await UpdateStepsOnEdit(StepsOnEdit);
+  }
+  
+  private async Task UpdateStepsOnEdit(List<Step> newSteps)
+  {
+    StepsOnEdit = newSteps;
+    await StepsOnEditChanged.InvokeAsync(newSteps);
+  }
+  
   protected override async Task OnAfterRenderAsync(bool firstRender)
   {
     if (firstRender)
     {
-       await JSRuntime.InvokeVoidAsync("provideStepsListeners");
+      await JSRuntime.InvokeVoidAsync("provideStepsListeners");
     }
   }
 
@@ -99,8 +113,14 @@
   private async Task EditStep()
   {
     await JSRuntime.InvokeVoidAsync("stepsManagement.editStep");
+
   }
 
-    
+  private async Task DeleteStep()
+  {
+    await JSRuntime.InvokeVoidAsync("stepsManagement.deleteStep");
+
+  }
+
 }
 

@@ -1,20 +1,13 @@
 using ApiCommons.DTOs;
 using IO.Swagger.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using System.Net.Http.Json;
-using Newtonsoft.Json;
+using System.Net;
 using System.Text.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
-
 
 namespace RecipesUI.Services;
 
 public class RecipeService : ApiService<RecipeResponse>, IRecipeService
 {
-    //private readonly Logger<RecipeService> _logger;
     
     public RecipeService(IConfiguration configuration, ILogger<RecipeService> logger) : base(configuration, logger)
     {
@@ -159,64 +152,17 @@ public class RecipeService : ApiService<RecipeResponse>, IRecipeService
     
     public async Task<bool> CreateRecipe(RecipeRequest recipeRequest = null)
     {
-        var ingredients = new List<IngredientOnCreateRequest>();
-        ingredients.Add(new IngredientOnCreateRequest()
-        {
-            Id = 1,
-            Amount = 1,
-        });
-        ingredients.Add(new IngredientOnCreateRequest()
-        {
-            Id = 2,
-            Amount = 1,
-        });
-
-        var recipeRequestTest = new RecipeRequest
-        {
-            Name = "Test Recipe",
-            Description = "This is a test recipe",
-            Ingredients = ingredients,
-            /*            Ingredients = new List<IngredientRequest>
-                        {
-                            new IngredientRequest
-                            {
-                                Name = "Test Ingredient 1",
-                                Measurement = MeasurementEnum.GEnum,
-                                //Amount = 2
-                            },
-                            new IngredientRequest
-                            {
-                                Name = "Test Ingredient 2",
-                                Measurement = MeasurementEnum.MlEnum,
-                                //Amount = 3
-                            }
-                        },*/
-            Steps = new List<StepRequest>
-            {
-                new StepRequest()
-                {
-                    StepNumber = 1,
-                    Description = "This is step 1",
-                    Phase = PhaseEnum.PrepEnum
-                },
-                new StepRequest()
-                {
-                    StepNumber = 2,
-                    Description = "This is step 2",
-                    Phase = PhaseEnum.PrepEnum }
-            },
-            Servings = 4,
-            Energy = 500,
-            Level = LevelEnum.EasyEnum
-        };
-        
-        
-        
-        
+    
         try
         {
+            if (recipeRequest == null)
+            {
+                _logger.LogError("RecipeRequest is null.");
+                return false;
+            }
+            
             _logger.LogInformation("Sending POST request to create a new recipe.");
-            var response = await _httpClient.PostAsJsonAsync("recipe", recipeRequestTest);
+            var response = await _httpClient.PostAsJsonAsync("recipe", recipeRequest);
 
             if (response.IsSuccessStatusCode)
             {
@@ -237,7 +183,40 @@ public class RecipeService : ApiService<RecipeResponse>, IRecipeService
             return false;
         }
     }
+    
+    
+    public async Task<HttpStatusCode> UpdateRecipe(long id, RecipeRequest recipeRequest = null)
+    {
+        try
+        {
+            if (recipeRequest == null)
+            {
+                _logger.LogError("RecipeRequest is null.");
+                return HttpStatusCode.BadRequest;
+            }
+            
+            _logger.LogInformation("Sending PUT request to update recipe with ID {Id}.", id);
+            var response = await _httpClient.PutAsJsonAsync($"recipe/{id}", recipeRequest);
 
+            if (response.IsSuccessStatusCode)
+            {
+                _logger.LogInformation("Recipe updated successfully.");
+                return response.StatusCode;
+            }
+            else
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                _logger.LogError("Failed to update recipe. Status Code: {StatusCode}, Response: {Response}",
+                    response.StatusCode, responseContent);
+                return response.StatusCode;
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while updating the recipe.");
+            return HttpStatusCode.InternalServerError;
+        }
+    }
     
     
 }

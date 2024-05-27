@@ -1,96 +1,53 @@
-@* $1$ Form Section: General Information #1# *@
-@* <div style="width: 100%;"> *@
-@*     <div style="width: 60%; margin: 0 auto;"> *@
-@*          *@
-@*         <MudPaper Elevation="0" Class="recipe-form"> *@
-@*             <MudTextField T="string" FullWidth="true" Label="Recipe Title" Variant="Variant.Outlined" Class="mb-4" xs="12" @bind-Value="RecipeTitle" /> *@
-@*              *@
-@*             <MudTextField T="string" FullWidth="true" Label="Description" Variant="Variant.Outlined" Multiline="true"  Lines="3" Class="mb-4 resizable-textarea" xs="12" @bind-Value="Description" /> *@
-@*              *@
-@*             <div class="info-grid"> *@
-@*                 <MudTextField T="string" Label="Prep Time" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentText="Min" xs="3" @bind-Value="PrepTime" /> *@
-@*                 <MudTextField T="string" Label="Cooking Time" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentText="Min" xs="3" @bind-Value="CookingTime" /> *@
-@*                 <MudTextField T="string" Label="Servings" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentText="people" xs="3" @bind-Value="Servings" /> *@
-@*                 <MudTextField T="string" Label="Energy per serving" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentText="kcal" xs="3" @bind-Value="EnergyPerServing" /> *@
-@*             </div> *@
-@*          *@
-@*             <MudText Typo="Typo.h6" Class="mt-4">Select Difficulty</MudText> *@
-@*             <MudToggleGroup T="string" SelectionMode="SelectionMode.SingleSelection" @bind-Value="DifficultyLevel" Color="Color.Primary" xs="12" CheckMark FixedContent> *@
-@*                 <MudToggleItem Value="@("Easy")" Text="Easy" /> *@
-@*                 <MudToggleItem Value="@("Medium")" Text="Medium" /> *@
-@*                 <MudToggleItem Value="@("Hard")" Text="Hard" /> *@
-@*             </MudToggleGroup> *@
-@*         </MudPaper> *@
-@*          *@
-@*     </div> *@
-@* *@
-@* </div> *@
-@* *@
-@* *@
-@* @code { *@
-@*      *@
-@*     public string RecipeTitle { get; set; } *@
-@*     public string Description { get; set; } *@
-@*     public string PrepTime { get; set; } *@
-@*     public string CookingTime { get; set; } *@
-@*     public string Servings { get; set; } *@
-@*     public string EnergyPerServing { get; set; } *@
-@*     public string DifficultyLevel { get; set; } = "Easy";  *@
-@*      *@
-@* } *@
 @using Microsoft.AspNetCore.Components.Forms
+@using ApiCommons.DTOs
 
-@code {
-    private string recipeTitle = "";
-    private string description = "";
-    private string prepTime = "";
-    private string cookingTime = "";
-    private string servings = "";
-    private string energyPerServing = "";
-    private string difficulty = "Easy";
-
-    private void HandleValidSubmit()
-    {
-        Console.WriteLine("Form submitted successfully!");
-    }
-
-    private void SetDifficulty(string level)
-    {
-        difficulty = level;
-    }
-}
 <div class="form-container">
-    <EditForm Model="@this" OnValidSubmit="@HandleValidSubmit">
+    <EditForm Model="@Recipe">
         <div class="input-wrapper">
-            <input id="recipe-title" @bind="recipeTitle" required placeholder=" " />
+            <input id="recipe-title" @bind="Recipe.Name" @bind:event="oninput" required placeholder=" " />
             <label for="recipe-title">Recipe Title</label>
         </div>
         <div class="input-wrapper">
-            <textarea id="description" @bind="description" required placeholder=" "></textarea>
+            <textarea id="description" @bind="Recipe.Description" @bind:event="oninput" required placeholder=" "></textarea>
             <label for="description">Description</label>
         </div>
         <div class="form-grid">
             <div class="input-wrapper">
-                <input id="prep-time" @bind="prepTime" required placeholder=" " />
+                <input id="prep-time" @bind="Recipe.PreparationDuration" @bind:event="oninput" required placeholder=" " />
                 <label for="prep-time">Prep Time (Min)</label>
             </div>
             <div class="input-wrapper">
-                <input id="cooking-time" @bind="cookingTime" required placeholder=" " />
+                <input id="cooking-time" @bind="Recipe.CookingDuration" @bind:event="oninput" required placeholder=" " />
                 <label for="cooking-time">Cooking Time (Min)</label>
             </div>
             <div class="input-wrapper">
-                <input id="servings" @bind="servings" required placeholder=" " />
+                <input id="servings" @bind="Recipe.Servings" @bind:event="oninput" required placeholder=" " />
                 <label for="servings">Servings (people)</label>
             </div>
             <div class="input-wrapper">
-                <input id="energy-per-serving" @bind="energyPerServing" required placeholder=" " />
+                <input id="energy-per-serving" @bind="Recipe.Energy" @bind:event="oninput" required placeholder=" " />
                 <label for="energy-per-serving">Energy per serving (kcal)</label>
             </div>
         </div>
         <div class="difficulty-buttons">
-            <button type="button" class="difficulty-button @(difficulty == "Easy" ? "active" : "")" @onclick='() => SetDifficulty("Easy")'>Easy</button>
-            <button type="button" class="difficulty-button @(difficulty == "Medium" ? "active" : "")" @onclick='() => SetDifficulty("Medium")'>Medium</button>
-            <button type="button" class="difficulty-button @(difficulty == "Hard" ? "active" : "")" @onclick='() => SetDifficulty("Hard")'>Hard</button>
+            <button type="button" class="difficulty-button @(Recipe.Level == LevelEnum.EasyEnum ? "active" : "")" @onclick='() => SetDifficulty("EasyEnum")'>Easy</button>
+            <button type="button" class="difficulty-button @(Recipe.Level == LevelEnum.MediumEnum ? "active" : "")" @onclick='() => SetDifficulty("MediumEnum")'>Medium</button>
+            <button type="button" class="difficulty-button @(Recipe.Level == LevelEnum.HardEnum ? "active" : "")" @onclick='() => SetDifficulty("HardEnum")'>Hard</button>
         </div>
     </EditForm>
 </div>
+
+
+@code {
+    [Parameter]
+    public RecipeRequest Recipe { get; set; }
+
+    [Parameter]
+    public EventCallback<RecipeRequest> RecipeChanged { get; set; }
+
+    private void SetDifficulty(string level)
+    {
+        Recipe.Level = Enum.Parse<LevelEnum>(level, true);
+        RecipeChanged.InvokeAsync(Recipe);
+    }
+}

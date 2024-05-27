@@ -1,7 +1,7 @@
 ﻿@page "/ingredients"
 @using RecipesUI.Services
 @using IO.Swagger.Models
-@inject IngredientService IngredientService
+@inject IIngredientService IngredientService
 @inject ILogger<Ingredients> Logger
 
 <h3>Ingredients</h3>
@@ -37,12 +37,13 @@ else
         try
         {
             Logger.LogInformation("Fetching ingredients.");
-            ingredients = await IngredientService.GetIngredientsAsync() ?? new List<IngredientResponse>();
-            Logger.LogInformation("Ingredients fetched successfully.");
+            ingredients = await IngredientService.GetIngredientsAsync(search: "so"); 
+            Logger.LogInformation("Ingredients fetched successfully. Count: {Count}", ingredients.Count);
         }
         catch (Exception ex)
         {
             Logger.LogError(ex, "Error fetching ingredients.");
+            ingredients = new List<IngredientResponse>(); 
         }
     }
 }

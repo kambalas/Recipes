@@ -1,151 +1,94 @@
-@page "/recipe-creation"
-@using MudBlazor
-@inject IDialogService DialogService
+@page "/create"
+@using RecipesUI.Pages.RecipeManagementElements
+@using RecipesUI.Services
+@using ApiCommons.DTOs
+@using RecipesUI.Models
+@inject IJSRuntime JSRuntime
+@inject IRecipeService RecipeService
+@inject NavigationManager NavigationManager
 
-<header class="recipe-header">
-    <MudImage Src="path-to-recipe-photo.jpg" Alt="Recipe Photo" Class="recipe-photo" OnError="this.onerror=null; this.src='path-to-placeholder.svg';" />
-    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="upload-button">Upload Photo</MudButton>
-</header>
 
-<main>
-    <MudForm @ref="form" OnValidSubmit="HandleValidSubmit">
-        <div class="recipe-info">
-            <div class="recipe-details">
-                <MudTextField @bind-Value="recipeTitle" Label="Recipe Title" Variant="Variant.Filled" FullWidth />
-                <MudTextField @bind-Value="recipeDescription" Label="Description" Variant="Variant.Filled" FullWidth Multiline Rows="5" />
-                <div class="tags">
-                    <MudTextField @bind-Value="recipeTime" Label="Time (min)" Variant="Variant.Filled" />
-                    <MudTextField @bind-Value="recipeServings" Label="Servings" Variant="Variant.Filled" />
-                    <MudTextField @bind-Value="recipeCalories" Label="Calories (kcal/serv)" Variant="Variant.Filled" />
-                    <MudToggleButtonGroup T="string" Exclusive="true">
-                        <MudToggleButton Value="Easy">Easy</MudToggleButton>
-                        <MudToggleButton Value="Medium">Medium</MudToggleButton>
-                        <MudToggleButton Value="Hard">Hard</MudToggleButton>
-                    </MudToggleButtonGroup>
-                </div>
-            </div>
-        </div>
-
-        <div class="recipe-steps">
-            <div class="ingredients">
-                <h2>Ingredients</h2>
-                <MudDropContainer T="DropZoneItem" Items="ingredients" ItemsSelector="@((item, dropzone) => item.Zone == dropzone)" ItemDropped="ItemUpdated" Class="flex-grow-1">
-                    <ChildContent>
-                        <MudDropContainer T="DropZone" Items="zones" ItemsSelector="@((item, dropzone) => true)" Class="ingredients-dropzone">
-                            <ChildContent>
-                                <MudDropZone T="DropZone" AllowReorder Class="dropzone-area" />
-                            </ChildContent>
-                            <ItemRenderer>
-                                <MudPaper Class="pa-4 my-4">
-                                    <MudText Typo="Typo.h6">@context.Name</MudText>
-                                    <MudDropZone T="DropZoneItem" Identifier="@context.Name" AllowReorder Class="dropzone-item" />
-                                </MudPaper>
-                            </ItemRenderer>
-                        </MudDropContainer>
-                    </ChildContent>
-                    <ItemRenderer>
-                        <MudPaper Class="pa-4 my-4">
-                            <MudText>@context.Name</MudText>
-                        </MudPaper>
-                    </ItemRenderer>
-                </MudDropContainer>
-                <MudAutocomplete T="string" Label="Add Ingredient" SearchFunc="@SearchIngredients" ToStringFunc="@(s => s)" OnClear="AddIngredient" />
-            </div>
-
-            <div class="steps">
-                <h2>Steps</h2>
-                <MudDropContainer T="DropZoneItem" Items="steps" ItemsSelector="@((item, dropzone) => item.Zone == dropzone)" ItemDropped="ItemUpdated" Class="flex-grow-1">
-                    <ChildContent>
-                        <MudDropContainer T="DropZone" Items="zones" ItemsSelector="@((item, dropzone) => true)" Class="steps-dropzone">
-                            <ChildContent>
-                                <MudDropZone T="DropZone" AllowReorder Class="dropzone-area" />
-                            </ChildContent>
-                            <ItemRenderer>
-                                <MudPaper Class="pa-4 my-4">
-                                    <MudText Typo="Typo.h6">@context.Name</MudText>
-                                    <MudDropZone T="DropZoneItem" Identifier="@context.Name" AllowReorder Class="dropzone-item" />
-                                </MudPaper>
-                            </ItemRenderer>
-                        </MudDropContainer>
-                    </ChildContent>
-                    <ItemRenderer>
-                        <MudPaper Class="pa-4 my-4">
-                            <MudText>@context.Name</MudText>
-                        </MudPaper>
-                    </ItemRenderer>
-                </MudDropContainer>
-                <MudAutocomplete T="string" Label="Add Step" SearchFunc="@SearchSteps" ToStringFunc="@(s => s)" OnClear="AddStep" />
-            </div>
-        </div>
-
-        <MudButton Type="Submit" Variant="Variant.Filled" Color="Color.Primary">Save Recipe</MudButton>
-    </MudForm>
-</main>
+<TopBarSection OnPublishClicked="@SubmitRecipe" />
+<ImageSection UploadedImageChanged="@((newImage) => recipe.ImageEncoded = newImage)"/>
+<div class="form-wrapper">
+    <FormGeneralSection @bind-Recipe="recipe"/>
+    <IngredientsSection @bind-Ingredients="recipe.Ingredients"  />
+    <StepsSection/>
+    
+    <div class="submit-section">
+        <button class="submit-recipe-form-btn" @onclick="SubmitRecipe">Submit</button>
+    </div>
+    
+</div>
 
 @code {
-    private MudForm? form;
-    private string recipeTitle = string.Empty;
-    private string recipeDescription = string.Empty;
-    private string recipeTime = string.Empty;
-    private string recipeServings = string.Empty;
-    private string recipeCalories = string.Empty;
-    private string recipeLevel = "Easy";
+    private RecipeRequest recipe = new RecipeRequest();
 
-    private List<DropZone> zones = new()
+
+    public async Task SubmitRecipe()
     {
-        new() { Name = "Drop Zone 1" },
-        new() { Name = "Drop Zone 2" }
-    };
-
-    private List<DropZoneItem> ingredients = new()
+        
+        await UpdateIngredientsOrder();
+        
+        await AddStepsList();
+        
+        var response = await RecipeService.CreateRecipe(recipe);
+        
+        
+        if (response.Equals(true))
+        {
+            await JSRuntime.InvokeVoidAsync("alert", "Recipe created successfully");
+        }
+        else
+        {
+            await JSRuntime.InvokeVoidAsync("alert", "Failed to create recipe");
+        }
+        
+        NavigationManager.NavigateTo("/");
+        
+    }
+    
+    
+    public async Task UpdateIngredientsOrder()
     {
-        new() { Zone = "Drop Zone 1", Name = "Ingredient 1" },
-        new() { Zone = "Drop Zone 1", Name = "Ingredient 2" }
-    };
+        List<Ingredient> orderedIngredients = await JSRuntime.InvokeAsync<List<Ingredient>>("correctOrder");
 
-    private List<DropZoneItem> steps = new()
+        
+        List<IngredientOnCreateRequest> newIngredients = new List<IngredientOnCreateRequest>();
+        if (recipe.Ingredients == null || recipe.Ingredients.Count == 0)
+        {
+            return;
+        }
+        foreach (var ingredient in orderedIngredients)
+        {
+            newIngredients.Add(recipe.Ingredients.Find(i => i.Id == ingredient.Id));
+        }
+        
+        recipe.Ingredients = newIngredients;
+        
+    }
+    
+    public async Task AddStepsList()
     {
-        new() { Zone = "Drop Zone 1", Name = "Step 1" },
-        new() { Zone = "Drop Zone 1", Name = "Step 2" }
-    };
-
-    private void ItemUpdated(MudItemDropInfo<DropZoneItem> dropItem) => dropItem.Item.Zone = dropItem.DropzoneIdentifier;
-
-    private Task<IEnumerable<string>> SearchIngredients(string value)
-    {
-        var ingredients = new List<string> { "Ingredient A", "Ingredient B", "Ingredient C" };
-        return Task.FromResult(ingredients.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase)).AsEnumerable());
+        
+        var orderedSteps = await JSRuntime.InvokeAsync<List<Step>>("getStepsJson");
+        if (orderedSteps == null)
+        {
+            return;
+        }
+        List<StepRequest> newSteps = new List<StepRequest>();
+        foreach (var step in orderedSteps)
+        {
+            newSteps.Add(new StepRequest()
+            {
+                Description = step.Description,
+                StepNumber = step.StepNumber,
+                Phase = Enum.Parse<PhaseEnum>(step.Phase)
+            });
+        }
+        
+        recipe.Steps = newSteps;
+        
     }
 
-    private Task<IEnumerable<string>> SearchSteps(string value)
-    {
-        var steps = new List<string> { "Step A", "Step B", "Step C" };
-        return Task.FromResult(steps.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase)).AsEnumerable());
-    }
-
-    private void AddIngredient()
-    {
-        ingredients.Add(new DropZoneItem { Zone = "Drop Zone 1", Name = "New Ingredient" });
-    }
-
-    private void AddStep()
-    {
-        steps.Add(new DropZoneItem { Zone = "Drop Zone 1", Name = "New Step" });
-    }
-
-    private void HandleValidSubmit()
-    {
-        Console.WriteLine("Form submitted successfully!");
-    }
-
-    private class DropZone
-    {
-        public string Name { get; init; } = string.Empty;
-    }
-
-    private class DropZoneItem
-    {
-        public string Zone { get; set; } = string.Empty;
-        public string Name { get; init; } = string.Empty;
-    }
 }

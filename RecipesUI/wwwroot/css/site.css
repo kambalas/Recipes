@@ -264,9 +264,21 @@ a, .btn-link {
     box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px;
 }
 
+
+.ingredient-form-wrapper {
+    display: flex;
+    width: 100%;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    gap: 13px;
+}
+
 .search-ingredient {
     position: relative;
+    width: 60%;
 }
+
+
 
 .search-ingredient .label {
     position: absolute;
@@ -293,6 +305,26 @@ a, .btn-link {
     width: 20%;
     margin-left: 15px;
 }
+
+
+@media only screen and (max-width: 720px) {
+    .ingredient-form-wrapper {
+        flex-wrap: wrap;
+    }
+    .search-ingredient {
+        width: 100%;
+    }
+    
+    .amount-input-wrapper {
+        width: 48%!important;
+    }
+    
+}
+
+
+
+
+
 
 
 /* Dragula Customization */ 
@@ -442,6 +474,8 @@ a, .btn-link {
     position: relative;
     display: flex;
     align-items: center;
+    width: 20%;
+    
 }
 
 .amount-input-wrapper #ingredient-amount {
@@ -452,6 +486,8 @@ a, .btn-link {
     border-radius: 6px;
     display: flex;
     font-size: 16px;
+    width: 100%;
+    
 }
 .amount-input-wrapper .amountPlaceholder {
     position: absolute;
@@ -570,8 +606,6 @@ a, .btn-link {
 }
 
 
-
-
 /* Steps Section */
 
 
@@ -597,15 +631,10 @@ a, .btn-link {
 
 @media only screen and (max-width: 720px) {
     .placed {
-        right: -10px;
+        right: 16px;
     }
 }
 
-@media only screen and (max-width: 480px) {
-    .placed {
-        right: -20px;
-    }
-}
 
 .steps-container {
     width: 100%;
@@ -634,6 +663,7 @@ a, .btn-link {
     box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px;
     padding: 10px;
 }
+
 
 .search-step {
     position: relative;
@@ -748,3 +778,24 @@ body {
     border-radius: 5px;
 }
 
+.mark, mark, .autoComplete_wrapper > ul > li mark {
+    padding: 0!important; 
+    background-color: #fff!important;
+    color: #111!important;
+}
+
+.autoComplete_wrapper > ul {
+    border-radius: 6px;
+    border: 0.1px solid #eee;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px;
+    padding: 0;
+}
+
+.autoComplete_wrapper > input {
+    display: flex;
+}
+
+
+.autoComplete_wrapper {
+    display: flex!important;
+}

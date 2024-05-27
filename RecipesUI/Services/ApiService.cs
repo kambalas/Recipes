@@ -21,6 +21,5 @@ namespace RecipesUI.Services
             _logger = logger;
         }
         
-        
     }
 }

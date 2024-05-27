@@ -17,13 +17,13 @@
     box-sizing: border-box;
     font-size: 16px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 5px!important;
     
 }
 .input-wrapper label {
     position: absolute;
     left: var(--padding);
     top: 17px;
-    /*transform: translateY(-50%);*/
     transition: all 0.2s ease-in-out;
     pointer-events: none;
     font-size: 16px;
