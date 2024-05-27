@@ -1,12 +1,12 @@
 ﻿using ApiCommons.DTOs;
-using IO.Swagger.Models;
 using RecipesAPI.Models;
+using System.Security.Principal;
 
 namespace RecipesAPI.Mappers
 {
     public interface IMappers
     {
-        public Recipe ToRecipe(RecipeRequest recipeRequest);
+        public Recipe ToRecipe(RecipeRequest recipeRequest, long userId);
 
         public RecipeResponse ToRecipeResponse(Recipe recipe);
 

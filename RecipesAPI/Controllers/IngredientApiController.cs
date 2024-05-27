@@ -1,4 +1,4 @@
-﻿using IO.Swagger.Models;
+﻿using ApiCommons.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecipesAPI.Filters;

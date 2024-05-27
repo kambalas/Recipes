@@ -16,16 +16,16 @@ namespace ApiCommons.DTOs
         /// Enum EasyEnum for easy
         /// </summary>
         [EnumMember(Value = "easy")]
-        EasyEnum = 0,
+        Easy = 0,
         /// <summary>
         /// Enum MediumEnum for medium
         /// </summary>
         [EnumMember(Value = "medium")]
-        MediumEnum = 1,
+        Medium = 1,
         /// <summary>
         /// Enum HardEnum for hard
         /// </summary>
         [EnumMember(Value = "hard")]
-        HardEnum = 2
+        Hard = 2
     }
 }

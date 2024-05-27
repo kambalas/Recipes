@@ -1,74 +1,88 @@
 ﻿@page "/login"
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@using ApiCommons.DTOs
 @inject HttpClient Http
 @inject RecipesUI.Services.CustomAuthenticationStateProviderService AuthenticationStateProvider
-@inject Blazored.SessionStorage.ISessionStorageService SessionStorage
+@inject NavigationManager Navigation
+@inject ILogger<Login> Logger
+@inject IJSRuntime JSRuntime
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="text-center">Login</h3>
+<div class="login-page">
+    <main>
+        <div class="left-side">
+            <EditForm Model="loginRequest" OnValidSubmit="HandleLogin">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <label for="email">Email</label>
+                <InputText id="email" class="form-control" @bind-Value="loginRequest.Email" placeholder="Enter your email" />
+
+                <label for="password">Password</label>
+                <InputText id="password" class="form-control" @bind-Value="loginRequest.Password" type="password" placeholder="Enter your password" />
+                <div class="btn-group">
+                <button type="submit" class="login-btn">Sign in</button>
                 </div>
-                <div class="card-body">
-                    <EditForm Model="loginModel" OnValidSubmit="HandleLogin">
-                        <DataAnnotationsValidator />
-                        <ValidationSummary />
 
-                        <div class="form-group">
-                            <label for="email">Email:</label>
-                            <InputText id="email" class="form-control" @bind-Value="loginModel.Email" />
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password:</label>
-                            <InputText id="password" class="form-control" @bind-Value="loginModel.Password" type="password" />
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block mt-3">Login</button>
-                    </EditForm>
-
-                    @if (!string.IsNullOrEmpty(errorMessage))
-                    {
-                        <div class="alert alert-danger mt-3">@errorMessage</div>
-                    }
-                    @if (!string.IsNullOrEmpty(successMessage))
-                    {
-                        <div class="alert alert-success mt-3">@successMessage</div>
-                    }
+                <div class="links">
+                    <a href="register">Do not have an account?</a>
                 </div>
-            </div>
-            <div class="mt-3 text-center">
-                <p>If you don't have an account, please <NavLink href="register">register</NavLink>.</p>
-            </div>
+            </EditForm>
+                <div class="alert-container">
+                @if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    <div class="alert alert-danger">@errorMessage</div>
+                }
+                @if (!string.IsNullOrEmpty(successMessage))
+                {
+                    <div class="alert alert-success">@successMessage</div>
+                }
+                </div>
         </div>
-    </div>
+
+        <div class="right-side"></div>
+    </main>
 </div>
 
 @code {
-    private LogInRequest loginModel = new LogInRequest();
+    // private LogInRequest loginModel = new LogInRequest();
     private string errorMessage;
     private string successMessage;
+    private LogInRequest loginRequest = new LogInRequest();
+
+    
+    
 
     private async Task HandleLogin()
     {
-        var response = await Http.PostAsJsonAsync("/v1/auth/login", loginModel);
-        if (response.IsSuccessStatusCode)
+        try
         {
-            var token = await response.Content.ReadAsStringAsync();
-            await SessionStorage.SetItemAsync("authToken", token);
-            AuthenticationStateProvider.MarkUserAsAuthenticated(token);
-            successMessage = "Login successful";
-            errorMessage = string.Empty;
-        }
-        else
+            var response = await AuthenticationStateProvider.LoginAsync(loginRequest);
+                if (response != null)
+                {
+                    var token = response;
+                    
+                    await AuthenticationStateProvider.MarkUserAsAuthenticatedAsync(token);
+                    await JSRuntime.InvokeVoidAsync("cookieHelper.setCookie", "authToken", token, 1);
+
+                    successMessage = "Login successful";
+                    errorMessage = string.Empty;
+                    Navigation.NavigateTo("/");
+                }
+                else
+                {
+                    errorMessage = "Login failed. Please check your credentials.";
+                    Logger.LogError("Error logging in: {error}", errorMessage);
+                    successMessage = string.Empty;
+                }
+        }catch (Exception ex)
         {
-            errorMessage = "Login failed. Please check your credentials.";
+            Logger.LogError(ex, "An error occurred while logging in.");
+            errorMessage = "An unexpected error occurred. Please try again later.";
             successMessage = string.Empty;
         }
+        
+        
     }
 
-    public class LogInRequest
-    {
-        public string Email { get; set; }
-        public string Password { get; set; }
-    }
+    
 }

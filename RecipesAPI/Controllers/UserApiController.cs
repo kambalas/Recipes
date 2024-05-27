@@ -16,7 +16,6 @@ using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using IO.Swagger.Security;
 using Microsoft.AspNetCore.Authorization;
-using IO.Swagger.Models;
 using RecipesAPI.Filters;
 using RecipesAPI.Services.Interfaces;
 using RecipesAPI.Mappers;
@@ -49,7 +48,7 @@ namespace IO.Swagger.Controllers
         [HttpGet]
         [Route("/v1/user/{id}")]
         //[Authorize(AuthenticationSchemes = BearerAuthenticationHandler.SchemeName)]
-        [SwaggerOperation("UserIdGet")]
+        [SwaggerOperation("Login")]
         [SwaggerResponse(statusCode: 200, type: typeof(UserResponse), description: "A user")]
         public async Task<IActionResult> UserIdGet([FromRoute][Required] long id)
         {

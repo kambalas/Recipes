@@ -2,6 +2,7 @@
 @using RecipesUI.Services
 @using IO.Swagger.Models
 @inject IIngredientService IngredientService
+@inject IngredientService IngredientService
 @inject ILogger<Ingredients> Logger
 
 <h3>Ingredients</h3>
@@ -43,7 +44,6 @@ else
         catch (Exception ex)
         {
             Logger.LogError(ex, "Error fetching ingredients.");
-            ingredients = new List<IngredientResponse>(); 
         }
     }
 }

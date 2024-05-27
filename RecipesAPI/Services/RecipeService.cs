@@ -1,5 +1,4 @@
 ﻿using Autofac.Extras.DynamicProxy;
-using IO.Swagger.Models;
 using Microsoft.EntityFrameworkCore;
 using PoS.Application.Filters;
 using RecipesAPI.Filters;
@@ -9,6 +8,7 @@ using RecipesAPI.Repositories;
 using RecipesAPI.Repositories.Interfaces;
 using RecipesAPI.Services.Interfaces;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace RecipesAPI.Services
 {
@@ -63,7 +63,29 @@ namespace RecipesAPI.Services
                 recipeFilter = recipeFilter.And(x => x.User.Id == filter.UserId);
             }
 
-            var validProperties = typeof(Recipe).GetProperties().Select(p => p.Name);
+            if (Enum.TryParse<RecipeOrderBy>(filter.OrderBy, out var orderByValue))
+            {
+                Expression<Func<Recipe, object>> orderByExpression = orderByValue switch
+                {
+                    RecipeOrderBy.Name => x => x.Name,
+                    RecipeOrderBy.CreatedAt => x => x.CreatedAt,
+                    RecipeOrderBy.UpdatedAt => x => x.UpdatedAt,
+                    RecipeOrderBy.PreparationTimeInSeconds => x => x.PreparationTimeInSeconds,
+                    RecipeOrderBy.CookingTimeInSeconds => x => x.CookingTimeInSeconds,
+                    RecipeOrderBy.Servings => x => x.Servings,
+                    RecipeOrderBy.EnergyInKCal => x => x.EnergyInKCal,
+                    RecipeOrderBy.Level => x => x.Level,
+                    _ => x => x.Name
+                };
+
+                orderByRecipe = filter.Sorting switch
+                {
+                    Sorting.dsc => x => x.OrderByDescending(orderByExpression),
+                    _ => x => x.OrderBy(orderByExpression)
+                };
+            }
+
+/*                var validProperties = typeof(Recipe).GetProperties().Select(p => p.Name);
             if (validProperties.Contains(filter.OrderBy))
             {
                 switch (filter.Sorting)
@@ -79,7 +101,7 @@ namespace RecipesAPI.Services
             else
             {
                 ;// filter.OrderBy value is not recognized
-            }
+            }*/
             var recipes = await _recipeRepository.GetAsync(
                 recipeFilter,
                 orderByRecipe,

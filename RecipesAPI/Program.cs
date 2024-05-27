@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using RecipesAPI.Repositories;
 using RecipesAPI.Repositories.Interfaces;
@@ -14,7 +15,8 @@ using Microsoft.IdentityModel.Tokens;
 using ILogger = Serilog.ILogger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
-
+using RecipesAPI.Models;
+using RecipesAPI.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +30,39 @@ var configuration = new ConfigurationBuilder()
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(configuration)
     .CreateLogger();
+
+// Setting up Autofac
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
+    .ConfigureContainer<ContainerBuilder>(builder =>
+    {
+        builder.RegisterInstance(Log.Logger).As<ILogger>();
+        builder.RegisterType<AsyncLogger>().AsSelf().InstancePerDependency();
+
+        // Register all services marked with the [Intercept] attribute
+        var assembly = Assembly.GetExecutingAssembly();
+        var typesToIntercept = assembly.GetTypes().Where(t => t.GetCustomAttribute<InterceptAttribute>() != null);
+        foreach (var type in typesToIntercept)
+        {
+            builder.RegisterType(type)
+                .AsImplementedInterfaces()
+                .EnableInterfaceInterceptors()
+                .InterceptedBy(typeof(AsyncLogger))
+                .InstancePerDependency();
+        }
+
+        // Register services, repositories, and other dependencies
+        builder.RegisterType<AuthService>().As<IAuthService>().InstancePerDependency();
+        builder.RegisterType<RecipeService>().As<IRecipeService>().InstancePerDependency();
+        builder.RegisterType<IngredientService>().As<IIngredientService>().InstancePerDependency();
+        builder.RegisterType<UserService>().As<IUserService>().InstancePerDependency();
+        builder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerDependency();
+        builder.RegisterType<RecipeRepository>().As<IRecipeRepository>().InstancePerDependency();
+        builder.RegisterType<IngredientRepository>().As<IIngredientRepository>().InstancePerDependency();
+        builder.RegisterType<Mappers>().As<IMappers>().InstancePerDependency();
+
+        // Register IHttpContextAccessor
+        builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().SingleInstance();
+    });
 
 // Setting up Autofac
 /*builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
@@ -92,23 +127,40 @@ builder.Services.AddScoped<IIngredientService, IngredientService>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.Decorate<IUserRepository, UserRepositoryDecorator>();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
+builder.Services.AddAuthentication(options =>
     {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-        };
+        options.DefaultScheme = "CookieAuth";
+    })
+    .AddCookie("CookieAuth", options =>
+    {
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        options.Cookie.SameSite = SameSiteMode.Strict;
+        options.Cookie.Name = "authToken";
+        options.ExpireTimeSpan = TimeSpan.FromHours(1);
+        options.LoginPath = "/auth/login";
+        options.LogoutPath = "/auth/logout";
     });
+
+
+// builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//     .AddJwtBearer(options =>
+//     {
+//         options.TokenValidationParameters = new TokenValidationParameters
+//         {
+//             ValidateIssuer = true,
+//             ValidateAudience = true,
+//             ValidateLifetime = true,
+//             ValidateIssuerSigningKey = true,
+//             ValidIssuer = builder.Configuration["Jwt:Issuer"],
+//             ValidAudience = builder.Configuration["Jwt:Audience"],
+//             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+//         };
+//     });
 
 
 var app = builder.Build();
@@ -120,14 +172,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ExceptionHandlerMiddleware>();
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseAuthorization();
 app.Use(async (context, next) =>
 {
     var userIdentity = context.User.Identity;
+    var sd = context.User.Claims;
 
     var interceptor = app.Services.GetRequiredService<AsyncLogger>();
     interceptor.identity = userIdentity;

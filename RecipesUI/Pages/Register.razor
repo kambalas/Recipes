@@ -1,71 +1,85 @@
 ﻿@page "/register"
-@inject HttpClient Http
+@using ApiCommons.DTOs
+@using RecipesUI.Services
+@inject IUserService UserService
+@inject NavigationManager Navigation
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="text-center">Register</h3>
+<div class="login-page">
+    <main>
+        <div class="left-side">
+            <EditForm Model="userRequest" OnValidSubmit="HandleRegister">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <label for="username">Username</label>
+                <InputText id="email" class="form-control" @bind-Value="userRequest.Username" placeholder="Enter your username" />
+
+                <label for="email">Email</label>
+                <InputText id="email" class="form-control" @bind-Value="userRequest.Email" type="email" placeholder="Enter your email" />
+
+                <label for="password">Password</label>
+                <InputText id="password" class="form-control" @bind-Value="userRequest.Password" type="password" placeholder="Enter your password" />
+
+                <div class="btn-group">
+                <button type="submit" class="login-btn">Register</button>
                 </div>
-                <div class="card-body">
-                    <EditForm Model="registerModel" OnValidSubmit="HandleRegister">
-                        <DataAnnotationsValidator />
-                        <ValidationSummary />
 
-                        <div class="form-group">
-                            <label for="username">Username:</label>
-                            <InputText id="username" class="form-control" @bind-Value="registerModel.Username" />
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email:</label>
-                            <InputText id="email" class="form-control" @bind-Value="registerModel.Email" />
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password:</label>
-                            <InputText id="password" class="form-control" @bind-Value="registerModel.Password" type="password" />
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block mt-3">Register</button>
-                    </EditForm>
-
-                    @if (!string.IsNullOrEmpty(errorMessage))
-                    {
-                        <div class="alert alert-danger mt-3">@errorMessage</div>
-                    }
-                    @if (!string.IsNullOrEmpty(successMessage))
-                    {
-                        <div class="alert alert-success mt-3">@successMessage</div>
-                    }
+                <div class="links">
+                    <a href="login">Already have an account?</a>
                 </div>
-            </div>
+            </EditForm>
+
+                 <div class="alert-container">
+                @if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    <div class="alert alert-danger">@errorMessage</div>
+                }
+                @if (!string.IsNullOrEmpty(successMessage))
+                {
+                    <div class="alert alert-success">@successMessage</div>
+                }
+                </div>
         </div>
-    </div>
+        <div class="right-side"></div>
+    </main>
 </div>
 
+
 @code {
-    private RegisterRequest registerModel = new RegisterRequest();
+    // private RegisterRequest registerModel = new RegisterRequest();
     private string errorMessage;
     private string successMessage;
+    private UserRequest userRequest = new UserRequest();
+
+
 
     private async Task HandleRegister()
     {
-        var response = await Http.PostAsJsonAsync("/v1/user", registerModel);
-        if (response.IsSuccessStatusCode)
+        try
         {
-            successMessage = "Registration successful";
-            errorMessage = string.Empty;
+            var response = await UserService.CreateUser(userRequest);
+            if (response != null)
+            {
+                successMessage = "Registration successful. Redirecting to login page...";
+                errorMessage = string.Empty;
+                Navigation.NavigateTo("/login");
+            }
+            else
+            {
+                errorMessage = "Registration failed. Please check your details.";
+                successMessage = string.Empty;
+            }
         }
-        else
+        catch (HttpRequestException httpEx)
         {
-            errorMessage = "Registration failed. Please check your details.";
+            errorMessage = $"HTTP error occurred: {httpEx.Message}";
+            successMessage = string.Empty;
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"An unexpected error occurred: {ex.Message}";
             successMessage = string.Empty;
         }
     }
-
-    public class RegisterRequest
-    {
-        public string Username { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-    }
+    
 }
