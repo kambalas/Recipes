@@ -19,9 +19,33 @@
 
         @if (isLoading)
         {
-            <MudSkeleton Height="40px" Width="100%" Animation="Animation.Wave" />
-            <MudSkeleton Height="400px" Width="100%" Animation="Animation.Wave" />
-            <MudSkeleton Height="200px" Width="100%" Animation="Animation.Wave" />
+            <div style="background-color: #d9d9d9; width: 100%; height: 400px; justify-content: center;">
+                <div class="image-preview" style="position: relative; width: 100%; height: 100%;">
+                    <MudSkeleton Class="skeleton-recipe-photo" Height="400px" Width="100%" Animation="Animation.Wave"/>
+                </div>
+            </div>
+            
+            <div class="form-wrapper">
+                <div class="form-container">
+                    <MudSkeleton Height="70px" Width="1040px" Animation="Animation.Wave" />
+                    <MudSkeleton Height="90px" Width="1040px" Animation="Animation.Wave" />
+                </div>
+                <div class="form-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(334px, 1fr)); gap: 20px;">
+                    <MudSkeleton Height="70px" Width="510px" Animation="Animation.Wave" />
+                    <MudSkeleton Height="70px" Width="510px" Animation="Animation.Wave" />
+                    <MudSkeleton Height="70px" Width="510px" Animation="Animation.Wave" />
+                    <MudSkeleton Height="70px" Width="510px" Animation="Animation.Wave" />
+                </div>
+                <div class="difficulty-buttons">
+                    <MudSkeleton Height="90px" Width="1040px" Animation="Animation.Wave" />
+                </div>
+                <div class="form-container">
+                    <MudSkeleton Height="70px" Width="1040px" Animation="Animation.Wave" />
+                    <MudSkeleton Height="90px" Width="1040px" Animation="Animation.Wave" />
+                </div>
+            </div>
+            
+            
         }
         <div style='@(isLoading ? "display: none;" : "")'>
             <TopBarSection OnPublishClicked="@SubmitRecipe" Message="You are currently editing a recipe."/>
@@ -115,7 +139,6 @@
                 StepNumber = s.StepNumber ?? 0,
                 Phase = s.Phase.RemoveEnums().ToLower()
             }).ToList();
-        isLoading = false;
     }
     catch (Exception ex)
     {
@@ -124,7 +147,7 @@
     }
     finally
     {
-        isLoading = false;
+        // isLoading = false;
     }
     }
     
