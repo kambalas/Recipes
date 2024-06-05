@@ -9,10 +9,7 @@
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime
 
-@attribute [Authorize]
 
-<AuthorizeView>
-    <Authorized>
 <header>
     <h1>Slogan</h1>
     <div class="search-container">
@@ -49,6 +46,7 @@
             </div>
             <button class="create-button" @onclick="() => NavigateToCreate()">Create Recipe</button>
         </div>
+        <MudContainer MaxWidth="MaxWidth.Medium">
         <div class="recipe-grid">
             @if (recipes == null)
             {
@@ -87,6 +85,7 @@
                 }
             }
         </div>
+        </MudContainer>
         <div class="pagination">
             <button @onclick="async () => await GoToPage(currentPage - 1)" disabled="@(currentPage == 1)">&lt;</button>
             <button>@currentPage</button>
@@ -94,26 +93,7 @@
         </div>
     </div>
 </main>
-
-    </Authorized>
-    <NotAuthorized>
-        <MudPaper Class="pa-4">
-            <MudText Typo="Typo.h6">You are not authorized to view this content.</MudText>
-            <MudText Typo="Typo.body1">Please sign in or sign up to continue.</MudText>
-
-            <MudDivider Class="my-4"/>
-            <MudGrid>
-                <MudItem xs="12" Class="my-4">
-                    <MudDivider/>
-                </MudItem>
-                <MudItem xs="12">
-                    <MudButton Variant=Variant.Filled Color=Color.Primary OnClick="@(e => NavigationManager.NavigateTo("login"))">Login</MudButton>
-                    <MudButton Class="ml-2" Variant=Variant.Filled Color=Color.Secondary OnClick="@(e => NavigationManager.NavigateTo("register"))">Register</MudButton>
-                </MudItem>
-            </MudGrid>
-        </MudPaper>
-    </NotAuthorized>
-</AuthorizeView> 
+    
 
 @code {
     private List<RecipeResponse> recipes;
@@ -144,7 +124,7 @@
         {
             isLoading = true;
             Logger.LogInformation("Fetching recipes for page {currentPage}.", currentPage);
-            recipes = await RecipeService.GetRecipes(page: currentPage, pageSize: pageSize, search: searchQuery) ?? new List<RecipeResponse>();            
+            recipes = await RecipeService.GetRecipes(page: currentPage, pageSize: pageSize, search: searchQuery) ?? new List<RecipeResponse>();
             Logger.LogInformation("Recipes fetched successfully.");
             totalRecipes = recipes.Count;
             totalPages = (int)Math.Ceiling((double)totalRecipes / pageSize) + 1;
@@ -152,6 +132,11 @@
         catch (Exception ex)
         {
             Logger.LogError(ex, "Error fetching recipes.");
+        }
+        finally
+        {
+            isLoading = false;
+            StateHasChanged();
         }
     }
 
