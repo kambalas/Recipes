@@ -12,7 +12,7 @@
 
 <AuthorizeView>
     <Authorized>
-        <TopBarSection OnPublishClicked="@SubmitRecipe" Message="You are currently editing a recipe." />
+        <TopBarSection OnPublishClicked="@SubmitRecipe" Message="You are currently editing a recipe post." />
 <ImageSection UploadedImageChanged="@((newImage) => recipe.ImageEncoded = newImage)" @bind-InitialImage="recipe.ImageEncoded"/>
     <div class="form-wrapper">
         <FormGeneralSection @bind-Recipe="recipe"/>
