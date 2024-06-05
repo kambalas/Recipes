@@ -26,10 +26,20 @@ a {
     top: 0;
     box-shadow: rgba(0, 0, 0, 0.1) 1px 0 5px;
     z-index: 10001;
+    justify-content: space-between;
 }
 
 .sidebar:hover {
     width: 250px;
+}
+
+
+.sidebar .top-section {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    
 }
 
 .sidebar .logo,
@@ -150,5 +160,68 @@ a {
     font-size: 16px;
     text-wrap: nowrap;
 }
+
+.sidebar .bottom-section {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.sidebar .account-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    
+    
+}
+
+
+.sidebar .account-container .profile-icon {
+    margin-left: 12px;
+}
+
+.sidebar .account-container .user-data {
+    display: none;
+    flex-direction: column;
+    margin-left: 10px;
+    justify-content: left;
+}
+
+
+.sidebar:hover .account-container .user-data {
+    display: flex;
+}
+
+.sidebar .account-container .user-data .user-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.sidebar .account-container .user-data .user-email {
+    font-size: 14px;
+    color: #777;
+}
+
+
+.sidebar .account-container .account-buttons {
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    jusify-content: space-around;
+}
+
+
+
+
+
+
+
+
+
 
 
