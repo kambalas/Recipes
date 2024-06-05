@@ -135,6 +135,7 @@ namespace RecipesAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<long?>("RecipeId")
+                        .IsRequired()
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -213,7 +214,9 @@ namespace RecipesAPI.Migrations
                 {
                     b.HasOne("RecipesAPI.Models.Recipe", "Recipe")
                         .WithMany("Steps")
-                        .HasForeignKey("RecipeId");
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Recipe");
                 });

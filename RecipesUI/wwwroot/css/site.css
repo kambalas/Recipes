@@ -62,9 +62,10 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
-    
-    
 
+body {
+    background-color: #f8f9fa;
+}
 /* Image Section */
 .image-upload-container {
     position: relative;
@@ -74,26 +75,26 @@ a, .btn-link {
     text-align: right;
 }
 
-.image-preview{
+.image-preview {
     width: 100%;
     height: 400px;
-    overflow: hidden; 
-    position: relative; 
-    display: flex; 
-    justify-content: center; 
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
     align-items: center;
 }
 
-.image-preview img {
-    width: auto; 
-    min-width: 100%; 
-    min-height: 100%; 
-    max-width: none;
-    position: absolute; 
-    top: 50%;
-    left: 50%; 
-    transform: translate(-50%, -50%); 
-}
+    .image-preview img {
+        width: auto;
+        min-width: 100%;
+        min-height: 100%;
+        max-width: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 
 .placeholder {
     display: flex;
@@ -117,7 +118,7 @@ a, .btn-link {
     border: 0.1px solid #eee;
     box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px;
     color: #555;
-    position: absolute!important;
+    position: absolute !important;
     border-radius: 10px;
     padding: 5px 15px;
     margin-left: 10px;
@@ -125,30 +126,29 @@ a, .btn-link {
     transition: background-color 0.3s, color 0.3s;
 }
 
-.upload-button:hover,
-.delete-image-button:hover {
-    background-color: #eee;
-}
+    .upload-button:hover,
+    .delete-image-button:hover {
+        background-color: #eee;
+    }
 
 
 .delete-image-button {
-   margin-right: 20px!important;
+    margin-right: 20px !important;
 }
 
 
 .mud-button-text {
-    padding: 10px 20px!important;
-    border-radius: 15px!important;
+    padding: 10px 20px !important;
+    border-radius: 15px !important;
 }
 
 
 
 .mud-button-root {
-    right: 0!important;
-    margin-top: -55px!important;
-    background-color: #fff!important;
-    color: #333!important;
-
+    right: 0 !important;
+    margin-top: -55px !important;
+    background-color: #fff !important;
+    color: #333 !important;
 }
 
 
@@ -183,7 +183,7 @@ a, .btn-link {
     resize: vertical;
 }
 
-@media (max-width: 768px) { 
+@media (max-width: 768px) {
     .info-grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -191,7 +191,7 @@ a, .btn-link {
 
 @media (max-width: 480px) {
     .info-grid {
-        grid-template-columns: 1fr 1fr; 
+        grid-template-columns: 1fr 1fr;
     }
 }
 
@@ -226,26 +226,27 @@ a, .btn-link {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    min-width: 100%!important;
+    min-width: 100% !important;
     margin: 0 auto;
     gap: 10px;
     flex-wrap: wrap;
 }
 
-.container h2 {
-    display: flex;
-    width: 100%;
-    margin-bottom: 0px;
-}
+    .container h2 {
+        display: flex;
+        width: 100%;
+        margin-bottom: 0px;
+    }
 
-.container h3 {
-    display: flex;
-    width: 100%;
-}
-.container .inline {
-    display: flex;
-    gap: 15px;
-}
+    .container h3 {
+        display: flex;
+        width: 100%;
+    }
+
+    .container .inline {
+        display: flex;
+        gap: 15px;
+    }
 
 .inline:has(> .inline) {
     flex-wrap: wrap;
@@ -280,15 +281,15 @@ a, .btn-link {
 
 
 
-.search-ingredient .label {
-    position: absolute;
-    font-size: 12px;
-    background-color: white;
-    top: -10px;
-    padding: 5px;
-    left: 10px;
-    z-index: 1;
-}
+    .search-ingredient .label {
+        position: absolute;
+        font-size: 12px;
+        background-color: white;
+        top: -10px;
+        padding: 5px;
+        left: 10px;
+        z-index: 1;
+    }
 
 #ingredients-list .ingredient-item .wrapper {
     display: flex;
@@ -296,29 +297,29 @@ a, .btn-link {
     align-items: center;
 }
 
-#ingredients-list .ingredient-item .wrapper .spacer {
-    width: 70%;
-    min-width: 40px;
-}
+    #ingredients-list .ingredient-item .wrapper .spacer {
+        width: 70%;
+        min-width: 40px;
+    }
 
-#ingredients-list .ingredient-item .wrapper .name {
-    width: 20%;
-    margin-left: 15px;
-}
+    #ingredients-list .ingredient-item .wrapper .name {
+        width: 20%;
+        margin-left: 15px;
+    }
 
 
 @media only screen and (max-width: 720px) {
     .ingredient-form-wrapper {
         flex-wrap: wrap;
     }
+
     .search-ingredient {
         width: 100%;
     }
-    
+
     .amount-input-wrapper {
-        width: 48%!important;
+        width: 48% !important;
     }
-    
 }
 
 
@@ -327,7 +328,7 @@ a, .btn-link {
 
 
 
-/* Dragula Customization */ 
+/* Dragula Customization */
 .gu-mirror {
     margin: 0 !important;
     position: fixed !important;
@@ -343,12 +344,10 @@ a, .btn-link {
     width: 100%;
     cursor: grabbing;
     cursor: -webkit-grabbing;
-    
-    
 }
 
 #step-phase .gu-mirror {
-    padding: 15px!important;
+    padding: 15px !important;
 }
 
 .gu-mirror .ingredient-buttons {
@@ -389,7 +388,7 @@ a, .btn-link {
 .edit-button,
 .delete-button {
     border: none;
-    background-color:transparent;
+    background-color: transparent;
     padding: 15px 30px;
     cursor: pointer;
     color: white;
@@ -397,20 +396,20 @@ a, .btn-link {
 }
 
 
-.edit-button svg,
-.delete-button  svg {
-    width: 17px;
-    height:17px;
-}
+    .edit-button svg,
+    .delete-button svg {
+        width: 17px;
+        height: 17px;
+    }
 
 .delete-button {
     border-radius: 0 5px 5px 0;
 }
 
-.edit-button:hover,
-.delete-button:hover {
-    background-color: #ddd;
-}
+    .edit-button:hover,
+    .delete-button:hover {
+        background-color: #ddd;
+    }
 
 .add-ingredient-form {
     display: flex;
@@ -432,9 +431,9 @@ a, .btn-link {
     justify-content: center;
 }
 
-.add-ingredient-btn:hover {
-    background-color: #eee;
-}
+    .add-ingredient-btn:hover {
+        background-color: #eee;
+    }
 
 .add-ingredient-form input,
 .add-ingredient-form select {
@@ -453,9 +452,9 @@ a, .btn-link {
     cursor: pointer;
 }
 
-.add-ingredient-form button:hover {
-    background-color: #45a049;
-}
+    .add-ingredient-form button:hover {
+        background-color: #45a049;
+    }
 
 #autoComplete {
     border-radius: 5px;
@@ -464,9 +463,9 @@ a, .btn-link {
     padding: 28px 16px;
 }
 
-#autoComplete::placeholder {
-    color: grey;
-}
+    #autoComplete::placeholder {
+        color: grey;
+    }
 
 .amount-input-wrapper {
     --padding: 16px;
@@ -475,39 +474,38 @@ a, .btn-link {
     display: flex;
     align-items: center;
     width: 20%;
-    
 }
 
-.amount-input-wrapper #ingredient-amount {
-    padding: var(--padding);
-    border: 0.1px solid #eee;
-    box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px;
-    outline: none;
-    border-radius: 6px;
-    display: flex;
-    font-size: 16px;
-    width: 100%;
-    
-}
-.amount-input-wrapper .amountPlaceholder {
-    position: absolute;
-    font-size:  16px;
-    background-color: white;
-    color: grey;
-    left: var(--padding);
-    padding: 0 4px;
-    transition: all 0.2s ease-in;
-}
+    .amount-input-wrapper #ingredient-amount {
+        padding: var(--padding);
+        border: 0.1px solid #eee;
+        box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px;
+        outline: none;
+        border-radius: 6px;
+        display: flex;
+        font-size: 16px;
+        width: 100%;
+    }
 
-.amount-input-wrapper #ingredient-amount:is(:focus, :valid) {
-    border: 0.1px solid var(--focus-color);
-}
+    .amount-input-wrapper .amountPlaceholder {
+        position: absolute;
+        font-size: 16px;
+        background-color: white;
+        color: grey;
+        left: var(--padding);
+        padding: 0 4px;
+        transition: all 0.2s ease-in;
+    }
 
-.amount-input-wrapper #ingredient-amount:is(:focus, :valid) + .amountPlaceholder {
-    transform: translatey(calc(-1 * var(--padding) - 7px)) translatex(-5px);
-    font-size: 12px;
-    color: #333;
-}
+    .amount-input-wrapper #ingredient-amount:is(:focus, :valid) {
+        border: 0.1px solid var(--focus-color);
+    }
+
+        .amount-input-wrapper #ingredient-amount:is(:focus, :valid) + .amountPlaceholder {
+            transform: translatey(calc(-1 * var(--padding) - 7px)) translatex(-5px);
+            font-size: 12px;
+            color: #333;
+        }
 
 /* Dropdown Shared for Steps and Ingredients */
 
@@ -540,14 +538,14 @@ a, .btn-link {
     align-items: center;
 }
 
-.dropdown-button .label {
-    position: absolute;
-    top: -8px;
-    background-color: white;
-    left: 12px;
-    padding: 0 5px;
-    font-size: 12px;
-}
+    .dropdown-button .label {
+        position: absolute;
+        top: -8px;
+        background-color: white;
+        left: 12px;
+        padding: 0 5px;
+        font-size: 12px;
+    }
 
 .arrow-icon {
     position: absolute;
@@ -557,14 +555,14 @@ a, .btn-link {
     transition: transform 0.3s ease;
 }
 
-.arrow-icon svg {
-    color: #333;
-    transition: transform 0.3s ease;
-    width: 20px;
-    height: 20px;
-    transform-origin: 50% 50%;
-    display: block;
-}
+    .arrow-icon svg {
+        color: #333;
+        transition: transform 0.3s ease;
+        width: 20px;
+        height: 20px;
+        transform-origin: 50% 50%;
+        display: block;
+    }
 
 .dropdown-menu {
     position: absolute;
@@ -576,7 +574,6 @@ a, .btn-link {
     border: 0.1px solid #eee;
     box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px;
     padding: 0;
-    
 }
 
 .dropdown-item {
@@ -585,24 +582,24 @@ a, .btn-link {
     transition: background-color 0.3s;
 }
 
-.dropdown-item:first-child {
-    border-radius: 5px 5px 0 0;
-    border-top: none;
-}
+    .dropdown-item:first-child {
+        border-radius: 5px 5px 0 0;
+        border-top: none;
+    }
 
-.dropdown-item:last-child {
-    border-radius: 0 0 5px 5px;
-}
+    .dropdown-item:last-child {
+        border-radius: 0 0 5px 5px;
+    }
 
-.dropdown-item:hover {
-    background-color: #f0f0f0;
-}
+    .dropdown-item:hover {
+        background-color: #f0f0f0;
+    }
 
 .mud-button-label {
-    text-transform: capitalize!important;
+    text-transform: capitalize !important;
     font-family: Arial, sans-serif;
-    font-size: 16px!important;
-    font-weight: normal!important;
+    font-size: 16px !important;
+    font-weight: normal !important;
 }
 
 
@@ -617,9 +614,7 @@ a, .btn-link {
     position: absolute;
     display: flex;
     right: 8px;
-
     bottom: 10px;
-    
 }
 
 @media only screen and (min-width: 1280px) {
@@ -642,42 +637,42 @@ a, .btn-link {
     margin-top: 20px;
 }
 
-.steps-container h3 {
-    margin-bottom: 10px;
-}
+    .steps-container h3 {
+        margin-bottom: 10px;
+    }
 
 .steps {
     width: 100%;
     margin-bottom: 20px;
 }
 
-.steps .step-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 10px;
-    background: #fff;
-    border-radius: 5px;
-    cursor: grab;
-    border: 0.1px solid #eee;
-    box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px;
-    padding: 10px;
-}
+    .steps .step-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 10px;
+        background: #fff;
+        border-radius: 5px;
+        cursor: grab;
+        border: 0.1px solid #eee;
+        box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px;
+        padding: 10px;
+    }
 
 
 .search-step {
     position: relative;
 }
 
-.search-step .label {
-    position: absolute;
-    font-size: 12px;
-    background-color: white;
-    top: -10px;
-    padding: 5px;
-    left: 10px;
-    z-index: 1;
-}
+    .search-step .label {
+        position: absolute;
+        font-size: 12px;
+        background-color: white;
+        top: -10px;
+        padding: 5px;
+        left: 10px;
+        z-index: 1;
+    }
 
 .add-step-btn {
     border: 0.1px solid #eee;
@@ -693,9 +688,9 @@ a, .btn-link {
     background-color: white;
 }
 
-.add-step-btn:hover {
-    background-color: #eee;
-}
+    .add-step-btn:hover {
+        background-color: #eee;
+    }
 
 .search-step {
     --padding: 16px;
@@ -707,35 +702,36 @@ a, .btn-link {
     min-heigt: 200px;
 }
 
-.search-step #stepDescription {
-    padding: var(--padding);
-    border: 0.1px solid #eee;
-    box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px;
-    outline: none;
-    border-radius: 6px;
-    display: flex;
-    font-size: 16px;
-    min-width: 100%;
-    min-height:200px;
-}
-.search-step .label {
-    position: absolute;
-    background-color: white;
-    color: #333;
-    left: var(--padding);
-    padding: 0 4px;
-    transition: all 0.2s ease-in;
-}
+    .search-step #stepDescription {
+        padding: var(--padding);
+        border: 0.1px solid #eee;
+        box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px;
+        outline: none;
+        border-radius: 6px;
+        display: flex;
+        font-size: 16px;
+        min-width: 100%;
+        min-height: 200px;
+    }
 
-.search-step #stepDescription:is(:focus, :valid) {
-    border: 0.1px solid var(--focus-color);
-}
+    .search-step .label {
+        position: absolute;
+        background-color: white;
+        color: #333;
+        left: var(--padding);
+        padding: 0 4px;
+        transition: all 0.2s ease-in;
+    }
 
-.search-step #stepDescription:is(:focus, :valid) + .label {
-    transform: translatey(calc(-1 * var(--padding) - 7px)) translatex(-5px);
-    font-size: 12px;
-    color: var(--focus-color);
-}
+    .search-step #stepDescription:is(:focus, :valid) {
+        border: 0.1px solid var(--focus-color);
+    }
+
+        .search-step #stepDescription:is(:focus, :valid) + .label {
+            transform: translatey(calc(-1 * var(--padding) - 7px)) translatex(-5px);
+            font-size: 12px;
+            color: var(--focus-color);
+        }
 
 
 #prep-steps, #cooking-steps {
@@ -745,15 +741,33 @@ a, .btn-link {
     box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px;
     padding: 15px;
     width: 100%;
-
 }
 
 
 
-/* TODO: Add parent class identifiers! */
 
-body {
-    background-color: #f8f9fa;
+    .mark, mark, .autoComplete_wrapper > ul > li mark
+
+{
+    padding: 0 !important;
+    background-color: #fff !important;
+    color: #111 !important;
+}
+
+.autoComplete_wrapper > ul {
+    border-radius: 6px;
+    border: 0.1px solid #eee;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px;
+    padding: 0;
+}
+
+.autoComplete_wrapper > input {
+    display: flex;
+}
+
+
+.autoComplete_wrapper {
+    display: flex !important;
 }
 
 .container {
@@ -778,27 +792,6 @@ body {
     border-radius: 5px;
 }
 
-.mark, mark, .autoComplete_wrapper > ul > li mark {
-    padding: 0!important; 
-    background-color: #fff!important;
-    color: #111!important;
-}
-
-.autoComplete_wrapper > ul {
-    border-radius: 6px;
-    border: 0.1px solid #eee;
-    box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px;
-    padding: 0;
-}
-
-.autoComplete_wrapper > input {
-    display: flex;
-}
-
-
-.autoComplete_wrapper {
-    display: flex!important;
-}
 
 .button-container{
     display: flex;
