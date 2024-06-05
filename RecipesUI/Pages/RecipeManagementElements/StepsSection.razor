@@ -56,32 +56,22 @@
 
 
 @code {
-  
+
   [Parameter]
   public List<Step>? StepsOnEdit { get; set; }
 
   [Parameter]
   public EventCallback<List<Step>> StepsOnEditChanged { get; set; }
-  
-  
+
+
   protected override async Task OnParametersSetAsync()
   {
-        
+
     if (StepsOnEdit != null && StepsOnEdit.Count > 0)
     {
       await LoadSteps();
     }
-        
-  }
-  
-  protected override async Task OnInitializedAsync()
-  {
-    
-    if (StepsOnEdit != null && StepsOnEdit.Count > 0)
-    {
-      await LoadSteps();
-    }
-    
+
   }
 
   private async Task LoadSteps()
@@ -90,13 +80,13 @@
     StepsOnEdit = new List<Step>();
     await UpdateStepsOnEdit(StepsOnEdit);
   }
-  
+
   private async Task UpdateStepsOnEdit(List<Step> newSteps)
   {
     StepsOnEdit = newSteps;
     await StepsOnEditChanged.InvokeAsync(newSteps);
   }
-  
+
   protected override async Task OnAfterRenderAsync(bool firstRender)
   {
     if (firstRender)
@@ -123,4 +113,3 @@
   }
 
 }
-

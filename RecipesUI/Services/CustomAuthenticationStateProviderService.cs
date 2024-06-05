@@ -13,6 +13,10 @@ namespace RecipesUI.Services
 {
     public class CustomAuthenticationStateProviderService : AuthenticationStateProvider
     {
+        
+        public event Action OnUserLogout;
+        public event Action OnUserLoggedIn;
+
         private readonly IJSRuntime _jsRuntime;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly ILogger<CustomAuthenticationStateProviderService> _logger;
@@ -60,6 +64,12 @@ namespace RecipesUI.Services
             _logger.LogInformation("Auth token cookie set successfully.");
 
             NotifyAuthenticationStateChanged(authState);
+            NotifyUserLoggedIn();
+        }
+        
+        public void NotifyUserLoggedIn()
+        {
+            OnUserLoggedIn?.Invoke(); 
         }
 
         public async Task MarkUserAsLoggedOutAsync()
@@ -71,6 +81,13 @@ namespace RecipesUI.Services
             _logger.LogInformation("Auth token cookie deleted. User logged out.");
 
             NotifyAuthenticationStateChanged(authState);
+            NotifyUserLogout();
+
+        }
+        
+        private void NotifyUserLogout()
+        {
+            OnUserLogout?.Invoke(); 
         }
         
         public string GetUserIdFromToken(string token)

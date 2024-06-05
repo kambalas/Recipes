@@ -38,7 +38,7 @@ namespace ApiCommons.DTOs
         /// Gets or Sets Version
         /// </summary>
         [DataMember(Name = "version")]
-        public byte[] Version { get; set; }
+        public string? Version { get; set; }
 
         /// <summary>
         /// Gets or Sets UserId
