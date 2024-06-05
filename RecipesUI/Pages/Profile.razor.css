@@ -53,6 +53,16 @@ header {
     margin-top: auto;
 }
 
+.skeleton-account-text-info{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the top */
+}
+
+.mud-skeleton {
+    margin: 0; /* Ensure no extra margins affect positioning */
+}
+
 
 .logout-section {
     margin-left: 100px;
@@ -67,6 +77,13 @@ header {
     font-weight: 500;
     margin-bottom: 0px !important;
 }
+
+.skeleton-username{
+    font-size: 21px;
+    font-weight: 500;
+    margin-bottom: 0px !important;
+}
+
 
 main {
     flex: 1;
