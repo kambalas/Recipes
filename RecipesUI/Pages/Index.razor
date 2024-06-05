@@ -2,6 +2,7 @@
 
 @using RecipesUI.Services
 @using ApiCommons.DTOs
+@using MudBlazor
 
 @inject IRecipeService RecipeService
 @inject ILogger<Index> Logger
@@ -9,9 +10,6 @@
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime
 
-@* @attribute [Authorize] *@
-
-<NotAuthorized>
 <header>
     <h1>Slogan</h1>
     <div class="search-container">
@@ -46,9 +44,15 @@
             </div>
         </div>
         <div class="recipe-grid">
-            @if (recipes == null)
+            @if (isLoading)
             {
-                <p>Loading recipes...</p>
+                @for (int i = 0; i < pageSize; i++)
+                {
+                    <div class="recipe-card skeleton-card">
+                        <MudSkeleton Class="skeleton-placeholder" Width="100%" Animation="Animation.Wave" />
+                        <MudSkeleton Class="skeleton-recipe-card-title" Width="50%" Animation="Animation.Wave" />
+                    </div>
+                }
             }
             else if (!recipes.Any())
             {
@@ -92,25 +96,7 @@
     </div>
 </main>
 
- </NotAuthorized> 
- @*    <NotAuthorized> *@
- @*        <MudPaper Class="pa-4"> *@
- @*            <MudText Typo="Typo.h6">You are not authorized to view this content.</MudText> *@
- @*            <MudText Typo="Typo.body1">Please sign in or sign up to continue.</MudText> *@
- @* *@
- @*            <MudDivider Class="my-4" /> *@
- @*            <MudGrid> *@
- @*                <MudItem xs="12" Class="my-4"> *@
- @*                    <MudDivider /> *@
- @*                </MudItem> *@
- @*                <MudItem xs="12"> *@
- @*                    <MudButton Variant=Variant.Filled Color=Color.Primary OnClick="@(e => NavigationManager.NavigateTo("login"))">Login</MudButton> *@
- @*                    <MudButton Class="ml-2" Variant=Variant.Filled Color=Color.Secondary OnClick="@(e => NavigationManager.NavigateTo("register"))">Register</MudButton> *@
- @*                </MudItem> *@
- @*            </MudGrid> *@
- @*        </MudPaper> *@
- @*    </NotAuthorized> *@
- @* </AuthorizeView>  *@
+ 
 
 @code {
     private List<RecipeResponse> recipes;
@@ -120,6 +106,7 @@
     private int totalPages;
     private bool isInitialized = false;
     private string searchQuery = string.Empty;
+    private bool isLoading = true;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -138,8 +125,9 @@
     {
         try
         {
+            isLoading = true;
             Logger.LogInformation("Fetching recipes for page {currentPage}.", currentPage);
-            recipes = await RecipeService.GetRecipes(page: currentPage, pageSize: pageSize, search: searchQuery) ?? new List<RecipeResponse>();            
+            recipes = await RecipeService.GetRecipes(page: currentPage, pageSize: pageSize, search: searchQuery) ?? new List<RecipeResponse>();
             Logger.LogInformation("Recipes fetched successfully.");
             totalRecipes = recipes.Count;
             totalPages = (int)Math.Ceiling((double)totalRecipes / pageSize) + 1;
@@ -147,6 +135,11 @@
         catch (Exception ex)
         {
             Logger.LogError(ex, "Error fetching recipes.");
+        }
+        finally
+        {
+            isLoading = false;
+            StateHasChanged();
         }
     }
 
@@ -205,3 +198,4 @@
     }
 
 }
+

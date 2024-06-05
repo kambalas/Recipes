@@ -23,6 +23,8 @@ header {
     object-fit: cover;
 }
 
+
+
 main {
     display: flex;
     flex-direction: column;
@@ -131,7 +133,6 @@ main {
     cursor: pointer;
     border: 0.1px solid #eee;
     opacity: 1;
-
 }
 
 
