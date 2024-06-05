@@ -13,24 +13,23 @@
 <AuthorizeView>
     <Authorized>
         @if (isLoading)
-            {
-                <MudSkeleton Height="40px" Width="100%" Animation="Animation.Wave" />
-                <MudSkeleton Height="400px" Width="100%" Animation="Animation.Wave" />
-                <MudSkeleton Height="200px" Width="100%" Animation="Animation.Wave" />
-            }
-        else
         {
-            <TopBarSection OnPublishClicked="@SubmitRecipe" Message="You are currently editing a recipe." />
+            <MudSkeleton Height="40px" Width="100%" Animation="Animation.Wave" />
+            <MudSkeleton Height="400px" Width="100%" Animation="Animation.Wave" />
+            <MudSkeleton Height="200px" Width="100%" Animation="Animation.Wave" />
+        }
+        <div style='@(isLoading ? "display: none;" : "")'>
+            <TopBarSection OnPublishClicked="@SubmitRecipe" Message="You are currently editing a recipe."/>
             <ImageSection UploadedImageChanged="@((newImage) => recipe.ImageEncoded = newImage)" @bind-InitialImage="recipe.ImageEncoded"/>
             <div class="form-wrapper">
                 <FormGeneralSection @bind-Recipe="recipe"/>
-                <IngredientsSection @bind-Ingredients="recipe.Ingredients" @bind-IngredientsOnEdit="IngredientsOnEdit" />
+                <IngredientsSection @bind-Ingredients="recipe.Ingredients" @bind-IngredientsOnEdit="IngredientsOnEdit"/>
                 <StepsSection @bind-StepsOnEdit="StepsOnEdit"/>
                 <div class="submit-section">
                     <button class="submit-recipe-form-btn" @onclick="SubmitRecipe">Submit</button>
                 </div>
             </div>
-        }
+        </div>
     </Authorized>
     <NotAuthorized>
         <MudPaper Class="pa-4">
@@ -51,7 +50,7 @@
 </AuthorizeView>
     
 
-    @code {
+@code {
     
     [Parameter]
     public int RecipeId { get; set; }
@@ -61,7 +60,7 @@
     public List<Ingredient> IngredientsOnEdit = new List<Ingredient>();
     public List<Step> StepsOnEdit = new List<Step>();
     private bool isLoading = true;
-
+        
     protected override async Task OnInitializedAsync()
     {
         try
@@ -108,18 +107,17 @@
                 StepNumber = s.StepNumber ?? 0,
                 Phase = s.Phase.RemoveEnums().ToLower()
             }).ToList();
-        }
-        catch (Exception ex)
-        {
-            await JSRuntime.InvokeVoidAsync("alert", "Failed to fetch recipe");
-            NavigationManager.NavigateTo("/");
-        }
-        finally
-        {
-            isLoading = false;
-        }
-        
-        
+        isLoading = false;
+    }
+    catch (Exception ex)
+    {
+        await JSRuntime.InvokeVoidAsync("alert", "Failed to fetch recipe");
+        NavigationManager.NavigateTo("/");
+    }
+    finally
+    {
+        isLoading = false;
+    }
     }
     
     public async Task SubmitRecipe()
