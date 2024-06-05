@@ -9,10 +9,9 @@
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime
 
-@attribute [Authorize]
 
-@* <AuthorizeView> *@
-@*     <Authorized> *@
+<MudContainer></MudContainer>
+
 <header>
     <h1>Slogan</h1>
     <div class="search-container">
@@ -109,6 +108,7 @@
     private int totalPages;
     private bool isInitialized = false;
     private string searchQuery = string.Empty;
+    private bool isLoading = true; // added a loading state.
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -127,6 +127,7 @@
     {
         try
         {
+            isLoading = true;
             Logger.LogInformation("Fetching recipes for page {currentPage}.", currentPage);
             recipes = await RecipeService.GetRecipes(page: currentPage, pageSize: pageSize, search: searchQuery) ?? new List<RecipeResponse>();            
             Logger.LogInformation("Recipes fetched successfully.");
