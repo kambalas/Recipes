@@ -171,7 +171,7 @@
     
     private void NavigateToCreate()
     {
-        NavigationManager.NavigateTo("/create");
+        NavigationManager.NavigateTo("/create", forceLoad:true);
     }
     
     private async Task SortRecipes(string order)

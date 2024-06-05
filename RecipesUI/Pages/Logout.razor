@@ -9,6 +9,6 @@
     protected override async Task OnInitializedAsync()
     {
         await AuthService.MarkUserAsLoggedOutAsync();
-        Navigation.NavigateTo("/");
+        Navigation.NavigateTo("/", forceLoad: true);
     }
 }

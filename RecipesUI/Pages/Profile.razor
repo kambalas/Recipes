@@ -73,6 +73,14 @@
                                         }
                                     </div>
                                     <div class="time-badge">@TotalDuration(recipe.PreparationDuration,recipe.CookingDuration) min</div>
+
+                                    <button class="edit-btn" @onclick="() => NavigateToEdit(recipe.Id)">
+                                        <svg width="26" height="23" viewBox="0 0 26 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M24.52 22H1" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
+                                            <path d="M6.84645 13.7344L6.04004 16.96L9.26568 16.1536C9.3536 16.1316 9.43389 16.0862 9.49797 16.0221L21.6465 3.87355C21.8417 3.67829 21.8417 3.36171 21.6465 3.16645L19.8336 1.35355C19.6383 1.15829 19.3217 1.15829 19.1265 1.35355L6.97797 13.5021C6.91389 13.5662 6.86843 13.6464 6.84645 13.7344Z" stroke="#333" stroke-width="1.5" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button>
+
                                     <div class="title">@recipe.Name</div>
                                 </div>
                             </a>
@@ -177,7 +185,13 @@
     
     private void NavigateToCreate()
     {
-        NavigationManager.NavigateTo("/create");
+        
+        NavigationManager.NavigateTo("/create", forceLoad: true);
+    }
+
+    private void NavigateToEdit(long? recipeId)
+    {
+        NavigationManager.NavigateTo($"/edit/{recipeId}", forceLoad: true);
     }
     
     
