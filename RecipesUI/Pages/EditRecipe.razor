@@ -12,17 +12,25 @@
 
 <AuthorizeView>
     <Authorized>
-        <TopBarSection OnPublishClicked="@SubmitRecipe" Message="You are currently editing a recipe." />
-<ImageSection UploadedImageChanged="@((newImage) => recipe.ImageEncoded = newImage)" @bind-InitialImage="recipe.ImageEncoded"/>
-    <div class="form-wrapper">
-        <FormGeneralSection @bind-Recipe="recipe"/>
-        <IngredientsSection @bind-Ingredients="recipe.Ingredients" @bind-IngredientsOnEdit="IngredientsOnEdit" />
-        <StepsSection @bind-StepsOnEdit="StepsOnEdit"/>
-        <div class="submit-section">
-            <button class="submit-recipe-form-btn" @onclick="SubmitRecipe">Submit</button>
-        </div>
-    </div>
-    
+        @if (isLoading)
+            {
+                <MudSkeleton Height="40px" Width="100%" Animation="Animation.Wave" />
+                <MudSkeleton Height="400px" Width="100%" Animation="Animation.Wave" />
+                <MudSkeleton Height="200px" Width="100%" Animation="Animation.Wave" />
+            }
+        else
+        {
+            <TopBarSection OnPublishClicked="@SubmitRecipe" Message="You are currently editing a recipe." />
+            <ImageSection UploadedImageChanged="@((newImage) => recipe.ImageEncoded = newImage)" @bind-InitialImage="recipe.ImageEncoded"/>
+            <div class="form-wrapper">
+                <FormGeneralSection @bind-Recipe="recipe"/>
+                <IngredientsSection @bind-Ingredients="recipe.Ingredients" @bind-IngredientsOnEdit="IngredientsOnEdit" />
+                <StepsSection @bind-StepsOnEdit="StepsOnEdit"/>
+                <div class="submit-section">
+                    <button class="submit-recipe-form-btn" @onclick="SubmitRecipe">Submit</button>
+                </div>
+            </div>
+        }
     </Authorized>
     <NotAuthorized>
         <MudPaper Class="pa-4">
@@ -50,55 +58,67 @@
     
     private RecipeResponse recipeResponse = new RecipeResponse();
     private RecipeRequest recipe = new RecipeRequest();
-
     public List<Ingredient> IngredientsOnEdit = new List<Ingredient>();
-
     public List<Step> StepsOnEdit = new List<Step>();
-
+    private bool isLoading = true;
 
     protected override async Task OnInitializedAsync()
     {
-        recipeResponse = await RecipeService.GetRecipeById(RecipeId);
-        
-        recipe = new RecipeRequest()
+        try
         {
-            Name = recipeResponse.Name,
-            Description = recipeResponse.Description,
-            CookingDuration = recipeResponse.CookingDuration,
-            PreparationDuration = recipeResponse.PreparationDuration,
-            Level = recipeResponse.Level,
-            ImageEncoded = recipeResponse.ImageURL,
-            Energy = recipeResponse.Energy,
-            Servings = recipeResponse.Servings,
-            Ingredients = recipeResponse.Ingredients.Select(i => new IngredientOnCreateRequest()
+            isLoading = true;
+            recipeResponse = await RecipeService.GetRecipeById(RecipeId);
+
+            recipe = new RecipeRequest()
             {
-                Id = i.Id,
+                Name = recipeResponse.Name,
+                Description = recipeResponse.Description,
+                CookingDuration = recipeResponse.CookingDuration,
+                PreparationDuration = recipeResponse.PreparationDuration,
+                Level = recipeResponse.Level,
+                ImageEncoded = recipeResponse.ImageURL,
+                Energy = recipeResponse.Energy,
+                Servings = recipeResponse.Servings,
+                Ingredients = recipeResponse.Ingredients.Select(i => new IngredientOnCreateRequest()
+                {
+                    Id = i.Id,
+                    Amount = (int)(i.Amount ?? 0L),
+                    Measurement = i.Measurement ?? MeasurementEnum.piece
+                }).ToList(),
+                Steps = recipeResponse.Steps.Select(s => new StepRequest()
+                {
+                    Description = s.Description,
+                    StepNumber = s.StepNumber,
+                    Phase = s.Phase
+                }).ToList()
+            };
+
+            IngredientsOnEdit = recipeResponse.Ingredients.Select(i => new Ingredient()
+            {
+                Id = (int)(i.Id ?? 0L),
+                Name = i.Name,
                 Amount = (int)(i.Amount ?? 0L),
-                Measurement = i.Measurement ?? MeasurementEnum.piece
-            }).ToList(),
-            Steps  = recipeResponse.Steps.Select(s => new StepRequest()
+                Measurement = i.Measurement.RemoveEnums().ToLower()
+
+            }).ToList();
+
+            StepsOnEdit = recipeResponse.Steps.Select(s => new Step()
             {
-                Description = s.Description,
-                StepNumber = s.StepNumber,
-                Phase = s.Phase
-            }).ToList()
-        };
-        
-        IngredientsOnEdit = recipeResponse.Ingredients.Select(i => new Ingredient()
+                Description = s.Description ?? "",
+                StepNumber = s.StepNumber ?? 0,
+                Phase = s.Phase.RemoveEnums().ToLower()
+            }).ToList();
+        }
+        catch (Exception ex)
         {
-            Id = (int)(i.Id ?? 0L),
-            Name = i.Name,
-            Amount = (int)(i.Amount ?? 0L),
-            Measurement = i.Measurement.RemoveEnums().ToLower()
-            
-        }).ToList();
-        
-        StepsOnEdit = recipeResponse.Steps.Select(s => new Step()
+            await JSRuntime.InvokeVoidAsync("alert", "Failed to fetch recipe");
+            NavigationManager.NavigateTo("/");
+        }
+        finally
         {
-            Description = s.Description ?? "",
-            StepNumber = s.StepNumber ?? 0,
-            Phase = s.Phase.RemoveEnums().ToLower()
-        }).ToList();
+            isLoading = false;
+        }
+        
         
     }
     

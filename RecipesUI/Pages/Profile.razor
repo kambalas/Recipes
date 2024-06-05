@@ -1,13 +1,14 @@
 ﻿@page "/profile"
 @using RecipesUI.Services
 @using ApiCommons.DTOs
-@using Microsoft.JSInterop
+@using MudBlazor
 @inject IRecipeService RecipeService
 @inject ILogger<Index> Logger
 @inject CustomAuthenticationStateProviderService AuthenticationStateProvider
 @inject IJSRuntime JSRuntime
 @inject IUserService UserService
 @inject NavigationManager NavigationManager
+
 
 
 @attribute [Authorize]
@@ -25,11 +26,20 @@
                         <path d="M15 8C15 9.65685 13.6569 11 12 11C10.3431 11 9 9.65685 9 8C9 6.34315 10.3431 5 12 5C13.6569 5 15 6.34315 15 8Z" stroke="#333333" stroke-width="1.5"/>
                     </svg>
                 </div>
-                <div class="account-text-info">
-                    <p class="username">@@@user.Username</p>
-                    <p class="email">@user.Email</p>
-                </div>
-                
+                @if (isLoading)
+                {
+                    <div class="skeleton-account-text-info">
+                        <MudSkeleton Height="20px" Width="150px" Animation="Animation.Wave" Class="skeleton-username" />
+                        <MudSkeleton Height="20px" Width="200px" Animation="Animation.Wave" Class="skeleton-email" />
+                    </div>
+                }
+                else
+                {
+                    <div class="account-text-info">
+                        <p class="username">@@@user.Username</p>
+                        <p class="email">@user.Email</p>
+                    </div>
+                }
                   <div class="logout-section">
                     <button class="logout-btn" @onclick="() => Logout()">Logout</button>
                   </div>
@@ -46,9 +56,15 @@
                     </div>
                 </div>
                 <div class="recipe-grid">
-                    @if (recipes == null)
+                    @if (isLoading)
                     {
-                        <p>Loading recipes...</p>
+                        @for (int i = 0; i < pageSize; i++)
+                        {
+                            <div class="recipe-card skeleton-card">
+                                <MudSkeleton Class="skeleton-placeholder" Width="100%" Animation="Animation.Wave" />
+                                <MudSkeleton Class="skeleton-recipe-card-title" Width="50%" Animation="Animation.Wave" />
+                            </div>
+                        }
                     }
                     else if (!recipes.Any())
                     {
@@ -115,6 +131,7 @@
     private string searchQuery = string.Empty;
     private UserResponse? user = new UserResponse();
     private bool isAuthorized = false;
+    private bool isLoading = true;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -142,6 +159,7 @@
     {
         try
         {
+            isLoading = true;
             Logger.LogInformation("Fetching recipes for page {currentPage}.", currentPage);
             var token = await JSRuntime.InvokeAsync<string>("cookieHelper.getCookie", "authToken");
             var userId = AuthenticationStateProvider.GetUserIdFromToken(token);
@@ -153,6 +171,10 @@
         catch (Exception ex)
         {
             Logger.LogError(ex, "Error fetching recipes.");
+        }
+        finally
+        {
+            isLoading = false;
         }
     }
 
