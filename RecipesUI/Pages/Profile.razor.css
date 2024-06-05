@@ -257,6 +257,24 @@ header h1 {
     
 }
 
+
+.recipe-card .edit-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 6px;
+    opacity: 0.8;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px;
+    border: 0.1px solid #eee;
+}
+
+.recipe-card .edit-btn:hover {
+    opacity: 1;
+    box-shadow: rgba(0, 0, 0, 0.3) 0 2px 5px;
+}
+
 .pagination {
     display: flex;
     justify-content: center;
