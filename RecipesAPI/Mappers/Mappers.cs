@@ -17,7 +17,7 @@ namespace RecipesAPI.Mappers
             var defaultDateTime = DateTime.UtcNow;
 			return new Recipe()
             {
-                Version = recipeRequest.Version ?? new byte[] {},
+                Version = Convert.FromBase64String(recipeRequest.Version),
                 Name = recipeRequest.Name ?? "default",
                 ImageURL = recipeRequest.ImageEncoded,
                 CreatedAt = defaultDateTime,
@@ -87,7 +87,7 @@ namespace RecipesAPI.Mappers
             var recipeDTO = new RecipeResponse
             {
                 Id = recipe.Id,
-                Version = recipe.Version,
+                Version = Convert.ToBase64String(recipe.Version),
                 Name = recipe.Name ?? "default",
                 Description = recipe.Description,
                 ImageURL = recipe.ImageURL,
@@ -113,7 +113,7 @@ namespace RecipesAPI.Mappers
             var recipeDTO = new RecipeResponse
             {
                 Id = recipe.Id,
-                Version = recipe.Version,
+                Version = Convert.ToBase64String(recipe.Version),
                 UserId = null,
                 Name = recipe.Name ?? "default",
                 Description = recipe.Description,

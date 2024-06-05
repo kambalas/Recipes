@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using NuGet.Protocol.Core.Types;
 using PoS.Core.Exceptions;
 using System.Data.Common;
+using System.Net;
 
 namespace RecipesAPI.Repositories
 {
@@ -55,21 +56,21 @@ namespace RecipesAPI.Repositories
                 .Include(r => r.RecipeIngredients)
                 .Include(r => r.Steps)
                 .FirstOrDefaultAsync(r => r.Id == updatedRecipe.Id);
-
+        
             if (existingRecipe == null)
             {
                 throw new ApiException("Recipe not found", System.Net.HttpStatusCode.NotFound);
             }
-
+        
             if (updatedRecipe.UserId != null)
             {
                 existingRecipe.UserId = updatedRecipe.UserId;
             }
             existingRecipe.RecipeIngredients.Clear();
             existingRecipe.Steps.Clear();
-
+        
             Context.Instance.Entry(existingRecipe).CurrentValues.SetValues(updatedRecipe);
-
+        
             if (updatedRecipe.RecipeIngredients != null && updatedRecipe.RecipeIngredients.Any())
             {
                 updatedRecipe.RecipeIngredients.ToList().ForEach(ri => existingRecipe.RecipeIngredients.Add(ri));
@@ -78,25 +79,21 @@ namespace RecipesAPI.Repositories
             {
                 updatedRecipe.Steps.ToList().ForEach(s => existingRecipe.Steps.Add(s));
             }
-
+        
             Context.Instance.Entry(existingRecipe).OriginalValues["Version"] = updatedRecipe.Version;
-
+        
             await Context.Instance.SaveChangesAsync();
-
+        
             var updatedRecipeWithRelatedEntities = await DbSet
                 .Include(r => r.RecipeIngredients)
                     .ThenInclude(ri => ri.Ingredient)
                 .Include(r => r.Steps)
                 .Include(r => r.User)
                 .FirstOrDefaultAsync(r => r.Id == updatedRecipe.Id);
-
+        
             return updatedRecipeWithRelatedEntities;
         }
-
-
-
-
-
+        
         public override async Task<Recipe> GetByIdAsync(object id)
         {
             var entity = await DbSet
