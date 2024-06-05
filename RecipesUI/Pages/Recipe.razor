@@ -5,7 +5,6 @@
 @using ApiCommons.DTOs
 @using RecipesUI.Services
 
-
 <header class="recipe-header">
     <img src="@recipe?.ImageURL" alt="Recipe Photo" class="recipe-photo" onerror="this.onerror=null; this.src='/assets/placeholders/recipe-image-placeholder.svg';" />
 </header>
@@ -161,8 +160,10 @@
         try
         {
             recipe = await RecipeService.GetRecipeById(RecipeId);
+            StateHasChanged();
             
             browseRecipes = await RecipeService.GetRecipes();
+            StateHasChanged();
         }
         catch (Exception ex)
         {
