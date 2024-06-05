@@ -5,7 +5,6 @@
 @using ApiCommons.DTOs
 @using RecipesUI.Services
 
-
 <header class="recipe-header">
     @if (isLoading)
     {
@@ -268,7 +267,10 @@
             isLoading = true;
             recipe = await RecipeService.GetRecipeById(RecipeId);
 
+            StateHasChanged();
+            
             browseRecipes = await RecipeService.GetRecipes();
+            StateHasChanged();
         }
         catch (Exception ex)
         {

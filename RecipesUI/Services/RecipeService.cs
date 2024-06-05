@@ -115,7 +115,7 @@ public class RecipeService : ApiService<RecipeResponse>, IRecipeService
             var response = await _httpClient.GetAsync(endpoint);
             var responseBody = await response.Content.ReadAsStringAsync();
 
-            _logger.LogInformation("Response Body: {ResponseBody}", responseBody);
+            //_logger.LogInformation("Response Body: {ResponseBody}", responseBody);
 
             if (!response.IsSuccessStatusCode)
             {

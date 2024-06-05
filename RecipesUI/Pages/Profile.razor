@@ -151,6 +151,7 @@
                 await AuthenticationStateProvider.CheckAuthenticationStateAsync(); // Ensure authentication state is checked after first render
                 user = await UserService.GetUserById(AuthenticationStateProvider.GetUserIdFromToken(token));
                 isAuthorized = true;
+                StateHasChanged();
                 await LoadRecipes();
                 isInitialized = true;
                 StateHasChanged();

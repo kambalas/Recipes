@@ -8,23 +8,15 @@
 @inject IRecipeService RecipeService
 @inject NavigationManager NavigationManager
 
+@inject ILogger<EditRecipe> Logger
+
 @attribute [Authorize]
+
+
 
 <AuthorizeView>
     <Authorized>
-<<<<<<<<< Temporary merge branch 1
-        <TopBarSection OnPublishClicked="@SubmitRecipe" Message="You are currently editing a recipe post." />
-<ImageSection UploadedImageChanged="@((newImage) => recipe.ImageEncoded = newImage)" @bind-InitialImage="recipe.ImageEncoded"/>
-    <div class="form-wrapper">
-        <FormGeneralSection @bind-Recipe="recipe"/>
-        <IngredientsSection @bind-Ingredients="recipe.Ingredients" @bind-IngredientsOnEdit="IngredientsOnEdit" />
-        <StepsSection @bind-StepsOnEdit="StepsOnEdit"/>
-        <div class="submit-section">
-            <button class="submit-recipe-form-btn" @onclick="SubmitRecipe">Submit</button>
-        </div>
-    </div>
-    
-=========
+
         @if (isLoading)
         {
             <MudSkeleton Height="40px" Width="100%" Animation="Animation.Wave" />
@@ -78,12 +70,15 @@
     {
         try
         {
+
             isLoading = true;
             recipeResponse = await RecipeService.GetRecipeById(RecipeId);
 
             recipe = new RecipeRequest()
+  
             {
                 Name = recipeResponse.Name,
+                Version = recipeResponse.Version,
                 Description = recipeResponse.Description,
                 CookingDuration = recipeResponse.CookingDuration,
                 PreparationDuration = recipeResponse.PreparationDuration,
@@ -139,7 +134,12 @@
         await UpdateIngredientsOrder();
         await AddStepsList();
         
+        Console.WriteLine(recipe.ToJson());
+        
+        
         var response = await RecipeService.UpdateRecipe(RecipeId, recipe);
+        
+        Logger.LogInformation(response.ToString());
         
         if (response.Equals(HttpStatusCode.OK))
         {
