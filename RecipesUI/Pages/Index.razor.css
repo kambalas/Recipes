@@ -91,12 +91,19 @@ header h1 {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 .header-row h2 {
     margin: 0;
     font-size: 28px;
+}
+
+.header-row .header-button-container {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    gap: 20px;
 }
 
 .create-button {
@@ -119,6 +126,9 @@ background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     font-size: 18px;
+    display: flex;
+    gap: 30px;
+    
 }
 
 .recipe-grid {
@@ -277,11 +287,13 @@ background-color: #fff;
     .create-recipe-button {
         background: white;
         border: 1px solid grey;
-        border-radius: 5px;
+        border-radius: 15px;
         padding: 10px 20px;
         font-size: 16px;
         cursor: pointer;
     }
+    
+    
 
 
     

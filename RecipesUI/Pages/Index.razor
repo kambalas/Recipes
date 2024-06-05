@@ -10,6 +10,8 @@
 @inject IJSRuntime JSRuntime
 
 
+ <AuthorizeView> 
+    <Authorized> 
 <header>
     <h1>Slogan</h1>
     <div class="search-container">
@@ -27,7 +29,7 @@
     <div class="main-items">
         <div class="header-row">
             <h2>Browse Recipes</h2>
-            <div class="button-container">
+            <div class="header-button-container">
                 <div class="dropdown-container">
                     <button class="dropdown-button sort-button">
                         Sort
@@ -35,14 +37,12 @@
                             <path d="M16.0979 1H1.95052C1.54793 1 1.31042 1.45151 1.53849 1.78326L6.14808 8.48812C6.37729 8.82152 6.5 9.21659 6.5 9.62118V17.7235C6.5 18.0871 6.87585 18.3292 7.2069 18.1787L11.7069 16.1332C11.8854 16.0521 12 15.8741 12 15.678V9.57359C12 9.19875 12.1053 8.83146 12.304 8.5136L16.5219 1.765C16.73 1.43198 16.4906 1 16.0979 1Z" stroke="#555555" stroke-width="1.5"/>
                         </svg>
                     </button>
-                    <div style="position:relative;">
-                        <div class="dropdown-menu">
-                            <div class="dropdown-item" data-value="newest" @onclick='async () => await SortRecipes("newest")'>Newest Recipes</div>
-                            <div class="dropdown-item" data-value="oldest" @onclick='async () => await SortRecipes("oldest")'>Oldest Recipes</div>
-                        </div>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-item" data-value="newest" @onclick='async () => await SortRecipes("newest")'>Newest Recipes</div>
+                        <div class="dropdown-item" data-value="oldest" @onclick='async () => await SortRecipes("oldest")'>Oldest Recipes</div>
                     </div>
                 </div>
-                <button class="create-button">Create Recipe</button>
+                <button class="create-button" @onclick="() => NavigateToCreate()">Create Recipe</button>
             </div>
             <button class="create-button" @onclick="() => NavigateToCreate()">Create Recipe</button>
         </div>
@@ -75,6 +75,7 @@
                                     </svg>
                                 }
                                 
+                                
                             </div>
                             <div class="time-badge">@TotalDuration(recipe.PreparationDuration,recipe.CookingDuration) min</div>
                             <div class="title">
@@ -103,7 +104,6 @@
     private int totalPages;
     private bool isInitialized = false;
     private string searchQuery = string.Empty;
-    private bool isLoading = true; // added a loading state.
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -122,9 +122,8 @@
     {
         try
         {
-            isLoading = true;
             Logger.LogInformation("Fetching recipes for page {currentPage}.", currentPage);
-            recipes = await RecipeService.GetRecipes(page: currentPage, pageSize: pageSize, search: searchQuery) ?? new List<RecipeResponse>();
+            recipes = await RecipeService.GetRecipes(page: currentPage, pageSize: pageSize, search: searchQuery) ?? new List<RecipeResponse>();            
             Logger.LogInformation("Recipes fetched successfully.");
             totalRecipes = recipes.Count;
             totalPages = (int)Math.Ceiling((double)totalRecipes / pageSize) + 1;

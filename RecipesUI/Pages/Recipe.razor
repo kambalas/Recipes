@@ -5,8 +5,7 @@
 @using ApiCommons.DTOs
 @using RecipesUI.Services
 
-<AuthorizeView>
-    <Authorized>
+
 <header class="recipe-header">
     <img src="@recipe?.ImageURL" alt="Recipe Photo" class="recipe-photo" onerror="this.onerror=null; this.src='/assets/placeholders/recipe-image-placeholder.svg';" />
 </header>
@@ -146,8 +145,7 @@
     </div>
 </main>
 
-    </Authorized>
-</AuthorizeView>
+
 
 @code {
     [Parameter]
@@ -155,10 +153,6 @@
 
     private RecipeResponse? recipe;
     private List<RecipeResponse>? browseRecipes;
-    
-    
-    
-    
     
 
 

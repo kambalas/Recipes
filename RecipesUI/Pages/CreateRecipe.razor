@@ -8,7 +8,7 @@
 @inject NavigationManager NavigationManager
 
 
-<TopBarSection OnPublishClicked="@SubmitRecipe" />
+<TopBarSection OnPublishClicked="@SubmitRecipe" Message="You are currently preparing a new recipe post." />
 <ImageSection UploadedImageChanged="@((newImage) => recipe.ImageEncoded = newImage)"/>
 <div class="form-wrapper">
     <FormGeneralSection @bind-Recipe="recipe"/>

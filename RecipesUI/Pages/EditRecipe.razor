@@ -8,19 +8,42 @@
 @inject IRecipeService RecipeService
 @inject NavigationManager NavigationManager
 
+@attribute [Authorize]
 
-<TopBarSection OnPublishClicked="@SubmitRecipe" />
+<AuthorizeView>
+    <Authorized>
+        <TopBarSection OnPublishClicked="@SubmitRecipe" Message="You are currently editing a recipe." />
 <ImageSection UploadedImageChanged="@((newImage) => recipe.ImageEncoded = newImage)" @bind-InitialImage="recipe.ImageEncoded"/>
-<div class="form-wrapper">
-    <FormGeneralSection @bind-Recipe="recipe"/>
-    <IngredientsSection @bind-Ingredients="recipe.Ingredients" @bind-IngredientsOnEdit="IngredientsOnEdit" />
-    <StepsSection @bind-StepsOnEdit="StepsOnEdit"/>
-    <div class="submit-section">
-        <button class="submit-recipe-form-btn" @onclick="SubmitRecipe">Submit</button>
+    <div class="form-wrapper">
+        <FormGeneralSection @bind-Recipe="recipe"/>
+        <IngredientsSection @bind-Ingredients="recipe.Ingredients" @bind-IngredientsOnEdit="IngredientsOnEdit" />
+        <StepsSection @bind-StepsOnEdit="StepsOnEdit"/>
+        <div class="submit-section">
+            <button class="submit-recipe-form-btn" @onclick="SubmitRecipe">Submit</button>
+        </div>
     </div>
-</div>
+    
+    </Authorized>
+    <NotAuthorized>
+        <MudPaper Class="pa-4">
+            <MudText Typo="Typo.h6">You are not authorized to view this content.</MudText>
+            <MudText Typo="Typo.body1">Please sign in or sign up to continue.</MudText>
+            <MudDivider Class="my-4" />
+            <MudGrid>
+                <MudItem xs="12" Class="my-4">
+                    <MudDivider />
+                </MudItem>
+                <MudItem xs="12">
+                    <MudButton Variant=Variant.Filled Color=Color.Primary OnClick="@(e => NavigationManager.NavigateTo("login"))">Login</MudButton>
+                    <MudButton Class="ml-2" Variant=Variant.Filled Color=Color.Secondary OnClick="@(e => NavigationManager.NavigateTo("register"))">Register</MudButton>
+                </MudItem>
+            </MudGrid>
+        </MudPaper>
+    </NotAuthorized>
+</AuthorizeView>
+    
 
-@code {
+    @code {
     
     [Parameter]
     public int RecipeId { get; set; }
