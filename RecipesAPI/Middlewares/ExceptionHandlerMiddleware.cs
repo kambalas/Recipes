@@ -23,6 +23,7 @@ namespace RecipesAPI.Middlewares
             }
             catch (Exception ex)
             {
+
                 await HandleExceptionsAsync(context, ex);
             }
         }

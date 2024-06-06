@@ -276,12 +276,11 @@
         {
             Logger.LogError(ex, "Failed to load recipe details or browse recipes.");
         }
-        // finally
-        // {
-        //     Thread.Sleep(100);
-        //     isLoading = false;
-        //     StateHasChanged();
-        // }
+        finally
+        {
+            isLoading = false;
+            StateHasChanged();
+        }
     }
 
     private void NavigateToRecipe(int id)
